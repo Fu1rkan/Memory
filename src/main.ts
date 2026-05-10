@@ -1,1 +1,1 @@
-document.getElementById('main-title')!.innerHTML = 'Neuer Titel';
+import './styles/style.scss'

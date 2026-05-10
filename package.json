@@ -1,27 +1,16 @@
 {
   "name": "memory",
-  "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -noEmit && vite build",
+    "build": "tsc && vite build",
     "preview": "vite preview"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Fu1rkan/Memory.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Fu1rkan/Memory/issues"
-  },
-  "homepage": "https://github.com/Fu1rkan/Memory#readme",
-  "description": "",
   "devDependencies": {
     "sass": "^1.99.0",
-    "typescript": "^6.0.3",
-    "vite": "^8.0.11"
+    "typescript": "~6.0.2",
+    "vite": "^8.0.10"
   }
 }
