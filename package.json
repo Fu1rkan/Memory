@@ -1,0 +1,24 @@
+{
+  "name": "memory",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fu1rkan/Memory.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fu1rkan/Memory/issues"
+  },
+  "homepage": "https://github.com/Fu1rkan/Memory#readme",
+  "description": "",
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "vite": "^8.0.11"
+  }
+}
