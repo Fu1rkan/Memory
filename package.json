@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "tsc -noEmit && vite build",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,7 @@
   "homepage": "https://github.com/Fu1rkan/Memory#readme",
   "description": "",
   "devDependencies": {
+    "sass": "^1.99.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.11"
   }
