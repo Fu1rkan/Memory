@@ -12,31 +12,61 @@
     &__play-button {
         @include mixin.flex-center(row);
         background-color: variables.$yellow;
+        font-family: 'RedRose';
         padding: 24px;
         gap: 20px;
         font-weight: 700;
+
+        &__stadia-controller {
+            transition: 50ms ease-in-out;
+        }
 
         &__text {
             font-size: 40px;
         }
 
-        &__arrow-hover {
-            display: none;
+        &__arrow {
+            position: relative;
+            width: 35px;
+            height: 100%;
+
+            &__main {
+                width: 100%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                opacity: 1;
+                transition: 50ms ease-in-out;
+            }
+
+            &__hover {
+                width: 100%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                opacity: 0;
+                transition: 50ms ease-in-out;
+            }
         }
 
         &:hover {
             .start-screen__play-button__stadia-controller {
                 width: 50px;
-                height: 36px;
                 rotate: -25.77deg;
             }
 
             .start-screen__play-button__arrow {
-                display: none;
-            }
+                width: 40px;
 
-            .start-screen__play-button__arrow-hover {
-                display: block;
+                &__main {
+                    opacity: 0;
+                }
+
+                &__hover {
+                    opacity: 1;
+                }
             }
         }
     }
@@ -59,5 +89,147 @@
         position: absolute;
         left: 0;
         bottom: 10px;
+    }
+
+    @include mixin.respond(sm1100) {
+        &__title {
+            margin-bottom: 60px;
+
+            >h1 {
+                font-size: 120px;
+            }
+        }
+
+        &__stadia-controller {
+            width: 240px;
+            height: auto;
+        }
+    }
+
+    @include mixin.respond(sm940) {
+        &__title {
+            margin-bottom: 40px;
+
+            >h1 {
+                font-size: 96px;
+            }
+
+            >p {
+                font-size: 40px;
+            }
+        }
+
+        &__play-button {
+            padding: 16px;
+            gap: 16px;
+
+            &__stadia-controller {
+                width: 38px;
+            }
+
+            &__text {
+                font-size: 32px;
+            }
+
+            &__arrow {
+                width: 30px;
+            }
+
+            &:hover {
+                .start-screen__play-button__stadia-controller {
+                    width: 42px;
+                }
+
+                .start-screen__play-button__arrow {
+                    width: 40px;
+                }
+            }
+        }
+
+        &__stadia-controller {
+            width: 200px;
+        }
+    }
+
+    @include mixin.respond(sm720) {
+        &__title {
+            margin-bottom: 24px;
+
+            >h1 {
+                font-size: 72px;
+            }
+
+            >p {
+                font-size: 32px;
+            }
+        }
+
+        &__play-button {
+            padding: 12px;
+            gap: 12px;
+        }
+
+        &__stadia-controller {
+            width: 160px;
+        }
+    }
+
+    @include mixin.respond(sm600) {
+        &__title {
+            margin-bottom: 16px;
+
+            >h1 {
+                font-size: 48px;
+            }
+
+            >p {
+                font-size: 20px;
+            }
+        }
+
+        &__play-button {
+            padding: 8px;
+            gap: 8px;
+
+            &__stadia-controller {
+                width: 26px;
+            }
+
+            &__text {
+                font-size: 22px;
+            }
+
+            &__arrow {
+                width: 24px;
+            }
+
+            &:hover {
+                .start-screen__play-button__stadia-controller {
+                    width: 30px;
+                }
+
+                .start-screen__play-button__arrow {
+                    width: 30px;
+                }
+            }
+        }
+
+        &__stadia-controller {
+            width: 120px;
+        }
+    }
+
+    @include mixin.respond(sm480) {
+        &__title {
+            margin-bottom: 16px;
+
+            >h1 {
+                font-size: 40px;
+            }
+
+            >p {
+                font-size: 16px;
+            }
+        }
     }
 }

@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <section class="screen start-screen">
+    <section class="screen start-screen" id="start-screen">
         <div class="start-screen__title">
             <p>It's play time</p>
             <h1>Ready to play?</h1>
@@ -22,18 +22,24 @@
                     fill="#303131" />
             </svg>
             <p class="start-screen__play-button__text">Play</p>
-            <svg class="start-screen__play-button__arrow" xmlns="http://www.w3.org/2000/svg" width="35" height="15"
-                viewBox="0 0 35 15" fill="none">
-                <path
-                    d="M1 6.36401C0.447715 6.36401 0 6.81173 0 7.36401C0 7.9163 0.447715 8.36401 1 8.36401V7.36401V6.36401ZM34.7071 8.07112C35.0976 7.6806 35.0976 7.04743 34.7071 6.65691L28.3431 0.292946C27.9526 -0.0975785 27.3195 -0.0975785 26.9289 0.292946C26.5384 0.68347 26.5384 1.31664 26.9289 1.70716L32.5858 7.36401L26.9289 13.0209C26.5384 13.4114 26.5384 14.0446 26.9289 14.4351C27.3195 14.8256 27.9526 14.8256 28.3431 14.4351L34.7071 8.07112ZM1 7.36401V8.36401H34V7.36401V6.36401H1V7.36401Z"
-                    fill="#303131" />
-            </svg>
-            <svg class="start-screen__play-button__arrow-hover" xmlns="http://www.w3.org/2000/svg" width="40" height="30" viewBox="0 0 40 30" fill="none">
-                <path
-                    d="M2 12.7279C0.89543 12.7279 0 13.6234 0 14.7279C0 15.8325 0.89543 16.7279 2 16.7279V14.7279V12.7279ZM39.4142 16.1421C40.1953 15.3611 40.1953 14.0948 39.4142 13.3137L26.6863 0.5858C25.9052 -0.195249 24.6389 -0.195249 23.8579 0.5858C23.0768 1.36685 23.0768 2.63318 23.8579 3.41423L35.1716 14.7279L23.8579 26.0416C23.0768 26.8227 23.0768 28.089 23.8579 28.8701C24.6389 29.6511 25.9052 29.6511 26.6863 28.8701L39.4142 16.1421ZM2 14.7279V16.7279H38V14.7279V12.7279H2V14.7279Z"
-                    fill="#303131" />
-            </svg>
+
+            <div class="start-screen__play-button__arrow">
+                <svg class="start-screen__play-button__arrow__main" xmlns="http://www.w3.org/2000/svg" width="35" height="15"
+                    viewBox="0 0 35 15" fill="none">
+                    <path
+                        d="M1 6.36401C0.447715 6.36401 0 6.81173 0 7.36401C0 7.9163 0.447715 8.36401 1 8.36401V7.36401V6.36401ZM34.7071 8.07112C35.0976 7.6806 35.0976 7.04743 34.7071 6.65691L28.3431 0.292946C27.9526 -0.0975785 27.3195 -0.0975785 26.9289 0.292946C26.5384 0.68347 26.5384 1.31664 26.9289 1.70716L32.5858 7.36401L26.9289 13.0209C26.5384 13.4114 26.5384 14.0446 26.9289 14.4351C27.3195 14.8256 27.9526 14.8256 28.3431 14.4351L34.7071 8.07112ZM1 7.36401V8.36401H34V7.36401V6.36401H1V7.36401Z"
+                        fill="#303131" />
+                </svg>
+
+                <svg class="start-screen__play-button__arrow__hover" xmlns="http://www.w3.org/2000/svg" width="40"
+                    height="30" viewBox="0 0 40 30" fill="none">
+                    <path
+                        d="M2 12.7279C0.89543 12.7279 0 13.6234 0 14.7279C0 15.8325 0.89543 16.7279 2 16.7279V14.7279V12.7279ZM39.4142 16.1421C40.1953 15.3611 40.1953 14.0948 39.4142 13.3137L26.6863 0.5858C25.9052 -0.195249 24.6389 -0.195249 23.8579 0.5858C23.0768 1.36685 23.0768 2.63318 23.8579 3.41423L35.1716 14.7279L23.8579 26.0416C23.0768 26.8227 23.0768 28.089 23.8579 28.8701C24.6389 29.6511 25.9052 29.6511 26.6863 28.8701L39.4142 16.1421ZM2 14.7279V16.7279H38V14.7279V12.7279H2V14.7279Z"
+                        fill="#303131" />
+                </svg>
+            </div>
         </button>
+
         <svg class="start-screen__stadia-controller" xmlns="http://www.w3.org/2000/svg" width="363" height="410"
             viewBox="0 0 363 410" fill="none">
             <path opacity="0.05"
@@ -41,13 +47,13 @@
                 fill="#F0EA6E" />
         </svg>
     </section>
-    <section class="screen home-screen d_none">
+    <section class="screen home-screen d_none" id="home-screen">
 
     </section>
-    <section class="screen game-screen d_none">
+    <section class="screen game-screen d_none" id="game-screen">
 
     </section>
-    <section class="screen game-over-screen d_none">
+    <section class="screen game-over-screen d_none" id="game-over-screen">
 
     </section>
 </body>

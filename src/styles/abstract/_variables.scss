@@ -10,3 +10,11 @@ $foodThemeColor: rgba(243, 131, 45, 1);
 
 $interactiveButtonColor: rgba(219, 219, 214, 1);
 $buttonBarColor: rgba(246, 246, 246, 1);
+
+$breakpoints: (
+    sm1100: 1100px,
+    sm940: 940px,
+    sm720: 720px,
+    sm600: 600px,
+    sm480: 480px,
+);
