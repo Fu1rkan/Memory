@@ -1,5 +1,63 @@
 @use '../abstract/variables' as variables;
+@use '../abstract/mixin' as mixin;
 
-.start-screen{
+.start-screen {
     background-color: variables.$codeVibeThemeColor;
+    @include mixin.flex-center(column);
+    font-family: 'RedRose';
+    color: variables.$white;
+    position: relative;
+
+
+    &__play-button {
+        @include mixin.flex-center(row);
+        background-color: variables.$yellow;
+        padding: 24px;
+        gap: 20px;
+        font-weight: 700;
+
+        &__text {
+            font-size: 40px;
+        }
+
+        &__arrow-hover {
+            display: none;
+        }
+
+        &:hover {
+            .start-screen__play-button__stadia-controller {
+                width: 50px;
+                height: 36px;
+                rotate: -25.77deg;
+            }
+
+            .start-screen__play-button__arrow {
+                display: none;
+            }
+
+            .start-screen__play-button__arrow-hover {
+                display: block;
+            }
+        }
+    }
+
+    &__title {
+        @include mixin.flex-center(column, flex-start);
+        margin-bottom: 80px;
+
+        >h1 {
+            font-size: 140px;
+        }
+
+        >p {
+            font-size: 48px;
+            font-family: 'Almarai';
+        }
+    }
+
+    &__stadia-controller {
+        position: absolute;
+        left: 0;
+        bottom: 10px;
+    }
 }
