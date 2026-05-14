@@ -1,2 +1,10 @@
-@import './base/_base';
-@import './base/_typography';
+@use './base/base';
+@use './base/typography';
+@use './base/utilities';
+
+@use './pages/game-over-screen';
+@use './pages/game-screen';
+@use './pages/home-screen';
+@use './pages/start-screen';
+
+@use './layout/screen';
