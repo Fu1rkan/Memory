@@ -1,3 +1,5 @@
+@use '../abstract/mixin' as mixin;
+
 * {
     margin: 0;
     padding: 0;
@@ -7,6 +9,10 @@
     border: none;
     outline: none;
     transition: 250ms ease-in-out;
+}
+
+body {
+    @include mixin.flex-center(column, center, center);
 }
 
 button {

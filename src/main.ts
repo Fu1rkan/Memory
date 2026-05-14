@@ -15,6 +15,8 @@ function init() {
             }
         })
     }
+    startScreen!.classList.toggle('d_none');
+    homeScreen!.classList.toggle('d_none');
 }
 
 

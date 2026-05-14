@@ -1,5 +1,51 @@
 @use '../abstract/variables' as variables;
+@use '../abstract/function' as fct;
+@use '../abstract/mixin' as mixin;
 
-.home-screen{
+.home-screen {
     background-color: variables.$white;
+    max-width: 1440px;
+    width: 100%;
+    padding: 80px;
+
+    &__title {
+        font-size: fct.px-to-rem(54);
+        font-family: 'RedRose';
+        
+        &__border {
+            margin: -10px 0 56px -24px;
+        }
+    }
+    
+    &__content {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    &__settings {
+        @include mixin.flex-center(column, flex-start, flex-start);
+        font-family: 'Almarai';
+        
+        &__form legend {
+            margin-bottom: 16px;
+            font-weight: 700;
+            margin-left: -24px;
+            @include mixin.flex-center(row, center, flex-start);
+            gap: 8px;
+            font-size: fct.px-to-rem(24);
+        }
+        
+        &__form fieldset {
+            @include mixin.flex-center(column, flex-start, flex-start);
+            gap: 12px;
+        }
+
+        &__form fieldset label {
+            padding-left: 16px;
+            font-size: fct.px-to-rem(20);
+            &:last-child {
+                margin-bottom: 40px;
+            }
+        }
+    }
 }

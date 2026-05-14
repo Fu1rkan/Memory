@@ -1,11 +1,11 @@
 @use 'sass:map';
 @use './variables' as variables;
 
-@mixin flex-center($direction: row, $position: center){
+@mixin flex-center($direction: row, $allign: center, $justify: center){
     display: flex;
-    align-items: $position;
-    justify-content: center;
+    align-items: $allign;
     flex-direction: $direction;
+    justify-content: $justify;
 };
 
 @mixin respond($size) {
