@@ -1,5 +1,6 @@
 @use '../abstract/variables' as variables;
 @use '../abstract/mixin' as mixin;
+@use '../abstract/function' as fnc;
 
 .start-screen {
     background-color: variables.$codeVibeThemeColor;
@@ -22,7 +23,7 @@
         }
 
         &__text {
-            font-size: 40px;
+            font-size: fnc.px-to-rem(40);
         }
 
         &__arrow {
@@ -76,11 +77,11 @@
         margin-bottom: 80px;
 
         >h1 {
-            font-size: 140px;
+            font-size: fnc.px-to-rem(140);
         }
 
         >p {
-            font-size: 48px;
+            font-size: fnc.px-to-rem(48);
             font-family: 'Almarai';
         }
     }
@@ -96,7 +97,7 @@
             margin-bottom: 60px;
 
             >h1 {
-                font-size: 120px;
+                font-size: fnc.px-to-rem(120);
             }
         }
 
@@ -111,11 +112,11 @@
             margin-bottom: 40px;
 
             >h1 {
-                font-size: 96px;
+                font-size: fnc.px-to-rem(96);
             }
 
             >p {
-                font-size: 40px;
+                font-size: fnc.px-to-rem(40);
             }
         }
 
@@ -128,7 +129,7 @@
             }
 
             &__text {
-                font-size: 32px;
+                font-size: fnc.px-to-rem(32);
             }
 
             &__arrow {
@@ -156,11 +157,11 @@
             margin-bottom: 24px;
 
             >h1 {
-                font-size: 72px;
+                font-size: fnc.px-to-rem(72);
             }
 
             >p {
-                font-size: 32px;
+                font-size: fnc.px-to-rem(32);
             }
         }
 
@@ -179,11 +180,11 @@
             margin-bottom: 16px;
 
             >h1 {
-                font-size: 48px;
+                font-size: fnc.px-to-rem(48);
             }
 
             >p {
-                font-size: 20px;
+                font-size: fnc.px-to-rem(20);
             }
         }
 
@@ -196,7 +197,7 @@
             }
 
             &__text {
-                font-size: 22px;
+                font-size: fnc.px-to-rem(22);
             }
 
             &__arrow {
@@ -224,11 +225,11 @@
             margin-bottom: 16px;
 
             >h1 {
-                font-size: 40px;
+                font-size: fnc.px-to-rem(40);
             }
 
             >p {
-                font-size: 16px;
+                font-size: fnc.px-to-rem(16);
             }
         }
     }
