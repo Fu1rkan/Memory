@@ -50,7 +50,7 @@
 
     <section class="screen home-screen d_none" id="home-screen">
         <h2 class="home-screen__title">Settings</h2>
-        <svg class="home-screen__title__border" xmlns="http://www.w3.org/2000/svg" width="263" height="24"
+        <svg class="home-screen__title-border" xmlns="http://www.w3.org/2000/svg" width="263" height="24"
             viewBox="0 0 263 24" fill="none">
             <path
                 d="M-0.000152588 11.547L11.5469 23.094L23.0939 11.547L11.5469 -8.58307e-06L-0.000152588 11.547ZM262.547 11.547V9.547L11.5469 9.547V11.547V13.547L262.547 13.547V11.547Z"
@@ -58,9 +58,9 @@
         </svg>
         <div class="home-screen__content">
             <section class="home-screen__settings">
-                <form class="home-screen__settings__form">
-                    <fieldset>
-                        <legend>
+                <form class="home-screen__form">
+                    <fieldset class="home-screen__option-group">
+                        <legend class="home-screen__option-title">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"
                                 fill="none">
                                 <mask id="mask0_13451_3827" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
@@ -76,29 +76,29 @@
                             Game themes
                         </legend>
 
-                        <label>
+                        <label class="home-screen__option">
                             <input type="radio" name="theme" value="code-vibes" checked>
                             Code vibes theme
                         </label>
 
-                        <label>
+                        <label class="home-screen__option">
                             <input type="radio" name="theme" value="gaming">
                             Gaming theme
                         </label>
 
-                        <label>
+                        <label class="home-screen__option">
                             <input type="radio" name="theme" value="da-projects">
                             DA Projects theme
                         </label>
 
-                        <label>
+                        <label class="home-screen__option">
                             <input type="radio" name="theme" value="foods">
                             Foods theme
                         </label>
                     </fieldset>
 
-                    <fieldset>
-                        <legend>
+                    <fieldset class="home-screen__option-group">
+                        <legend class="home-screen__option-title">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="27" viewBox="0 0 22 27"
                                 fill="none">
                                 <path
@@ -108,19 +108,19 @@
                             Choose player
                         </legend>
 
-                        <label>
+                        <label class="home-screen__option">
                             <input type="radio" name="player" value="blue" checked>
                             Blue
                         </label>
 
-                        <label>
+                        <label class="home-screen__option">
                             <input type="radio" name="player" value="orange">
                             Orange
                         </label>
                     </fieldset>
 
-                    <fieldset>
-                        <legend>
+                    <fieldset class="home-screen__option-group">
+                        <legend class="home-screen__option-title">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"
                                 fill="none">
                                 <mask id="mask0_2290_4600" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
@@ -136,24 +136,47 @@
                             Board size
                         </legend>
 
-                        <label>
+                        <label class="home-screen__option">
                             <input type="radio" name="board-size" value="16" checked>
                             16 cards
                         </label>
 
-                        <label>
+                        <label class="home-screen__option">
                             <input type="radio" name="board-size" value="24">
                             24 cards
                         </label>
 
-                        <label>
+                        <label class="home-screen__option">
                             <input type="radio" name="board-size" value="36">
                             36 cards
                         </label>
                     </fieldset>
                 </form>
             </section>
-            <aside></aside>
+            <aside class="home-screen__preview">
+                <img class="home-screen__preview-image" src="./public/img/code_vibes.png" alt="">
+                <footer class="home-screen__footer">
+                    <p class="home-screen__footer-info">Game Theme</p>
+                    <svg class="home-screen__footer-separator" xmlns="http://www.w3.org/2000/svg" width="27" height="56"
+                        viewBox="0 0 27 56" fill="none">
+                        <line x1="22.3154" y1="1.32435" x2="3.7745" y2="54.166" stroke="#F0EA6E" stroke-width="8" />
+                    </svg>
+                    <p class="home-screen__footer-info">Player</p>
+                    <svg class="home-screen__footer-separator" xmlns="http://www.w3.org/2000/svg" width="27" height="56"
+                        viewBox="0 0 27 56" fill="none">
+                        <line x1="22.3154" y1="1.32435" x2="3.7745" y2="54.166" stroke="#F0EA6E" stroke-width="8" />
+                    </svg>
+                    <p class="home-screen__footer-info">Board size</p>
+                    <button class="home-screen__footer-button home-screen__footer-button--start">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 20 16" fill="none">
+                            <path
+                                d="M8.275 12L13.85 8.425C14 8.325 14.075 8.18333 14.075 8C14.075 7.81667 14 7.675 13.85 7.575L8.275 4C8.10833 3.88333 7.9375 3.875 7.7625 3.975C7.5875 4.075 7.5 4.225 7.5 4.425V11.575C7.5 11.775 7.5875 11.925 7.7625 12.025C7.9375 12.125 8.10833 12.1167 8.275 12ZM2 16C1.45 16 0.979167 15.8042 0.5875 15.4125C0.195833 15.0208 0 14.55 0 14V2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0H18C18.55 0 19.0208 0.195833 19.4125 0.5875C19.8042 0.979167 20 1.45 20 2V14C20 14.55 19.8042 15.0208 19.4125 15.4125C19.0208 15.8042 18.55 16 18 16H2ZM2 14H18V2H2V14Z"
+                                fill="#303131" />
+                        </svg>
+                        Start
+                    </button>
+                </footer>
+            </aside>
         </div>
     </section>
 
