@@ -50,11 +50,75 @@
     }
 
     &__option {
+        @include mixin.flex-center(row, center, center);
+        gap: 10px;
         padding-left: 16px;
+        cursor: pointer;
         font-size: fct.px-to-rem(20);
+        position: relative;
+        width: fit-content;
+        transition: 0ms;
+
+        &:hover {
+            font-weight: 700;
+        }
 
         &:last-child {
             margin-bottom: 54px;
+        }
+
+        &::after,
+        &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        &::after {
+            left: calc(100% + 12px);
+            width: 41px;
+            height: 3px;
+            background-color: variables.$yellow;
+            transform: translateY(-50%);
+        }
+
+        &::before {
+            left: calc(100% + 46px);
+            width: 14px;
+            height: 14px;
+            background-color: variables.$yellow;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        &:has(input[type="radio"]:checked) {
+            font-weight: 700;
+
+            &::after,
+            &::before {
+                opacity: 1;
+            }
+        }
+
+        input[type="radio"] {
+            transition: 0ms;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid variables.$codeVibeThemeColor;
+            border-radius: 50%;
+            cursor: pointer;
+            
+            &:checked {
+                background: radial-gradient(circle, variables.$codeVibeThemeColor 21%, transparent 34%);
+                border: 2px solid variables.$codeVibeThemeColor;
+            }
+
+            &:focus-visible {
+                outline: 2px solid variables.$yellow;
+                outline-offset: 3px;
+            }
         }
     }
 
