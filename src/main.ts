@@ -1,26 +1,44 @@
 import './styles/style.scss';
+import { setupHomeScreen } from './home-screen';
 
 init();
 
 function init() {
-    const startScreen = document.getElementById('start-screen');
-    const homeScreen = document.getElementById('home-screen');
+    const startScreen = getElementById('start-screen');
+    const homeScreen = getElementById('home-screen');
 
-    if (startScreen && homeScreen) {
-        startScreen.addEventListener('click', event => {
-            const button = (event.target as HTMLElement).closest('.start-screen__play-button') as HTMLButtonElement;
-            if (button) {
-                startScreen.classList.toggle('d_none');
-                homeScreen.classList.toggle('d_none');
-            }
-        })
-    }
-    startScreen!.classList.toggle('d_none');
-    homeScreen!.classList.toggle('d_none');
+    setupStartButton(startScreen, homeScreen);
+    setupHomeScreen(homeScreen);
+    // showHomeScreen(startScreen, homeScreen);
 }
 
+function setupStartButton(startScreen: HTMLElement, homeScreen: HTMLElement) {
+    startScreen.addEventListener('click', event => {
+        const playButton = getClosestElement(event, '.start-screen__play-button');
 
+        if (playButton) {
+            showHomeScreen(startScreen, homeScreen);
+        }
+    });
+}
 
+function showHomeScreen(startScreen: HTMLElement, homeScreen: HTMLElement) {
+    startScreen.classList.add('d_none');
+    homeScreen.classList.remove('d_none');
+}
 
+function getClosestElement(event: Event, selector: string) {
+    const target = event.target;
 
-// const button = (event.target as HTMLElement).closest('.card')
+    return target instanceof HTMLElement ? target.closest(selector) : null;
+}
+
+function getElementById(id: string) {
+    const element = document.getElementById(id);
+
+    if (!element) {
+        throw new Error(`Element with id "${id}" was not found.`);
+    }
+
+    return element;
+}
