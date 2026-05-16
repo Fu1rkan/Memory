@@ -129,17 +129,79 @@
     &__footer {
         @include mixin.flex-center(row, center, center);
         background-color: variables.$navBarColor;
+        height: 88px;
         padding: 14px 20px;
         gap: 16px;
         font-family: 'Almarai';
+        transition: background-color 180ms ease-in-out, height 180ms ease-in-out;
+    }
+
+    &__footer-info {
+        text-align: center;
+        white-space: nowrap;
+        transition: opacity 120ms ease-in-out;
+    }
+
+    &__footer-info--changing {
+        opacity: 0;
+    }
+
+    &__footer-separator {
+        width: 27px;
+        height: 56px;
+        flex: 0 0 auto;
+        transition: width 180ms ease-in-out, height 180ms ease-in-out;
+    }
+
+    &__footer-separator-default,
+    &__footer-separator-active {
+        transition: opacity 180ms ease-in-out;
+    }
+
+    &__footer-separator-active {
+        opacity: 0;
+    }
+
+    &__footer-separator--active {
+        width: 37px;
+        height: 60px;
+
+        .home-screen__footer-separator-default {
+            opacity: 0;
+        }
+
+        .home-screen__footer-separator-active {
+            opacity: 1;
+        }
     }
 
     &__footer-button {
-        @include mixin.flex-center(row, center, center);
+        @include mixin.flex-center(row, center, flex-start);
         background-color: variables.$interactiveButtonColor;
         font-size: fct.px-to-rem(20);
         font-family: 'RedRose';
         gap: 8px;
         padding: 14px 20px;
+        cursor: default;
+
+        svg {
+            width: 20px;
+            height: 16px;
+        }
+
+        &:not(:disabled) {
+            background-color: variables.$yellow;
+            cursor: pointer;
+
+            &:hover {
+                padding: 16px 22px;
+
+                svg {
+                    width: 30px;
+                    height: 30px;
+                    transform: rotate(-5.33deg);
+                }
+            }
+        }
     }
 }
