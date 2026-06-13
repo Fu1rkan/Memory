@@ -1,5 +1,3 @@
-@use '../abstract/mixin' as mixin;
-
 * {
     margin: 0;
     padding: 0;
@@ -12,7 +10,8 @@
 }
 
 body {
-    @include mixin.flex-center(column, center, center);
+    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 button {

@@ -1,6 +1,14 @@
 @use '../abstract/variables' as variables;
 
 .screen {
-    height: 100vh;
-    height: 100dvh;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    &__content {
+        width: 100%;
+        max-width: variables.$contentMaxWidth;
+        min-height: inherit;
+        margin-inline: auto;
+    }
 }

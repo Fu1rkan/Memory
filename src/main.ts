@@ -6,13 +6,14 @@ init();
 function init() {
     const startScreen = getElementById('start-screen');
     const homeScreen = getElementById('home-screen');
-
-    setupStartButton(startScreen, homeScreen);
+    const gameScreen = getElementById('game-screen');
+    // showGameScreen(gameScreen, homeScreen);
+    setupPlayButton(startScreen, homeScreen);
+    setupStartButton(gameScreen, homeScreen);
     setupHomeScreen(homeScreen);
-    // showHomeScreen(startScreen, homeScreen);
 }
 
-function setupStartButton(startScreen: HTMLElement, homeScreen: HTMLElement) {
+function setupPlayButton(startScreen: HTMLElement, homeScreen: HTMLElement) {
     startScreen.addEventListener('click', event => {
         const playButton = getClosestElement(event, '.start-screen__play-button');
 
@@ -22,9 +23,27 @@ function setupStartButton(startScreen: HTMLElement, homeScreen: HTMLElement) {
     });
 }
 
+function setupStartButton(gameScreen: HTMLElement, homeScreen: HTMLElement) {
+    homeScreen.addEventListener('click', event => {
+        const playButton = getClosestElement(event, '.home-screen__footer-button--start');
+
+        if (playButton) {
+            showGameScreen(gameScreen, homeScreen);
+        }
+    });
+}
+
 function showHomeScreen(startScreen: HTMLElement, homeScreen: HTMLElement) {
     startScreen.classList.add('d_none');
     homeScreen.classList.remove('d_none');
+}
+
+function showGameScreen(gameScreen: HTMLElement, homeScreen: HTMLElement) {
+    //muss nachher entfernt werden
+    getElementById('start-screen').classList.add('d_none');
+
+    homeScreen.classList.add('d_none');
+    gameScreen.classList.remove('d_none');
 }
 
 function getClosestElement(event: Event, selector: string) {

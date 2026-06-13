@@ -1,5 +1,10 @@
 @use '../abstract/variables' as variables;
+@use '../abstract/mixin' as mixin;
 
-.game-over{
+.game-over-screen {
     background-color: variables.$codeVibeThemeColor;
+
+    &__container {
+        @include mixin.flex-center(column);
+    }
 }

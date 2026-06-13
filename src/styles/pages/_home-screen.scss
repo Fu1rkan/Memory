@@ -4,9 +4,10 @@
 
 .home-screen {
     background-color: variables.$white;
-    max-width: 1440px;
-    width: 100%;
-    padding: 80px;
+
+    &__container {
+        padding: 80px;
+    }
 
     &__title {
         font-size: fct.px-to-rem(54);
@@ -67,38 +68,19 @@
             margin-bottom: 54px;
         }
 
-        &::after,
-        &::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        &::after {
-            left: calc(100% + 12px);
-            width: 41px;
-            height: 3px;
-            background-color: variables.$yellow;
-            transform: translateY(-50%);
-        }
-
-        &::before {
-            left: calc(100% + 46px);
-            width: 14px;
-            height: 14px;
-            background-color: variables.$yellow;
-            transform: translateY(-50%) rotate(45deg);
-        }
-
         &:has(input[type="radio"]:checked) {
             font-weight: 700;
 
-            &::after,
-            &::before {
-                opacity: 1;
+            .home-screen__option-indicator {
+                display: block;
             }
+        }
+
+        &-indicator {
+            display: none;
+            width: 50px;
+            height: 18px;
+            flex: 0 0 auto;
         }
 
         input[type="radio"] {

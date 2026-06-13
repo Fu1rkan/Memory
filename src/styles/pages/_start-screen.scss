@@ -4,12 +4,13 @@
 
 .start-screen {
     background-color: variables.$codeVibeThemeColor;
-    @include mixin.flex-center(column);
     font-family: 'RedRose';
     color: variables.$white;
-    position: relative;
-    width: 100%;
 
+    &__container {
+        @include mixin.flex-center(column);
+        position: relative;
+    }
 
     &__play-button {
         @include mixin.flex-center(row);
