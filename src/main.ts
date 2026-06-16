@@ -7,7 +7,7 @@ function init() {
     const startScreen = getElementById('start-screen');
     const homeScreen = getElementById('home-screen');
     const gameScreen = getElementById('game-screen');
-    // showGameScreen(gameScreen, homeScreen);
+    showGameScreen(gameScreen, homeScreen);
     setupPlayButton(startScreen, homeScreen);
     setupStartButton(gameScreen, homeScreen);
     setupHomeScreen(homeScreen);

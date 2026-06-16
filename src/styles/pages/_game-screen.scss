@@ -6,10 +6,90 @@
 
     &__container {
         @include mixin.flex-center(column, center, flex-start);
-        padding: 41px;
     }
 
-    header {
+    &__header {
         width: 100%;
+        border-radius: 10px;
+        margin-top: 41px;
+        @include mixin.flex-center(row, center, space-between);
+
+    }
+
+    &__player-status {
+        @include mixin.flex-center(row, center, space-between);
+
+        &__orange {
+            @include mixin.flex-center(row, center, space-between);
+            color: rgba(43, 177, 255, 1);
+            gap: 4px;
+
+            &__icon {
+                @include mixin.flex-center(row, center, space-between);
+            }
+        }
+
+        &__blue {
+            @include mixin.flex-center(row, center, space-between);
+            color: rgba(245, 142, 57, 1);
+            gap: 4px;
+
+            &__icon {
+                @include mixin.flex-center(row, center, space-between);
+            }
+        }
+
+        //Code Vibes
+        padding: 17px 20px;
+        background-color: rgba(134, 233, 214, 0.2);
+        gap: 20px;
+        font-size: 24px;
+        font-weight: 700;
+        font-family: "RedRose";
+
+        //alle anderen
+        // padding: 16px;
+        // background-color: rgba(255, 255, 255, 1);
+        // gap: 40px;
+        // border-radius: 10px;
+        // font-size: 30px;
+    }
+
+    &__current-player-info {
+        @include mixin.flex-center(row, center, space-between);
+
+        //code vibes
+        font-size: 26px;
+        gap: 8px;
+        font-family: 'RedRose';
+        color: white;
+        align-self: flex-end //alle anderen
+            // font-size: 32px;
+            // gap: 18px;
+    }
+
+    &__exit-button {
+        @include mixin.flex-center(row, center, space-between);
+        gap: 10px;
+
+        //code vibes
+
+        padding: 16px 24px;
+        background-color: rgba(134, 233, 214, 0.2);
+        border: 2px solid rgba(77, 213, 188, 1);
+        color: white;
+        font-size: 24px;
+        font-family: 'RedRose';
+        width: 207px;
+        height: 62px;
+        
+        &:hover {
+            background: rgba(134, 233, 214, 0.26);
+            box-shadow: 4px 4px 6px 0px rgba(77, 213, 188, 0.2);
+        }
+    }
+
+    &__exit-button-logo {
+        @include mixin.flex-center(row, center, space-between);
     }
 }
