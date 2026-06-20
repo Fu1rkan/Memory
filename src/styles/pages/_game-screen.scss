@@ -14,6 +14,8 @@
     --current-player-align-self: flex-end;
     --exit-button-width: 219px;
     --exit-button-height: 74px;
+    --game-header-background: transparent;
+    --game-header-padding: 0;
 
     background-color: var(--game-screen-background);
 
@@ -22,6 +24,7 @@
         --current-player-color: #{variables.$white};
         --exit-button-width: 205px;
         --exit-button-height: 64px;
+        --game-header-background: rgba(253, 150, 201, 0.2);
     }
 
     &[data-theme='da-projects'] {
@@ -29,6 +32,7 @@
         --current-player-color: #{variables.$blue};
         --exit-button-width: 182px;
         --exit-button-height: 64px;
+        --game-header-background: rgba(240, 243, 244, 1);
     }
 
     &[data-theme='foods'] {
@@ -36,6 +40,7 @@
         --current-player-color: #{variables.$orange};
         --exit-button-width: 183px;
         --exit-button-height: 56px;
+        --game-header-background: rgba(240, 229, 217, 1);
     }
 
     &[data-theme='gaming'],
@@ -49,6 +54,7 @@
         --current-player-font-size: 32px;
         --current-player-gap: 18px;
         --current-player-align-self: center;
+        --game-header-padding: 24px;
     }
 
     &__container {
@@ -59,6 +65,8 @@
         width: 100%;
         border-radius: 10px;
         margin-top: 41px;
+        padding: var(--game-header-padding);
+        background: var(--game-header-background);
         @include mixin.flex-center(row, center, space-between);
     }
 
