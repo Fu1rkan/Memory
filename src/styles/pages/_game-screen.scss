@@ -2,7 +2,46 @@
 @use '../abstract/mixin' as mixin;
 
 .game-screen {
-    background-color: variables.$codeVibeThemeColor;
+    --game-screen-background: #{variables.$codeVibeThemeColor};
+    --player-status-background: rgba(134, 233, 214, 0.2);
+    --player-status-padding: 17px 20px;
+    --player-status-gap: 20px;
+    --player-status-border-radius: 0;
+    --player-status-font-size: 24px;
+    --current-player-color: #{variables.$white};
+    --current-player-font-size: 26px;
+    --current-player-gap: 8px;
+    --current-player-align-self: flex-end;
+
+    background-color: var(--game-screen-background);
+
+    &[data-theme='gaming'] {
+        --game-screen-background: #{variables.$gamingThemeColor};
+        --current-player-color: #{variables.$white};
+    }
+
+    &[data-theme='da-projects'] {
+        --game-screen-background: #{variables.$white};
+        --current-player-color: #{variables.$blue};
+    }
+
+    &[data-theme='foods'] {
+        --game-screen-background: #{variables.$white};
+        --current-player-color: #{variables.$orange};
+    }
+
+    &[data-theme='gaming'],
+    &[data-theme='da-projects'],
+    &[data-theme='foods'] {
+        --player-status-background: #{variables.$white};
+        --player-status-padding: 16px;
+        --player-status-gap: 40px;
+        --player-status-border-radius: 10px;
+        --player-status-font-size: 30px;
+        --current-player-font-size: 32px;
+        --current-player-gap: 18px;
+        --current-player-align-self: center;
+    }
 
     &__container {
         @include mixin.flex-center(column, center, flex-start);
@@ -13,11 +52,17 @@
         border-radius: 10px;
         margin-top: 41px;
         @include mixin.flex-center(row, center, space-between);
-
     }
 
     &__player-status {
         @include mixin.flex-center(row, center, space-between);
+        padding: var(--player-status-padding);
+        background-color: var(--player-status-background);
+        gap: var(--player-status-gap);
+        border-radius: var(--player-status-border-radius);
+        font-size: var(--player-status-font-size);
+        font-weight: 700;
+        font-family: "RedRose";
 
         &__orange {
             @include mixin.flex-center(row, center, space-between);
@@ -38,58 +83,18 @@
                 @include mixin.flex-center(row, center, space-between);
             }
         }
-
-        //Code Vibes
-        padding: 17px 20px;
-        background-color: rgba(134, 233, 214, 0.2);
-        gap: 20px;
-        font-size: 24px;
-        font-weight: 700;
-        font-family: "RedRose";
-
-        //alle anderen
-        // padding: 16px;
-        // background-color: rgba(255, 255, 255, 1);
-        // gap: 40px;
-        // border-radius: 10px;
-        // font-size: 30px;
     }
 
     &__current-player-info {
         @include mixin.flex-center(row, center, space-between);
-
-        //code vibes
-        font-size: 26px;
-        gap: 8px;
+        font-size: var(--current-player-font-size);
+        gap: var(--current-player-gap);
         font-family: 'RedRose';
-        color: white;
-        align-self: flex-end //alle anderen
-            // font-size: 32px;
-            // gap: 18px;
+        color: var(--current-player-color);
+        align-self: var(--current-player-align-self);
     }
 
     &__exit-button {
-        @include mixin.flex-center(row, center, space-between);
-        gap: 10px;
-
-        //code vibes
-
-        padding: 16px 24px;
-        background-color: rgba(134, 233, 214, 0.2);
-        border: 2px solid rgba(77, 213, 188, 1);
-        color: white;
-        font-size: 24px;
-        font-family: 'RedRose';
-        width: 207px;
-        height: 62px;
-        
-        &:hover {
-            background: rgba(134, 233, 214, 0.26);
-            box-shadow: 4px 4px 6px 0px rgba(77, 213, 188, 0.2);
-        }
-    }
-
-    &__exit-button-logo {
-        @include mixin.flex-center(row, center, space-between);
+        background-color: transparent;
     }
 }

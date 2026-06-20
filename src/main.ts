@@ -1,15 +1,19 @@
 import './styles/style.scss';
 import { setupHomeScreen } from './home-screen';
 
+const gameThemes = ['code-vibes', 'gaming', 'da-projects', 'foods'] as const;
+type GameTheme = typeof gameThemes[number];
+
 init();
 
 function init() {
     const startScreen = getElementById('start-screen');
     const homeScreen = getElementById('home-screen');
     const gameScreen = getElementById('game-screen');
-    showGameScreen(gameScreen, homeScreen);
+    // showGameScreen(gameScreen, homeScreen);
     setupPlayButton(startScreen, homeScreen);
     setupStartButton(gameScreen, homeScreen);
+    setupExitButton(gameScreen, homeScreen);
     setupHomeScreen(homeScreen);
 }
 
@@ -33,8 +37,18 @@ function setupStartButton(gameScreen: HTMLElement, homeScreen: HTMLElement) {
     });
 }
 
-function showHomeScreen(startScreen: HTMLElement, homeScreen: HTMLElement) {
-    startScreen.classList.add('d_none');
+function setupExitButton(gameScreen: HTMLElement, homeScreen: HTMLElement) {
+    gameScreen.addEventListener('click', event => {
+        const exitButton = getClosestElement(event, '.game-screen__exit-button');
+
+        if (exitButton) {
+            showHomeScreen(gameScreen, homeScreen);
+        }
+    });
+}
+
+function showHomeScreen(currentScreen: HTMLElement, homeScreen: HTMLElement) {
+    currentScreen.classList.add('d_none');
     homeScreen.classList.remove('d_none');
 }
 
@@ -42,8 +56,23 @@ function showGameScreen(gameScreen: HTMLElement, homeScreen: HTMLElement) {
     //muss nachher entfernt werden
     getElementById('start-screen').classList.add('d_none');
 
+    applySelectedTheme(gameScreen, homeScreen);
     homeScreen.classList.add('d_none');
     gameScreen.classList.remove('d_none');
+}
+
+function applySelectedTheme(gameScreen: HTMLElement, homeScreen: HTMLElement) {
+    gameScreen.dataset.theme = getSelectedTheme(homeScreen);
+}
+
+function getSelectedTheme(homeScreen: HTMLElement): GameTheme {
+    const selectedTheme = homeScreen.querySelector<HTMLInputElement>('input[name="theme"]:checked')?.value;
+
+    return isGameTheme(selectedTheme) ? selectedTheme : 'code-vibes';
+}
+
+function isGameTheme(value: string | undefined): value is GameTheme {
+    return gameThemes.includes(value as GameTheme);
 }
 
 function getClosestElement(event: Event, selector: string) {
