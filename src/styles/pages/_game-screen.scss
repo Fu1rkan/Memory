@@ -14,6 +14,10 @@
     --current-player-align-self: flex-end;
     --exit-button-width: 219px;
     --exit-button-height: 74px;
+    --exit-button-default-offset-x: 6px;
+    --exit-button-default-offset-y: 6px;
+    --exit-button-hover-offset-x: 4px;
+    --exit-button-hover-offset-y: 4px;
     --game-header-background: transparent;
     --game-header-padding: 0;
 
@@ -24,6 +28,10 @@
         --current-player-color: #{variables.$white};
         --exit-button-width: 205px;
         --exit-button-height: 64px;
+        --exit-button-default-offset-x: 5px;
+        --exit-button-default-offset-y: 5px;
+        --exit-button-hover-offset-x: 3px;
+        --exit-button-hover-offset-y: 3px;
         --game-header-background: rgba(253, 150, 201, 0.2);
     }
 
@@ -32,6 +40,10 @@
         --current-player-color: #{variables.$blue};
         --exit-button-width: 182px;
         --exit-button-height: 64px;
+        --exit-button-default-offset-x: 5px;
+        --exit-button-default-offset-y: 5px;
+        --exit-button-hover-offset-x: 3px;
+        --exit-button-hover-offset-y: 3px;
         --game-header-background: rgba(240, 243, 244, 1);
     }
 
@@ -40,6 +52,10 @@
         --current-player-color: #{variables.$orange};
         --exit-button-width: 183px;
         --exit-button-height: 56px;
+        --exit-button-default-offset-x: 3.5px;
+        --exit-button-default-offset-y: 3.5px;
+        --exit-button-hover-offset-x: 1.5px;
+        --exit-button-hover-offset-y: 1.5px;
         --game-header-background: rgba(240, 229, 217, 1);
     }
 
@@ -132,14 +148,19 @@
 
     &__exit-button-image {
         display: block;
+        position: absolute;
         width: auto;
         height: auto;
         flex: 0 0 auto;
 
+        &--default {
+            top: var(--exit-button-default-offset-y);
+            left: var(--exit-button-default-offset-x);
+        }
+
         &--hover {
-            position: absolute;
-            top: -2px;
-            left: -2px;
+            top: var(--exit-button-hover-offset-y);
+            left: var(--exit-button-hover-offset-x);
             opacity: 0;
         }
     }
