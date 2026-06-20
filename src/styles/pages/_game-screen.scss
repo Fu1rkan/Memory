@@ -12,22 +12,30 @@
     --current-player-font-size: 26px;
     --current-player-gap: 8px;
     --current-player-align-self: flex-end;
+    --exit-button-width: 219px;
+    --exit-button-height: 74px;
 
     background-color: var(--game-screen-background);
 
     &[data-theme='gaming'] {
         --game-screen-background: #{variables.$gamingThemeColor};
         --current-player-color: #{variables.$white};
+        --exit-button-width: 205px;
+        --exit-button-height: 64px;
     }
 
     &[data-theme='da-projects'] {
         --game-screen-background: #{variables.$white};
         --current-player-color: #{variables.$blue};
+        --exit-button-width: 182px;
+        --exit-button-height: 64px;
     }
 
     &[data-theme='foods'] {
         --game-screen-background: #{variables.$white};
         --current-player-color: #{variables.$orange};
+        --exit-button-width: 183px;
+        --exit-button-height: 56px;
     }
 
     &[data-theme='gaming'],
@@ -96,5 +104,35 @@
 
     &__exit-button {
         background-color: transparent;
+        position: relative;
+        width: var(--exit-button-width);
+        height: var(--exit-button-height);
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        &:hover {
+            .game-screen__exit-button-image--default {
+                opacity: 0;
+            }
+
+            .game-screen__exit-button-image--hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    &__exit-button-image {
+        display: block;
+        width: auto;
+        height: auto;
+        flex: 0 0 auto;
+
+        &--hover {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            opacity: 0;
+        }
     }
 }

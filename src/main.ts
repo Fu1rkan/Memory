@@ -3,6 +3,30 @@ import { setupHomeScreen } from './home-screen';
 
 const gameThemes = ['code-vibes', 'gaming', 'da-projects', 'foods'] as const;
 type GameTheme = typeof gameThemes[number];
+type ExitButtonImages = {
+    default: string;
+    hover: string;
+};
+
+const buttonImageFolder = `${import.meta.env.BASE_URL}img/buttons`;
+const exitButtonImages: Record<GameTheme, ExitButtonImages> = {
+    'code-vibes': {
+        default: `${buttonImageFolder}/code_theme_exit_button.png`,
+        hover: `${buttonImageFolder}/code_theme_exit_hover_button.png`,
+    },
+    gaming: {
+        default: `${buttonImageFolder}/game_theme_exit_button.png`,
+        hover: `${buttonImageFolder}/game_theme_exit_hover_button.png`,
+    },
+    'da-projects': {
+        default: `${buttonImageFolder}/da_theme_exit_button.png`,
+        hover: `${buttonImageFolder}/da_theme_exit_hover_button.png`,
+    },
+    foods: {
+        default: `${buttonImageFolder}/food_theme_exit_hover_button.png`,
+        hover: `${buttonImageFolder}/food_theme_exit_button.png`,
+    },
+};
 
 init();
 
@@ -62,7 +86,22 @@ function showGameScreen(gameScreen: HTMLElement, homeScreen: HTMLElement) {
 }
 
 function applySelectedTheme(gameScreen: HTMLElement, homeScreen: HTMLElement) {
-    gameScreen.dataset.theme = getSelectedTheme(homeScreen);
+    const selectedTheme = getSelectedTheme(homeScreen);
+
+    gameScreen.dataset.theme = selectedTheme;
+    updateExitButtonImages(gameScreen, selectedTheme);
+}
+
+function updateExitButtonImages(gameScreen: HTMLElement, selectedTheme: GameTheme) {
+    const defaultImage = gameScreen.querySelector<HTMLImageElement>('.game-screen__exit-button-image--default');
+    const hoverImage = gameScreen.querySelector<HTMLImageElement>('.game-screen__exit-button-image--hover');
+
+    if (!defaultImage || !hoverImage) {
+        throw new Error('Game screen exit button images were not found.');
+    }
+
+    defaultImage.src = exitButtonImages[selectedTheme].default;
+    hoverImage.src = exitButtonImages[selectedTheme].hover;
 }
 
 function getSelectedTheme(homeScreen: HTMLElement): GameTheme {
