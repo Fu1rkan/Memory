@@ -140,7 +140,7 @@
     &[data-theme='da-projects'],
     &[data-theme='foods'] {
         --player-status-background: #{variables.$white};
-        --player-status-padding: 16px;
+        --player-status-height: 54px;
         --player-status-gap: 40px;
         --player-status-border-radius: 10px;
         --player-status-font-size: 30px;
@@ -149,12 +149,6 @@
         --current-player-align-self: center;
         --game-header-padding: 24px;
         --quit-dialog-gap: 40px;
-    }
-
-    &[data-theme='gaming'],
-    &[data-theme='da-projects'],
-    &[data-theme='foods'] {
-        --player-status-height: 54px;
         --player-status-padding: 0 16px;
 
         .game-screen__player-status__orange {

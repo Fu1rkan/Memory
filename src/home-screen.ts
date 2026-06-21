@@ -1,4 +1,5 @@
-type Theme = 'code-vibes' | 'gaming' | 'da-projects' | 'foods';
+import { isGameTheme, type GameTheme } from './game-themes';
+
 type SettingName = 'theme' | 'player' | 'board-size';
 
 type FooterInfo = {
@@ -13,7 +14,7 @@ type FooterInfo = {
 const imageFolder = `${import.meta.env.BASE_URL}img`;
 const requiredSettings: SettingName[] = ['theme', 'player', 'board-size'];
 
-const themePreviewImages: Record<Theme, string> = {
+const themePreviewImages: Record<GameTheme, string> = {
     'code-vibes': `${imageFolder}/code_vibes.png`,
     gaming: `${imageFolder}/gaming_theme.png`,
     'da-projects': `${imageFolder}/da_theme.png`,
@@ -46,7 +47,7 @@ function updateThemePreview(event: Event, previewImage: HTMLImageElement, footer
 }
 
 function showThemePreview(input: HTMLInputElement, previewImage: HTMLImageElement, footerLabel: HTMLElement, animateLabel = true) {
-    if (!isTheme(input.value)) {
+    if (!isGameTheme(input.value)) {
         return;
     }
 
@@ -158,8 +159,4 @@ function animateFooterText(footerLabel: HTMLElement, text: string) {
         setFooterTextNow(footerLabel, text);
         footerLabel.classList.remove('home-screen__footer-info--changing');
     }, 120);
-}
-
-function isTheme(value: string): value is Theme {
-    return value in themePreviewImages;
 }
