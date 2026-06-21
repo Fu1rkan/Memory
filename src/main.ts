@@ -4,6 +4,22 @@ import codeThemeBackToGameButtonSvg from './assets/buttons/code_theme_btg_button
 import codeThemeBackToGameHoverButtonSvg from './assets/buttons/code_theme_btg_hover_button.svg?raw';
 import codeThemeExitButtonSvg from './assets/buttons/code_theme_exit_button.svg?raw';
 import codeThemeExitHoverButtonSvg from './assets/buttons/code_theme_exit_hover_button.svg?raw';
+import daThemeBackToGameButtonSvg from './assets/buttons/da_theme_btg_button.svg?raw';
+import daThemeBackToGameHoverButtonSvg from './assets/buttons/da_theme_btg_hover_button.svg?raw';
+import daThemeDialogExitButtonSvg from './assets/buttons/da_theme_exit2_button.svg?raw';
+import daThemeDialogExitHoverButtonSvg from './assets/buttons/da_theme_exit2_hover_button.svg?raw';
+import daThemeExitButtonSvg from './assets/buttons/da_theme_exit_button.svg?raw';
+import daThemeExitHoverButtonSvg from './assets/buttons/da_theme_exit_hover_button.svg?raw';
+import foodThemeBackToGameButtonSvg from './assets/buttons/food_theme_btg_button.svg?raw';
+import foodThemeBackToGameHoverButtonSvg from './assets/buttons/food_theme_btg_hover_button.svg?raw';
+import foodThemeDialogExitButtonSvg from './assets/buttons/food_theme_dialog_exit_button.svg?raw';
+import foodThemeDialogExitHoverButtonSvg from './assets/buttons/food_theme_dialog_exit_hover_button.svg?raw';
+import foodThemeExitButtonSvg from './assets/buttons/food_theme_exit_button.svg?raw';
+import foodThemeExitHoverButtonSvg from './assets/buttons/food_theme_exit_hover_button.svg?raw';
+import gameThemeBackToGameButtonSvg from './assets/buttons/game_theme_btg_button.svg?raw';
+import gameThemeBackToGameHoverButtonSvg from './assets/buttons/game_theme_btg_hover_button.svg?raw';
+import gameThemeExitButtonSvg from './assets/buttons/game_theme_exit_button.svg?raw';
+import gameThemeExitHoverButtonSvg from './assets/buttons/game_theme_exit_hover_button.svg?raw';
 
 const gameThemes = ['code-vibes', 'gaming', 'da-projects', 'foods'] as const;
 type GameTheme = typeof gameThemes[number];
@@ -26,27 +42,29 @@ type QuitDialogButtonVisuals = {
     exit: ButtonVisuals;
 };
 
-const imageVisual = (src: string): ButtonVisual => ({ type: 'image', src });
-const inlineSvgVisual = (markup: string): ButtonVisual => ({ type: 'inline-svg', markup });
+const inlineSvgVisual = (markup: string): ButtonVisual => ({
+    type: 'inline-svg',
+    markup,
+});
 const textVisual = (label: string): ButtonVisual => ({ type: 'text', label });
+let inlineSvgId = 0;
 
-const buttonImageFolder = `${import.meta.env.BASE_URL}img/buttons`;
 const exitButtonVisuals: Record<GameTheme, ButtonVisuals> = {
     'code-vibes': {
         default: inlineSvgVisual(codeThemeExitButtonSvg),
         hover: inlineSvgVisual(codeThemeExitHoverButtonSvg),
     },
     gaming: {
-        default: imageVisual(`${buttonImageFolder}/game_theme_exit_button.png`),
-        hover: imageVisual(`${buttonImageFolder}/game_theme_exit_hover_button.png`),
+        default: inlineSvgVisual(gameThemeExitButtonSvg),
+        hover: inlineSvgVisual(gameThemeExitHoverButtonSvg),
     },
     'da-projects': {
-        default: imageVisual(`${buttonImageFolder}/da_theme_exit_button.png`),
-        hover: imageVisual(`${buttonImageFolder}/da_theme_exit_hover_button.png`),
+        default: inlineSvgVisual(daThemeExitButtonSvg),
+        hover: inlineSvgVisual(daThemeExitHoverButtonSvg),
     },
     foods: {
-        default: imageVisual(`${buttonImageFolder}/food_theme_exit_hover_button.png`),
-        hover: imageVisual(`${buttonImageFolder}/food_theme_exit_button.png`),
+        default: inlineSvgVisual(foodThemeExitHoverButtonSvg),
+        hover: inlineSvgVisual(foodThemeExitButtonSvg),
     },
 };
 
@@ -63,32 +81,32 @@ const quitDialogButtonVisuals: Record<GameTheme, QuitDialogButtonVisuals> = {
     },
     gaming: {
         back: {
-            default: imageVisual(`${buttonImageFolder}/game_theme_btg_button.png`),
-            hover: imageVisual(`${buttonImageFolder}/game_theme_btg_hover_button.png`),
+            default: inlineSvgVisual(gameThemeBackToGameButtonSvg),
+            hover: inlineSvgVisual(gameThemeBackToGameHoverButtonSvg),
         },
         exit: {
-            default: imageVisual(`${buttonImageFolder}/game_theme_exit_button.png`),
-            hover: imageVisual(`${buttonImageFolder}/game_theme_exit_hover_button.png`),
+            default: textVisual('Yes, quit game'),
+            hover: textVisual('Yes, quit game'),
         },
     },
     'da-projects': {
         back: {
-            default: imageVisual(`${buttonImageFolder}/da_theme_btg_button.png`),
-            hover: imageVisual(`${buttonImageFolder}/da_theme_btg_hover_button.png`),
+            default: inlineSvgVisual(daThemeBackToGameButtonSvg),
+            hover: inlineSvgVisual(daThemeBackToGameHoverButtonSvg),
         },
         exit: {
-            default: imageVisual(`${buttonImageFolder}/da_theme_exit2_button.png.png`),
-            hover: imageVisual(`${buttonImageFolder}/da_theme_exit2_hover_button.png.png`),
+            default: inlineSvgVisual(daThemeDialogExitButtonSvg),
+            hover: inlineSvgVisual(daThemeDialogExitHoverButtonSvg),
         },
     },
     foods: {
         back: {
-            default: imageVisual(`${buttonImageFolder}/food_theme_btg_button.png`),
-            hover: imageVisual(`${buttonImageFolder}/food_theme_btg_hover_button.png`),
+            default: inlineSvgVisual(foodThemeBackToGameHoverButtonSvg),
+            hover: inlineSvgVisual(foodThemeBackToGameButtonSvg),
         },
         exit: {
-            default: imageVisual(`${buttonImageFolder}/food_theme_exit_button.png`),
-            hover: imageVisual(`${buttonImageFolder}/food_theme_exit_hover_button.png`),
+            default: inlineSvgVisual(foodThemeDialogExitButtonSvg),
+            hover: inlineSvgVisual(foodThemeDialogExitHoverButtonSvg),
         },
     },
 };
@@ -216,7 +234,13 @@ function createButtonVisualElement(visual: ButtonVisual, className: string) {
 
     if (visual.type === 'inline-svg') {
         visualElement.innerHTML = visual.markup;
-        visualElement.querySelector('svg')?.setAttribute('focusable', 'false');
+        const svg = visualElement.querySelector('svg');
+        svg?.setAttribute('focusable', 'false');
+
+        if (svg) {
+            namespaceSvgIds(svg, `button-svg-${inlineSvgId}`);
+            inlineSvgId += 1;
+        }
 
         return visualElement;
     }
@@ -235,6 +259,32 @@ function createButtonVisualElement(visual: ButtonVisual, className: string) {
     visualElement.append(imageElement);
 
     return visualElement;
+}
+
+function namespaceSvgIds(svg: SVGSVGElement, namespace: string) {
+    const idMap = new Map<string, string>();
+
+    svg.querySelectorAll<SVGElement>('[id]').forEach(element => {
+        const newId = `${namespace}-${element.id}`;
+        idMap.set(element.id, newId);
+        element.id = newId;
+    });
+
+    svg.querySelectorAll<SVGElement>('*').forEach(element => {
+        Array.from(element.attributes).forEach(attribute => {
+            let nextValue = attribute.value;
+
+            idMap.forEach((newId, oldId) => {
+                nextValue = nextValue
+                    .replaceAll(`url(#${oldId})`, `url(#${newId})`)
+                    .replaceAll(`#${oldId}`, `#${newId}`);
+            });
+
+            if (nextValue !== attribute.value) {
+                element.setAttribute(attribute.name, nextValue);
+            }
+        });
+    });
 }
 
 function getSelectedTheme(homeScreen: HTMLElement): GameTheme {

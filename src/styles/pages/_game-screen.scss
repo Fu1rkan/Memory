@@ -20,7 +20,9 @@
     --exit-button-hover-offset-y: 4px;
     --game-header-background: transparent;
     --game-header-padding: 0;
+    --quit-dialog-width: 539px;
     --quit-dialog-gap: 54px;
+    --quit-dialog-actions-gap: 24px;
     --quit-dialog-background: #{variables.$white};
     --quit-dialog-border-radius: 0;
     --quit-dialog-font-family: 'RedRose';
@@ -29,6 +31,21 @@
     --quit-dialog-back-height: 57px;
     --quit-dialog-exit-width: 148px;
     --quit-dialog-exit-height: 57px;
+    --quit-dialog-button-transition: opacity 180ms ease-in-out;
+    --quit-dialog-button-hover-offset-x: 0px;
+    --quit-dialog-button-hover-offset-y: 0px;
+    --quit-dialog-back-hover-offset-x: var(--quit-dialog-button-hover-offset-x);
+    --quit-dialog-back-hover-offset-y: var(--quit-dialog-button-hover-offset-y);
+    --quit-dialog-exit-hover-offset-x: var(--quit-dialog-button-hover-offset-x);
+    --quit-dialog-exit-hover-offset-y: var(--quit-dialog-button-hover-offset-y);
+    --quit-dialog-text-button-background: rgba(134, 233, 214, 0.14);
+    --quit-dialog-text-button-border: 2px solid rgba(77, 213, 188, 1);
+    --quit-dialog-text-button-border-radius: 0;
+    --quit-dialog-text-button-color: rgba(77, 213, 188, 1);
+    --quit-dialog-text-button-font-family: 'RedRose';
+    --quit-dialog-text-button-font-size: 20px;
+    --quit-dialog-text-button-hover-background: rgba(134, 233, 214, 0.26);
+    --quit-dialog-text-button-hover-box-shadow: inset 0 0 0 1px rgba(77, 213, 188, 1), 4px 4px 6px rgba(77, 213, 188, 0.2);
 
     background-color: var(--game-screen-background);
 
@@ -42,14 +59,26 @@
         --exit-button-hover-offset-x: 3px;
         --exit-button-hover-offset-y: 3px;
         --game-header-background: rgba(253, 150, 201, 0.2);
+        --quit-dialog-width: 481px;
         --quit-dialog-background: rgba(240, 246, 249, 1);
         --quit-dialog-border-radius: 20px;
         --quit-dialog-font-family: 'Orbitron';
         --quit-dialog-font-size: 28px;
-        --quit-dialog-back-width: 211px;
-        --quit-dialog-back-height: 54px;
-        --quit-dialog-exit-width: 205px;
-        --quit-dialog-exit-height: 64px;
+        --quit-dialog-back-width: 201px;
+        --quit-dialog-back-height: 44px;
+        --quit-dialog-exit-width: 176px;
+        --quit-dialog-exit-height: 44px;
+        --quit-dialog-button-transition: none;
+        --quit-dialog-button-hover-offset-x: -1.5px;
+        --quit-dialog-button-hover-offset-y: -1.5px;
+        --quit-dialog-text-button-background: rgba(237, 27, 118, 0.08);
+        --quit-dialog-text-button-border: 2px solid rgba(231, 28, 79, 1);
+        --quit-dialog-text-button-border-radius: 10px;
+        --quit-dialog-text-button-color: rgba(237, 27, 118, 1);
+        --quit-dialog-text-button-font-family: 'Orbitron';
+        --quit-dialog-text-button-font-size: 16px;
+        --quit-dialog-text-button-hover-background: rgba(237, 27, 118, 0.14);
+        --quit-dialog-text-button-hover-box-shadow: inset 0 0 0 1px rgba(231, 28, 79, 1), 3px 3px 5px rgba(47, 46, 46, 0.2);
     }
 
     &[data-theme='da-projects'] {
@@ -62,6 +91,7 @@
         --exit-button-hover-offset-x: 3px;
         --exit-button-hover-offset-y: 3px;
         --game-header-background: rgba(240, 243, 244, 1);
+        --quit-dialog-width: 456px;
         --quit-dialog-background: rgba(240, 246, 249, 1);
         --quit-dialog-border-radius: 20px;
         --quit-dialog-font-family: 'Figtree';
@@ -70,6 +100,8 @@
         --quit-dialog-back-height: 53px;
         --quit-dialog-exit-width: 124px;
         --quit-dialog-exit-height: 53px;
+        --quit-dialog-button-hover-offset-x: 2px;
+        --quit-dialog-button-hover-offset-y: 2px;
     }
 
     &[data-theme='foods'] {
@@ -77,19 +109,24 @@
         --current-player-color: #{variables.$orange};
         --exit-button-width: 183px;
         --exit-button-height: 56px;
-        --exit-button-default-offset-x: 3.5px;
-        --exit-button-default-offset-y: 3.5px;
+        --exit-button-default-offset-x: 2.85px;
+        --exit-button-default-offset-y: 2px;
         --exit-button-hover-offset-x: 1.5px;
         --exit-button-hover-offset-y: 1.5px;
         --game-header-background: rgba(240, 229, 217, 1);
+        --quit-dialog-width: 462px;
         --quit-dialog-background: rgba(246, 246, 246, 1);
         --quit-dialog-border-radius: 20px;
         --quit-dialog-font-family: 'Klee One';
         --quit-dialog-font-size: 28px;
-        --quit-dialog-back-width: 221px;
-        --quit-dialog-back-height: 55px;
-        --quit-dialog-exit-width: 183px;
-        --quit-dialog-exit-height: 56px;
+        --quit-dialog-back-width: 214px;
+        --quit-dialog-back-height: 48px;
+        --quit-dialog-exit-width: 144px;
+        --quit-dialog-exit-height: 49px;
+        --quit-dialog-back-hover-offset-x: -1.1px;
+        --quit-dialog-back-hover-offset-y: -0.5px;
+        --quit-dialog-exit-hover-offset-x: 0px;
+        --quit-dialog-exit-hover-offset-y: 0px;
     }
 
     &[data-theme='gaming'],
@@ -211,6 +248,7 @@
         justify-content: space-between;
         align-items: center;
         gap: var(--quit-dialog-gap);
+        width: min(var(--quit-dialog-width), calc(100vw - 32px));
         margin: auto;
         padding: 40px;
         background-color: var(--quit-dialog-background);
@@ -228,7 +266,7 @@
     }
 
     &__quit-dialog-title {
-        max-width: 539px;
+        max-width: 100%;
         font-size: var(--quit-dialog-font-size);
         line-height: 1.3;
         text-align: center;
@@ -236,7 +274,7 @@
 
     &__quit-dialog-actions {
         @include mixin.flex-center(row);
-        gap: 32px;
+        gap: var(--quit-dialog-actions-gap);
     }
 
     &__quit-dialog-button {
@@ -246,11 +284,21 @@
         &--back {
             width: var(--quit-dialog-back-width);
             height: var(--quit-dialog-back-height);
+
+            .game-screen__quit-dialog-button-image--hover:not(.game-screen__button-text-visual) {
+                top: var(--quit-dialog-back-hover-offset-y);
+                left: var(--quit-dialog-back-hover-offset-x);
+            }
         }
 
         &--exit {
             width: var(--quit-dialog-exit-width);
             height: var(--quit-dialog-exit-height);
+
+            .game-screen__quit-dialog-button-image--hover:not(.game-screen__button-text-visual) {
+                top: var(--quit-dialog-exit-hover-offset-y);
+                left: var(--quit-dialog-exit-hover-offset-x);
+            }
         }
 
         &:hover {
@@ -272,6 +320,7 @@
         width: auto;
         height: auto;
         line-height: 0;
+        transition: var(--quit-dialog-button-transition);
 
         >img,
         >svg {
@@ -281,26 +330,31 @@
         &--hover {
             opacity: 0;
         }
+
+        &--hover:not(.game-screen__button-text-visual) {
+            top: var(--quit-dialog-button-hover-offset-y);
+            left: var(--quit-dialog-button-hover-offset-x);
+        }
     }
 
     &__button-text-visual {
         @include mixin.flex-center(row);
         width: 100%;
         height: 100%;
-        background-color: rgba(134, 233, 214, 0.14);
-        border: 2px solid rgba(77, 213, 188, 1);
-        color: rgba(77, 213, 188, 1);
-        font-family: 'RedRose';
-        font-size: 20px;
+        background-color: var(--quit-dialog-text-button-background);
+        border: var(--quit-dialog-text-button-border);
+        border-radius: var(--quit-dialog-text-button-border-radius);
+        color: var(--quit-dialog-text-button-color);
+        font-family: var(--quit-dialog-text-button-font-family);
+        font-size: var(--quit-dialog-text-button-font-size);
         font-weight: 700;
         line-height: 1;
-        transition: background-color 250ms ease-in-out, box-shadow 250ms ease-in-out;
+        transition: var(--quit-dialog-button-transition);
     }
 
-    &__quit-dialog-button--exit:hover {
-        .game-screen__button-text-visual {
-            background-color: rgba(134, 233, 214, 0.26);
-            box-shadow: inset 0 0 0 1px rgba(77, 213, 188, 1), 4px 4px 6px rgba(77, 213, 188, 0.2);
-        }
+    &__quit-dialog-button-image--hover.game-screen__button-text-visual {
+        background-color: var(--quit-dialog-text-button-hover-background);
+        box-shadow: var(--quit-dialog-text-button-hover-box-shadow);
     }
+
 }
