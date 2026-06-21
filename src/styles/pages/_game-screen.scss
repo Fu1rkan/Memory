@@ -151,11 +151,11 @@
         --quit-dialog-gap: 40px;
     }
 
-    &[data-theme='gaming'] {
+    &[data-theme='gaming'],
+    &[data-theme='da-projects'],
+    &[data-theme='foods'] {
         --player-status-height: 54px;
         --player-status-padding: 0 16px;
-        --player-status-item-gap: 8px;
-        --player-status-font-family: 'Orbitron';
 
         .game-screen__player-status__orange {
             color: rgba(234, 105, 0, 1);
@@ -164,6 +164,21 @@
         .game-screen__player-status__blue {
             color: rgba(9, 127, 197, 1);
         }
+    }
+
+    &[data-theme='gaming'] {
+        --player-status-item-gap: 8px;
+        --player-status-font-family: 'Orbitron';
+    }
+
+    &[data-theme='da-projects'] {
+        --player-status-item-gap: 4px;
+        --player-status-font-family: 'Figtree';
+    }
+
+    &[data-theme='foods'] {
+        --player-status-item-gap: 4px;
+        --player-status-font-family: 'Delius Unicase';
     }
 
     &__container {
@@ -210,6 +225,10 @@
                 @include mixin.flex-center(row, center, space-between);
             }
         }
+    }
+
+    &__player-status-number {
+        font-family: 'RedRose';
     }
 
     &__current-player-info {
