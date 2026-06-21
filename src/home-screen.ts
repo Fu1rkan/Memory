@@ -11,14 +11,14 @@ type FooterInfo = {
     startButton: HTMLButtonElement;
 };
 
-const imageFolder = `${import.meta.env.BASE_URL}img`;
+const themeImageFolder = `${import.meta.env.BASE_URL}img/themes`;
 const requiredSettings: SettingName[] = ['theme', 'player', 'board-size'];
 
 const themePreviewImages: Record<GameTheme, string> = {
-    'code-vibes': `${imageFolder}/code_vibes.png`,
-    gaming: `${imageFolder}/gaming_theme.png`,
-    'da-projects': `${imageFolder}/da_theme.png`,
-    foods: `${imageFolder}/food_theme.png`,
+    'code-vibes': `${themeImageFolder}/code_vibes.png`,
+    gaming: `${themeImageFolder}/gaming_theme.png`,
+    'da-projects': `${themeImageFolder}/da_theme.png`,
+    foods: `${themeImageFolder}/food_theme.png`,
 };
 
 export function setupHomeScreen(homeScreen: HTMLElement) {
