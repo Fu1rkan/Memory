@@ -23,6 +23,7 @@
     --quit-dialog-width: 539px;
     --quit-dialog-gap: 54px;
     --quit-dialog-actions-gap: 24px;
+    --quit-dialog-animation: game-screen-dialog-slide-from-top 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
     --quit-dialog-background: #{variables.$white};
     --quit-dialog-border-radius: 0;
     --quit-dialog-font-family: 'RedRose';
@@ -60,6 +61,7 @@
         --exit-button-hover-offset-y: 3px;
         --game-header-background: rgba(253, 150, 201, 0.2);
         --quit-dialog-width: 481px;
+        --quit-dialog-animation: game-screen-dialog-slide-from-bottom 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
         --quit-dialog-background: rgba(240, 246, 249, 1);
         --quit-dialog-border-radius: 20px;
         --quit-dialog-font-family: 'Orbitron';
@@ -92,6 +94,7 @@
         --exit-button-hover-offset-y: 3px;
         --game-header-background: rgba(240, 243, 244, 1);
         --quit-dialog-width: 456px;
+        --quit-dialog-animation: game-screen-dialog-pop-in 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
         --quit-dialog-background: rgba(240, 246, 249, 1);
         --quit-dialog-border-radius: 20px;
         --quit-dialog-font-family: 'Figtree';
@@ -115,6 +118,7 @@
         --exit-button-hover-offset-y: 1.5px;
         --game-header-background: rgba(240, 229, 217, 1);
         --quit-dialog-width: 462px;
+        --quit-dialog-animation: game-screen-dialog-slide-from-bottom 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
         --quit-dialog-background: rgba(246, 246, 246, 1);
         --quit-dialog-border-radius: 20px;
         --quit-dialog-font-family: 'Klee One';
@@ -255,9 +259,11 @@
         border-radius: var(--quit-dialog-border-radius);
         color: variables.$codeVibeThemeColor;
         font-family: var(--quit-dialog-font-family);
+        transform-origin: center;
 
         &[open] {
             display: flex;
+            animation: var(--quit-dialog-animation);
         }
 
         &::backdrop {
@@ -357,4 +363,51 @@
         box-shadow: var(--quit-dialog-text-button-hover-box-shadow);
     }
 
+}
+
+@keyframes game-screen-dialog-slide-from-top {
+    from {
+        opacity: 0;
+        transform: translateY(-100vh);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes game-screen-dialog-slide-from-bottom {
+    from {
+        opacity: 0;
+        transform: translateY(100vh);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes game-screen-dialog-pop-in {
+    from {
+        opacity: 0;
+        transform: scale(0.75);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.04);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .game-screen__quit-dialog[open] {
+        animation: none;
+    }
 }
