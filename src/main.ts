@@ -1,30 +1,95 @@
 import './styles/style.scss';
 import { setupHomeScreen } from './home-screen';
+import codeThemeBackToGameButtonSvg from './assets/buttons/code_theme_btg_button.svg?raw';
+import codeThemeBackToGameHoverButtonSvg from './assets/buttons/code_theme_btg_hover_button.svg?raw';
+import codeThemeExitButtonSvg from './assets/buttons/code_theme_exit_button.svg?raw';
+import codeThemeExitHoverButtonSvg from './assets/buttons/code_theme_exit_hover_button.svg?raw';
 
 const gameThemes = ['code-vibes', 'gaming', 'da-projects', 'foods'] as const;
 type GameTheme = typeof gameThemes[number];
-type ExitButtonImages = {
-    default: string;
-    hover: string;
+type ButtonVisual = {
+    type: 'image';
+    src: string;
+} | {
+    type: 'inline-svg';
+    markup: string;
+} | {
+    type: 'text';
+    label: string;
+};
+type ButtonVisuals = {
+    default: ButtonVisual;
+    hover: ButtonVisual;
+};
+type QuitDialogButtonVisuals = {
+    back: ButtonVisuals;
+    exit: ButtonVisuals;
 };
 
+const imageVisual = (src: string): ButtonVisual => ({ type: 'image', src });
+const inlineSvgVisual = (markup: string): ButtonVisual => ({ type: 'inline-svg', markup });
+const textVisual = (label: string): ButtonVisual => ({ type: 'text', label });
+
 const buttonImageFolder = `${import.meta.env.BASE_URL}img/buttons`;
-const exitButtonImages: Record<GameTheme, ExitButtonImages> = {
+const exitButtonVisuals: Record<GameTheme, ButtonVisuals> = {
     'code-vibes': {
-        default: `${buttonImageFolder}/code_theme_exit_button.png`,
-        hover: `${buttonImageFolder}/code_theme_exit_hover_button.png`,
+        default: inlineSvgVisual(codeThemeExitButtonSvg),
+        hover: inlineSvgVisual(codeThemeExitHoverButtonSvg),
     },
     gaming: {
-        default: `${buttonImageFolder}/game_theme_exit_button.png`,
-        hover: `${buttonImageFolder}/game_theme_exit_hover_button.png`,
+        default: imageVisual(`${buttonImageFolder}/game_theme_exit_button.png`),
+        hover: imageVisual(`${buttonImageFolder}/game_theme_exit_hover_button.png`),
     },
     'da-projects': {
-        default: `${buttonImageFolder}/da_theme_exit_button.png`,
-        hover: `${buttonImageFolder}/da_theme_exit_hover_button.png`,
+        default: imageVisual(`${buttonImageFolder}/da_theme_exit_button.png`),
+        hover: imageVisual(`${buttonImageFolder}/da_theme_exit_hover_button.png`),
     },
     foods: {
-        default: `${buttonImageFolder}/food_theme_exit_hover_button.png`,
-        hover: `${buttonImageFolder}/food_theme_exit_button.png`,
+        default: imageVisual(`${buttonImageFolder}/food_theme_exit_hover_button.png`),
+        hover: imageVisual(`${buttonImageFolder}/food_theme_exit_button.png`),
+    },
+};
+
+const quitDialogButtonVisuals: Record<GameTheme, QuitDialogButtonVisuals> = {
+    'code-vibes': {
+        back: {
+            default: inlineSvgVisual(codeThemeBackToGameButtonSvg),
+            hover: inlineSvgVisual(codeThemeBackToGameHoverButtonSvg),
+        },
+        exit: {
+            default: textVisual('Exit game'),
+            hover: textVisual('Exit game'),
+        },
+    },
+    gaming: {
+        back: {
+            default: imageVisual(`${buttonImageFolder}/game_theme_btg_button.png`),
+            hover: imageVisual(`${buttonImageFolder}/game_theme_btg_hover_button.png`),
+        },
+        exit: {
+            default: imageVisual(`${buttonImageFolder}/game_theme_exit_button.png`),
+            hover: imageVisual(`${buttonImageFolder}/game_theme_exit_hover_button.png`),
+        },
+    },
+    'da-projects': {
+        back: {
+            default: imageVisual(`${buttonImageFolder}/da_theme_btg_button.png`),
+            hover: imageVisual(`${buttonImageFolder}/da_theme_btg_hover_button.png`),
+        },
+        exit: {
+            default: imageVisual(`${buttonImageFolder}/da_theme_exit2_button.png.png`),
+            hover: imageVisual(`${buttonImageFolder}/da_theme_exit2_hover_button.png.png`),
+        },
+    },
+    foods: {
+        back: {
+            default: imageVisual(`${buttonImageFolder}/food_theme_btg_button.png`),
+            hover: imageVisual(`${buttonImageFolder}/food_theme_btg_hover_button.png`),
+        },
+        exit: {
+            default: imageVisual(`${buttonImageFolder}/food_theme_exit_button.png`),
+            hover: imageVisual(`${buttonImageFolder}/food_theme_exit_hover_button.png`),
+        },
     },
 };
 
@@ -34,11 +99,13 @@ function init() {
     const startScreen = getElementById('start-screen');
     const homeScreen = getElementById('home-screen');
     const gameScreen = getElementById('game-screen');
+    const quitGameDialog = getDialogById('quit-game-dialog');
     // showGameScreen(gameScreen, homeScreen);
     setupPlayButton(startScreen, homeScreen);
     setupStartButton(gameScreen, homeScreen);
-    setupExitButton(gameScreen, homeScreen);
+    setupExitButton(gameScreen, homeScreen, quitGameDialog);
     setupHomeScreen(homeScreen);
+    applySelectedTheme(gameScreen, homeScreen);
 }
 
 function setupPlayButton(startScreen: HTMLElement, homeScreen: HTMLElement) {
@@ -61,14 +128,31 @@ function setupStartButton(gameScreen: HTMLElement, homeScreen: HTMLElement) {
     });
 }
 
-function setupExitButton(gameScreen: HTMLElement, homeScreen: HTMLElement) {
+function setupExitButton(gameScreen: HTMLElement, homeScreen: HTMLElement, quitGameDialog: HTMLDialogElement) {
     gameScreen.addEventListener('click', event => {
         const exitButton = getClosestElement(event, '.game-screen__exit-button');
+        const backToGameButton = getClosestElement(event, '.game-screen__quit-dialog-button--back');
+        const confirmExitButton = getClosestElement(event, '.game-screen__quit-dialog-button--exit');
 
         if (exitButton) {
+            showQuitGameDialog(quitGameDialog);
+        }
+
+        if (backToGameButton) {
+            quitGameDialog.close();
+        }
+
+        if (confirmExitButton) {
+            quitGameDialog.close();
             showHomeScreen(gameScreen, homeScreen);
         }
     });
+}
+
+function showQuitGameDialog(quitGameDialog: HTMLDialogElement) {
+    if (!quitGameDialog.open) {
+        quitGameDialog.showModal();
+    }
 }
 
 function showHomeScreen(currentScreen: HTMLElement, homeScreen: HTMLElement) {
@@ -89,19 +173,68 @@ function applySelectedTheme(gameScreen: HTMLElement, homeScreen: HTMLElement) {
     const selectedTheme = getSelectedTheme(homeScreen);
 
     gameScreen.dataset.theme = selectedTheme;
-    updateExitButtonImages(gameScreen, selectedTheme);
+    updateExitButtonVisuals(gameScreen, selectedTheme);
+    updateQuitDialogButtonVisuals(gameScreen, selectedTheme);
 }
 
-function updateExitButtonImages(gameScreen: HTMLElement, selectedTheme: GameTheme) {
-    const defaultImage = gameScreen.querySelector<HTMLImageElement>('.game-screen__exit-button-image--default');
-    const hoverImage = gameScreen.querySelector<HTMLImageElement>('.game-screen__exit-button-image--hover');
+function updateExitButtonVisuals(gameScreen: HTMLElement, selectedTheme: GameTheme) {
+    const exitButton = gameScreen.querySelector<HTMLElement>('.game-screen__exit-button');
 
-    if (!defaultImage || !hoverImage) {
-        throw new Error('Game screen exit button images were not found.');
+    if (!exitButton) {
+        throw new Error('Game screen exit button was not found.');
     }
 
-    defaultImage.src = exitButtonImages[selectedTheme].default;
-    hoverImage.src = exitButtonImages[selectedTheme].hover;
+    updateButtonVisuals(exitButton, exitButtonVisuals[selectedTheme], 'game-screen__exit-button-image');
+}
+
+function updateQuitDialogButtonVisuals(gameScreen: HTMLElement, selectedTheme: GameTheme) {
+    updateDialogButtonVisuals(gameScreen, '.game-screen__quit-dialog-button--back', quitDialogButtonVisuals[selectedTheme].back);
+    updateDialogButtonVisuals(gameScreen, '.game-screen__quit-dialog-button--exit', quitDialogButtonVisuals[selectedTheme].exit);
+}
+
+function updateDialogButtonVisuals(gameScreen: HTMLElement, buttonSelector: string, visuals: ButtonVisuals) {
+    const button = gameScreen.querySelector<HTMLElement>(buttonSelector);
+
+    if (!button) {
+        throw new Error(`Button "${buttonSelector}" was not found.`);
+    }
+
+    updateButtonVisuals(button, visuals, 'game-screen__quit-dialog-button-image');
+}
+
+function updateButtonVisuals(button: HTMLElement, visuals: ButtonVisuals, visualClassName: string) {
+    button.replaceChildren(
+        createButtonVisualElement(visuals.default, `${visualClassName} ${visualClassName}--default`),
+        createButtonVisualElement(visuals.hover, `${visualClassName} ${visualClassName}--hover`),
+    );
+}
+
+function createButtonVisualElement(visual: ButtonVisual, className: string) {
+    const visualElement = document.createElement('span');
+    visualElement.className = className;
+    visualElement.setAttribute('aria-hidden', 'true');
+
+    if (visual.type === 'inline-svg') {
+        visualElement.innerHTML = visual.markup;
+        visualElement.querySelector('svg')?.setAttribute('focusable', 'false');
+
+        return visualElement;
+    }
+
+    if (visual.type === 'text') {
+        visualElement.classList.add('game-screen__button-text-visual');
+        visualElement.textContent = visual.label;
+
+        return visualElement;
+    }
+
+    const imageElement = document.createElement('img');
+    imageElement.src = visual.src;
+    imageElement.alt = '';
+    imageElement.draggable = false;
+    visualElement.append(imageElement);
+
+    return visualElement;
 }
 
 function getSelectedTheme(homeScreen: HTMLElement): GameTheme {
@@ -117,7 +250,7 @@ function isGameTheme(value: string | undefined): value is GameTheme {
 function getClosestElement(event: Event, selector: string) {
     const target = event.target;
 
-    return target instanceof HTMLElement ? target.closest(selector) : null;
+    return target instanceof Element ? target.closest(selector) : null;
 }
 
 function getElementById(id: string) {
@@ -125,6 +258,16 @@ function getElementById(id: string) {
 
     if (!element) {
         throw new Error(`Element with id "${id}" was not found.`);
+    }
+
+    return element;
+}
+
+function getDialogById(id: string) {
+    const element = getElementById(id);
+
+    if (!(element instanceof HTMLDialogElement)) {
+        throw new Error(`Dialog with id "${id}" was not found.`);
     }
 
     return element;

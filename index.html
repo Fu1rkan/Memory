@@ -284,13 +284,37 @@
                         </svg>
                     </div>
                 </div>
-                <button class="game-screen__exit-button">
-                    <img class="game-screen__exit-button-image game-screen__exit-button-image--default"
-                        src="./img/buttons/code_theme_exit_button.png" alt="Exit game">
-                    <img class="game-screen__exit-button-image game-screen__exit-button-image--hover"
-                        src="./img/buttons/code_theme_exit_hover_button.png" alt="" aria-hidden="true">
+                <button class="game-screen__exit-button" type="button" aria-label="Exit game">
+                    <span class="game-screen__exit-button-image game-screen__exit-button-image--default"
+                        aria-hidden="true"></span>
+                    <span class="game-screen__exit-button-image game-screen__exit-button-image--hover"
+                        aria-hidden="true"></span>
                 </button>
             </header>
+
+            <dialog class="game-screen__quit-dialog" id="quit-game-dialog" aria-labelledby="quit-game-dialog-title">
+                <h2 class="game-screen__quit-dialog-title" id="quit-game-dialog-title">
+                    Are you sure you want to quit the game?
+                </h2>
+                <div class="game-screen__quit-dialog-actions">
+                    <button class="game-screen__quit-dialog-button game-screen__quit-dialog-button--back" type="button"
+                        aria-label="Back to game">
+                        <span
+                            class="game-screen__quit-dialog-button-image game-screen__quit-dialog-button-image--default"
+                            aria-hidden="true"></span>
+                        <span class="game-screen__quit-dialog-button-image game-screen__quit-dialog-button-image--hover"
+                            aria-hidden="true"></span>
+                    </button>
+                    <button class="game-screen__quit-dialog-button game-screen__quit-dialog-button--exit" type="button"
+                        aria-label="Exit game">
+                        <span
+                            class="game-screen__quit-dialog-button-image game-screen__quit-dialog-button-image--default"
+                            aria-hidden="true"></span>
+                        <span class="game-screen__quit-dialog-button-image game-screen__quit-dialog-button-image--hover"
+                            aria-hidden="true"></span>
+                    </button>
+                </div>
+            </dialog>
         </div>
     </section>
 
