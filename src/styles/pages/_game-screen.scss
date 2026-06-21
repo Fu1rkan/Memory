@@ -4,9 +4,12 @@
 .game-screen {
     --game-screen-background: #{variables.$codeVibeThemeColor};
     --player-status-background: rgba(134, 233, 214, 0.2);
+    --player-status-height: auto;
     --player-status-padding: 17px 20px;
     --player-status-gap: 20px;
+    --player-status-item-gap: 4px;
     --player-status-border-radius: 0;
+    --player-status-font-family: 'RedRose';
     --player-status-font-size: 24px;
     --current-player-color: #{variables.$white};
     --current-player-font-size: 26px;
@@ -148,6 +151,21 @@
         --quit-dialog-gap: 40px;
     }
 
+    &[data-theme='gaming'] {
+        --player-status-height: 54px;
+        --player-status-padding: 0 16px;
+        --player-status-item-gap: 8px;
+        --player-status-font-family: 'Orbitron';
+
+        .game-screen__player-status__orange {
+            color: rgba(234, 105, 0, 1);
+        }
+
+        .game-screen__player-status__blue {
+            color: rgba(9, 127, 197, 1);
+        }
+    }
+
     &__container {
         @include mixin.flex-center(column, center, flex-start);
     }
@@ -163,18 +181,20 @@
 
     &__player-status {
         @include mixin.flex-center(row, center, space-between);
+        box-sizing: border-box;
+        height: var(--player-status-height);
         padding: var(--player-status-padding);
         background-color: var(--player-status-background);
         gap: var(--player-status-gap);
         border-radius: var(--player-status-border-radius);
         font-size: var(--player-status-font-size);
         font-weight: 700;
-        font-family: "RedRose";
+        font-family: var(--player-status-font-family);
 
         &__orange {
             @include mixin.flex-center(row, center, space-between);
             color: rgba(43, 177, 255, 1);
-            gap: 4px;
+            gap: var(--player-status-item-gap);
 
             &__icon {
                 @include mixin.flex-center(row, center, space-between);
@@ -184,7 +204,7 @@
         &__blue {
             @include mixin.flex-center(row, center, space-between);
             color: rgba(245, 142, 57, 1);
-            gap: 4px;
+            gap: var(--player-status-item-gap);
 
             &__icon {
                 @include mixin.flex-center(row, center, space-between);
