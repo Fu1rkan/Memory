@@ -267,6 +267,10 @@
         height: var(--memory-card-height);
         background: transparent;
         perspective: 900px;
+
+        &:disabled {
+            cursor: default;
+        }
     }
 
     &__card-inner {

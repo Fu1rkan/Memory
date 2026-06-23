@@ -7,7 +7,17 @@ import { setupPlayerStatus, updatePlayerStatusVisuals } from './player-status';
 import { showScreen } from './screen-navigation';
 
 const boardSizes = [16, 24, 36] as const;
+const cardMismatchDelay = 1000;
 type BoardSize = typeof boardSizes[number];
+type BoardState = {
+    selectedCards: HTMLButtonElement[];
+    isLocked: boolean;
+};
+
+const boardState: BoardState = {
+    selectedCards: [],
+    isLocked: false,
+};
 
 export function setupGameScreen(gameScreen: HTMLElement, homeScreen: HTMLElement, startScreen: HTMLElement) {
     const quitGameDialog = getDialogById('quit-game-dialog');
@@ -109,6 +119,7 @@ function renderSelectedBoard(gameScreen: HTMLElement, homeScreen: HTMLElement) {
     const cards = createShuffledCardImages(selectedTheme, boardSize)
         .map((imageSrc, index) => createMemoryCard(imageSrc, index));
 
+    resetBoardState();
     gameScreen.dataset.boardSize = String(boardSize);
     board.replaceChildren(...cards);
 }
@@ -117,8 +128,8 @@ function setupMemoryCards(gameScreen: HTMLElement) {
     gameScreen.addEventListener('click', event => {
         const card = getClosestElement(event, '.game-screen__card');
 
-        if (card) {
-            flipMemoryCard(card);
+        if (card instanceof HTMLButtonElement) {
+            handleMemoryCardClick(card);
         }
     });
 }
@@ -195,6 +206,7 @@ function createMemoryCard(imageSrc: string, index: number) {
 
     card.className = 'game-screen__card';
     card.type = 'button';
+    card.dataset.cardImage = imageSrc;
     card.setAttribute('aria-label', `Memory card ${index + 1}`);
     card.setAttribute('aria-pressed', 'false');
     cardInner.className = 'game-screen__card-inner';
@@ -211,8 +223,62 @@ function createMemoryCard(imageSrc: string, index: number) {
     return card;
 }
 
-function flipMemoryCard(card: Element) {
-    const isFlipped = card.classList.toggle('game-screen__card--flipped');
+function handleMemoryCardClick(card: HTMLButtonElement) {
+    if (boardState.isLocked || isCardOpen(card)) {
+        return;
+    }
 
-    card.setAttribute('aria-pressed', String(isFlipped));
+    openMemoryCard(card);
+    boardState.selectedCards.push(card);
+
+    if (boardState.selectedCards.length === 2) {
+        checkSelectedCards();
+    }
+}
+
+function checkSelectedCards() {
+    const [firstCard, secondCard] = boardState.selectedCards;
+
+    if (firstCard.dataset.cardImage === secondCard.dataset.cardImage) {
+        markCardsAsMatched(firstCard, secondCard);
+        boardState.selectedCards = [];
+        return;
+    }
+
+    boardState.isLocked = true;
+
+    window.setTimeout(() => {
+        closeMemoryCard(firstCard);
+        closeMemoryCard(secondCard);
+        boardState.selectedCards = [];
+        boardState.isLocked = false;
+    }, cardMismatchDelay);
+}
+
+function markCardsAsMatched(...cards: HTMLButtonElement[]) {
+    cards.forEach(card => {
+        card.classList.add('game-screen__card--matched');
+        card.disabled = true;
+        card.setAttribute('aria-pressed', 'true');
+    });
+}
+
+function openMemoryCard(card: HTMLButtonElement) {
+    card.classList.add('game-screen__card--flipped');
+    card.setAttribute('aria-pressed', 'true');
+}
+
+function closeMemoryCard(card: HTMLButtonElement) {
+    card.classList.remove('game-screen__card--flipped');
+    card.setAttribute('aria-pressed', 'false');
+}
+
+function isCardOpen(card: HTMLButtonElement) {
+    return card.classList.contains('game-screen__card--flipped')
+        || card.classList.contains('game-screen__card--matched');
+}
+
+function resetBoardState() {
+    boardState.selectedCards = [];
+    boardState.isLocked = false;
 }
