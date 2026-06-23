@@ -1,7 +1,9 @@
+import type { PlayerColor } from './current-player';
 import type { GameTheme } from './game-themes';
 import { createChessPieceSvg } from './player-status-icons';
 
 type PlayerStatusKey = 'orange' | 'blue';
+type PlayerScores = Record<PlayerColor, number>;
 
 type PlayerStatusItemVisual = {
     iconMarkup: string;
@@ -44,6 +46,11 @@ export function updatePlayerStatusVisuals(gameScreen: HTMLElement, selectedTheme
     updatePlayerStatusItem(gameScreen, 'blue', visuals.blue);
 }
 
+export function updatePlayerScores(gameScreen: HTMLElement, selectedTheme: GameTheme, scores: PlayerScores) {
+    updatePlayerScore(gameScreen, selectedTheme, 'blue', scores.blue);
+    updatePlayerScore(gameScreen, selectedTheme, 'orange', scores.orange);
+}
+
 function getThemePlayerStatusVisuals(selectedTheme: GameTheme) {
     switch (selectedTheme) {
         case 'code-vibes':
@@ -61,12 +68,12 @@ function createCodeVibesPlayerStatusVisuals(visuals: PlayerStatusVisuals): Playe
         orange: {
             ...visuals.orange,
             counterLabel: 'Blue 0',
-            counterMarkup: 'Blue <span class="game-screen__player-status-number">0</span>',
+            counterMarkup: createCodeVibesScoreMarkup('blue', 0),
         },
         blue: {
             ...visuals.blue,
-            counterLabel: 'Orange 6',
-            counterMarkup: 'Orange <span class="game-screen__player-status-number">6</span>',
+            counterLabel: 'Orange 0',
+            counterMarkup: createCodeVibesScoreMarkup('orange', 0),
         },
     };
 }
@@ -87,6 +94,47 @@ function updatePlayerStatusItem(gameScreen: HTMLElement, statusKey: PlayerStatus
     } else {
         counterElement.textContent = visual.counterLabel;
     }
+}
+
+function updatePlayerScore(
+    gameScreen: HTMLElement,
+    selectedTheme: GameTheme,
+    playerColor: PlayerColor,
+    score: number,
+) {
+    const statusKey = getStatusKeyForPlayer(selectedTheme, playerColor);
+    const counterElement = getPlayerStatusCounterElement(gameScreen, statusKey);
+
+    if (selectedTheme === 'code-vibes') {
+        counterElement.innerHTML = createCodeVibesScoreMarkup(playerColor, score);
+        return;
+    }
+
+    counterElement.textContent = String(score);
+}
+
+function getStatusKeyForPlayer(selectedTheme: GameTheme, playerColor: PlayerColor): PlayerStatusKey {
+    if (selectedTheme === 'code-vibes') {
+        return playerColor === 'blue' ? 'orange' : 'blue';
+    }
+
+    return playerColor;
+}
+
+function createCodeVibesScoreMarkup(playerColor: PlayerColor, score: number) {
+    const playerLabel = playerColor === 'blue' ? 'Blue' : 'Orange';
+
+    return `${playerLabel} <span class="game-screen__player-status-number">${score}</span>`;
+}
+
+function getPlayerStatusCounterElement(gameScreen: HTMLElement, statusKey: PlayerStatusKey) {
+    const counterElement = gameScreen.querySelector<HTMLElement>(playerStatusSelectors[statusKey].counter);
+
+    if (!counterElement) {
+        throw new Error(`Player status "${statusKey}" counter was not found.`);
+    }
+
+    return counterElement;
 }
 
 function getPlayerStatusVisuals(gameScreen: HTMLElement): PlayerStatusVisuals {

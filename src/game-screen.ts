@@ -4,20 +4,23 @@ import { getNextPlayer, isPlayerColor, type PlayerColor, updateCurrentPlayerIndi
 import { exitButtonVisuals, quitDialogButtonVisuals, type ButtonVisuals } from './button-visuals';
 import { isGameTheme, type GameTheme } from './game-themes';
 import { renderButtonVisuals } from './render-button-visuals';
-import { setupPlayerStatus, updatePlayerStatusVisuals } from './player-status';
+import { setupPlayerStatus, updatePlayerScores, updatePlayerStatusVisuals } from './player-status';
 import { showScreen } from './screen-navigation';
 
 const boardSizes = [16, 24, 36] as const;
 const cardMismatchDelay = 1000;
 type BoardSize = typeof boardSizes[number];
+type PlayerScores = Record<PlayerColor, number>;
 type BoardState = {
     currentPlayer: PlayerColor;
+    scores: PlayerScores;
     selectedCards: HTMLButtonElement[];
     isLocked: boolean;
 };
 
 const boardState: BoardState = {
     currentPlayer: 'blue',
+    scores: createInitialPlayerScores(),
     selectedCards: [],
     isLocked: false,
 };
@@ -125,6 +128,7 @@ function renderSelectedBoard(gameScreen: HTMLElement, homeScreen: HTMLElement) {
 
     resetBoardState(selectedPlayer);
     updateCurrentPlayerIndicator(gameScreen, selectedTheme, boardState.currentPlayer);
+    updatePlayerScores(gameScreen, selectedTheme, boardState.scores);
     gameScreen.dataset.boardSize = String(boardSize);
     board.replaceChildren(...cards);
 }
@@ -245,6 +249,7 @@ function checkSelectedCards(gameScreen: HTMLElement) {
     const [firstCard, secondCard] = boardState.selectedCards;
 
     if (firstCard.dataset.cardImage === secondCard.dataset.cardImage) {
+        increaseCurrentPlayerScore(gameScreen);
         markCardsAsMatched(firstCard, secondCard);
         boardState.selectedCards = [];
         return;
@@ -289,6 +294,11 @@ function switchCurrentPlayer(gameScreen: HTMLElement) {
     updateCurrentPlayerIndicator(gameScreen, getGameScreenTheme(gameScreen), boardState.currentPlayer);
 }
 
+function increaseCurrentPlayerScore(gameScreen: HTMLElement) {
+    boardState.scores[boardState.currentPlayer] += 1;
+    updatePlayerScores(gameScreen, getGameScreenTheme(gameScreen), boardState.scores);
+}
+
 function getSelectedPlayer(homeScreen: HTMLElement): PlayerColor {
     const selectedPlayer = homeScreen.querySelector<HTMLInputElement>('input[name="player"]:checked')?.value;
 
@@ -307,6 +317,14 @@ function getGameScreenTheme(gameScreen: HTMLElement): GameTheme {
 
 function resetBoardState(currentPlayer: PlayerColor) {
     boardState.currentPlayer = currentPlayer;
+    boardState.scores = createInitialPlayerScores();
     boardState.selectedCards = [];
     boardState.isLocked = false;
+}
+
+function createInitialPlayerScores(): PlayerScores {
+    return {
+        blue: 0,
+        orange: 0,
+    };
 }
