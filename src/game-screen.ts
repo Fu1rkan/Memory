@@ -1,4 +1,5 @@
 import { getClosestElement, getDialogById } from './dom';
+import { cardImages } from './card-images';
 import { exitButtonVisuals, quitDialogButtonVisuals, type ButtonVisuals } from './button-visuals';
 import { isGameTheme, type GameTheme } from './game-themes';
 import { renderButtonVisuals } from './render-button-visuals';
@@ -14,6 +15,7 @@ export function setupGameScreen(gameScreen: HTMLElement, homeScreen: HTMLElement
     setupPlayerStatus(gameScreen);
     setupHomeStartButton(gameScreen, homeScreen, startScreen);
     setupQuitDialog(gameScreen, homeScreen, quitGameDialog);
+    setupMemoryCards(gameScreen);
     applySelectedTheme(gameScreen, homeScreen);
 }
 
@@ -101,12 +103,24 @@ function getSelectedTheme(homeScreen: HTMLElement): GameTheme {
 }
 
 function renderSelectedBoard(gameScreen: HTMLElement, homeScreen: HTMLElement) {
+    const selectedTheme = getSelectedTheme(homeScreen);
     const boardSize = getSelectedBoardSize(homeScreen);
     const board = getMemoryBoard(gameScreen);
-    const cards = Array.from({ length: boardSize }, (_, index) => createMemoryCard(index));
+    const cards = createShuffledCardImages(selectedTheme, boardSize)
+        .map((imageSrc, index) => createMemoryCard(imageSrc, index));
 
     gameScreen.dataset.boardSize = String(boardSize);
     board.replaceChildren(...cards);
+}
+
+function setupMemoryCards(gameScreen: HTMLElement) {
+    gameScreen.addEventListener('click', event => {
+        const card = getClosestElement(event, '.game-screen__card');
+
+        if (card) {
+            flipMemoryCard(card);
+        }
+    });
 }
 
 function getSelectedBoardSize(homeScreen: HTMLElement): BoardSize {
@@ -139,12 +153,66 @@ function getMemoryBoard(gameScreen: HTMLElement) {
     return board;
 }
 
-function createMemoryCard(index: number) {
+function createShuffledCardImages(selectedTheme: GameTheme, boardSize: BoardSize) {
+    const pairCount = boardSize / 2;
+    const selectedImages = getRandomCardImages(cardImages[selectedTheme], pairCount);
+    const cardImagePairs = selectedImages.flatMap(imageSrc => [imageSrc, imageSrc]);
+
+    return shuffle(cardImagePairs);
+}
+
+function getRandomCardImages(images: string[], count: number) {
+    if (images.length === 0) {
+        throw new Error('No card images found for selected theme.');
+    }
+
+    const selectedImages = shuffle([...images]).slice(0, count);
+
+    while (selectedImages.length < count) {
+        selectedImages.push(images[Math.floor(Math.random() * images.length)]);
+    }
+
+    return selectedImages;
+}
+
+function shuffle<T>(items: T[]) {
+    const shuffledItems = [...items];
+
+    for (let index = shuffledItems.length - 1; index > 0; index -= 1) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+        [shuffledItems[index], shuffledItems[randomIndex]] = [shuffledItems[randomIndex], shuffledItems[index]];
+    }
+
+    return shuffledItems;
+}
+
+function createMemoryCard(imageSrc: string, index: number) {
     const card = document.createElement('button');
+    const cardInner = document.createElement('span');
+    const cardBack = document.createElement('span');
+    const cardFront = document.createElement('span');
+    const cardImage = document.createElement('img');
 
     card.className = 'game-screen__card';
     card.type = 'button';
     card.setAttribute('aria-label', `Memory card ${index + 1}`);
+    card.setAttribute('aria-pressed', 'false');
+    cardInner.className = 'game-screen__card-inner';
+    cardBack.className = 'game-screen__card-face game-screen__card-face--back';
+    cardFront.className = 'game-screen__card-face game-screen__card-face--front';
+    cardImage.className = 'game-screen__card-image';
+    cardImage.src = imageSrc;
+    cardImage.alt = '';
+    cardImage.draggable = false;
+    cardFront.append(cardImage);
+    cardInner.append(cardBack, cardFront);
+    card.append(cardInner);
 
     return card;
+}
+
+function flipMemoryCard(card: Element) {
+    const isFlipped = card.classList.toggle('game-screen__card--flipped');
+
+    card.setAttribute('aria-pressed', String(isFlipped));
 }

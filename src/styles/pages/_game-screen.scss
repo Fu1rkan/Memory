@@ -24,6 +24,7 @@
     --memory-card-row-gap: 16px;
     --memory-card-column-gap: 16px;
     --memory-card-background: linear-gradient(212.26deg, #4DD5BC 29.42%, #286F62 123.94%);
+    --memory-card-front-background: rgba(232, 243, 240, 1);
     --memory-card-box-shadow: none;
     --memory-card-border-radius: 0;
     --memory-card-back-image: url('../../assets/cards/code_vibes_card_back.svg');
@@ -104,6 +105,7 @@
         --memory-card-width: 105px;
         --memory-card-height: 120px;
         --memory-card-background: linear-gradient(147.13deg, #ED1B76 1.28%, #0A2835 142.53%);
+        --memory-card-front-background: rgba(246, 241, 243, 1);
         --memory-card-box-shadow: 6px 6px 12px 0 rgba(0, 0, 0, 0.25);
         --memory-card-border-radius: 12px;
         --memory-card-back-display: none;
@@ -145,6 +147,7 @@
         --memory-card-width: 120px;
         --memory-card-height: 100px;
         --memory-card-background: rgba(30, 117, 148, 1);
+        --memory-card-front-background: rgba(234, 242, 244, 1);
         --memory-card-border-radius: 13px;
         --memory-card-back-image: url('../../assets/cards/da_theme_card_back.svg');
         --memory-card-back-width: 49px;
@@ -178,6 +181,7 @@
         --memory-card-width: 122px;
         --memory-card-height: 120px;
         --memory-card-background: rgba(243, 131, 45, 1);
+        --memory-card-front-background: rgba(244, 236, 228, 1);
         --memory-card-back-image: url('../../assets/cards/food_theme_card_back.svg');
         --memory-card-back-width: 60px;
         --memory-card-back-height: 48px;
@@ -261,10 +265,36 @@
     &__card {
         width: var(--memory-card-width);
         height: var(--memory-card-height);
-        background: var(--memory-card-background);
+        background: transparent;
+        perspective: 900px;
+    }
+
+    &__card-inner {
+        width: 100%;
+        height: 100%;
+        display: block;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 450ms ease;
+    }
+
+    &__card--flipped &__card-inner {
+        transform: rotateY(180deg);
+    }
+
+    &__card-face {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
         border-radius: var(--memory-card-border-radius);
         box-shadow: var(--memory-card-box-shadow);
-        position: relative;
+        backface-visibility: hidden;
+        overflow: hidden;
+    }
+
+    &__card-face--back {
+        background: var(--memory-card-background);
 
         &::before {
             content: '';
@@ -280,6 +310,19 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+    }
+
+    &__card-face--front {
+        background: var(--memory-card-front-background);
+        transform: rotateY(180deg);
+    }
+
+    &__card-image {
+        max-width: 70%;
+        max-height: 70%;
+        object-fit: contain;
+        pointer-events: none;
+        user-select: none;
     }
 
     &__player-status {
