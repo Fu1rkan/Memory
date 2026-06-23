@@ -1,5 +1,6 @@
 import { getClosestElement, getDialogById } from './dom';
 import { cardImages } from './card-images';
+import { getNextPlayer, isPlayerColor, type PlayerColor, updateCurrentPlayerIndicator } from './current-player';
 import { exitButtonVisuals, quitDialogButtonVisuals, type ButtonVisuals } from './button-visuals';
 import { isGameTheme, type GameTheme } from './game-themes';
 import { renderButtonVisuals } from './render-button-visuals';
@@ -10,11 +11,13 @@ const boardSizes = [16, 24, 36] as const;
 const cardMismatchDelay = 1000;
 type BoardSize = typeof boardSizes[number];
 type BoardState = {
+    currentPlayer: PlayerColor;
     selectedCards: HTMLButtonElement[];
     isLocked: boolean;
 };
 
 const boardState: BoardState = {
+    currentPlayer: 'blue',
     selectedCards: [],
     isLocked: false,
 };
@@ -114,12 +117,14 @@ function getSelectedTheme(homeScreen: HTMLElement): GameTheme {
 
 function renderSelectedBoard(gameScreen: HTMLElement, homeScreen: HTMLElement) {
     const selectedTheme = getSelectedTheme(homeScreen);
+    const selectedPlayer = getSelectedPlayer(homeScreen);
     const boardSize = getSelectedBoardSize(homeScreen);
     const board = getMemoryBoard(gameScreen);
     const cards = createShuffledCardImages(selectedTheme, boardSize)
         .map((imageSrc, index) => createMemoryCard(imageSrc, index));
 
-    resetBoardState();
+    resetBoardState(selectedPlayer);
+    updateCurrentPlayerIndicator(gameScreen, selectedTheme, boardState.currentPlayer);
     gameScreen.dataset.boardSize = String(boardSize);
     board.replaceChildren(...cards);
 }
@@ -129,7 +134,7 @@ function setupMemoryCards(gameScreen: HTMLElement) {
         const card = getClosestElement(event, '.game-screen__card');
 
         if (card instanceof HTMLButtonElement) {
-            handleMemoryCardClick(card);
+            handleMemoryCardClick(card, gameScreen);
         }
     });
 }
@@ -223,7 +228,7 @@ function createMemoryCard(imageSrc: string, index: number) {
     return card;
 }
 
-function handleMemoryCardClick(card: HTMLButtonElement) {
+function handleMemoryCardClick(card: HTMLButtonElement, gameScreen: HTMLElement) {
     if (boardState.isLocked || isCardOpen(card)) {
         return;
     }
@@ -232,11 +237,11 @@ function handleMemoryCardClick(card: HTMLButtonElement) {
     boardState.selectedCards.push(card);
 
     if (boardState.selectedCards.length === 2) {
-        checkSelectedCards();
+        checkSelectedCards(gameScreen);
     }
 }
 
-function checkSelectedCards() {
+function checkSelectedCards(gameScreen: HTMLElement) {
     const [firstCard, secondCard] = boardState.selectedCards;
 
     if (firstCard.dataset.cardImage === secondCard.dataset.cardImage) {
@@ -252,6 +257,7 @@ function checkSelectedCards() {
         closeMemoryCard(secondCard);
         boardState.selectedCards = [];
         boardState.isLocked = false;
+        switchCurrentPlayer(gameScreen);
     }, cardMismatchDelay);
 }
 
@@ -278,7 +284,29 @@ function isCardOpen(card: HTMLButtonElement) {
         || card.classList.contains('game-screen__card--matched');
 }
 
-function resetBoardState() {
+function switchCurrentPlayer(gameScreen: HTMLElement) {
+    boardState.currentPlayer = getNextPlayer(boardState.currentPlayer);
+    updateCurrentPlayerIndicator(gameScreen, getGameScreenTheme(gameScreen), boardState.currentPlayer);
+}
+
+function getSelectedPlayer(homeScreen: HTMLElement): PlayerColor {
+    const selectedPlayer = homeScreen.querySelector<HTMLInputElement>('input[name="player"]:checked')?.value;
+
+    if (!isPlayerColor(selectedPlayer)) {
+        throw new Error('No player color selected.');
+    }
+
+    return selectedPlayer;
+}
+
+function getGameScreenTheme(gameScreen: HTMLElement): GameTheme {
+    const selectedTheme = gameScreen.dataset.theme;
+
+    return isGameTheme(selectedTheme) ? selectedTheme : 'code-vibes';
+}
+
+function resetBoardState(currentPlayer: PlayerColor) {
+    boardState.currentPlayer = currentPlayer;
     boardState.selectedCards = [];
     boardState.isLocked = false;
 }

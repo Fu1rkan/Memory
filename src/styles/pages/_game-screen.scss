@@ -376,6 +376,16 @@
         align-self: var(--current-player-align-self);
     }
 
+    &__current-player {
+        display: grid;
+        place-items: center;
+        line-height: 0;
+
+        >svg {
+            display: block;
+        }
+    }
+
     &__exit-button {
         background-color: transparent;
         position: relative;
