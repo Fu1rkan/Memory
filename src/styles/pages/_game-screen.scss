@@ -15,6 +15,19 @@
     --current-player-font-size: 26px;
     --current-player-gap: 8px;
     --current-player-align-self: flex-end;
+    --memory-board-columns: 4;
+    --memory-board-rows: 4;
+    --memory-card-width: 120px;
+    --memory-card-height: 120px;
+    --memory-card-row-gap: 16px;
+    --memory-card-column-gap: 16px;
+    --memory-card-background: linear-gradient(212.26deg, #4DD5BC 29.42%, #286F62 123.94%);
+    --memory-card-box-shadow: none;
+    --memory-card-border-radius: 0;
+    --memory-card-back-image: url('../../assets/cards/code_vibes_card_back.svg');
+    --memory-card-back-display: block;
+    --memory-card-back-width: 60px;
+    --memory-card-back-height: 48px;
     --exit-button-width: 219px;
     --exit-button-height: 74px;
     --exit-button-default-offset-x: 6px;
@@ -53,6 +66,27 @@
 
     background-color: var(--game-screen-background);
 
+    &[data-board-size='16'] {
+        --memory-board-columns: 4;
+        --memory-board-rows: 4;
+        --memory-card-row-gap: 16px;
+        --memory-card-column-gap: 16px;
+    }
+
+    &[data-board-size='24'] {
+        --memory-board-columns: 6;
+        --memory-board-rows: 4;
+        --memory-card-row-gap: 8px;
+        --memory-card-column-gap: 8px;
+    }
+
+    &[data-board-size='36'] {
+        --memory-board-columns: 6;
+        --memory-board-rows: 6;
+        --memory-card-row-gap: 8px;
+        --memory-card-column-gap: 8px;
+    }
+
     &[data-theme='gaming'] {
         --game-screen-background: #{variables.$gamingThemeColor};
         --current-player-color: #{variables.$white};
@@ -63,6 +97,12 @@
         --exit-button-hover-offset-x: 3px;
         --exit-button-hover-offset-y: 3px;
         --game-header-background: rgba(253, 150, 201, 0.2);
+        --memory-card-width: 105px;
+        --memory-card-height: 120px;
+        --memory-card-background: linear-gradient(147.13deg, #ED1B76 1.28%, #0A2835 142.53%);
+        --memory-card-box-shadow: 6px 6px 12px 0 rgba(0, 0, 0, 0.25);
+        --memory-card-border-radius: 12px;
+        --memory-card-back-display: none;
         --quit-dialog-width: 481px;
         --quit-dialog-animation: game-screen-dialog-slide-from-bottom 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
         --quit-dialog-background: rgba(240, 246, 249, 1);
@@ -96,6 +136,13 @@
         --exit-button-hover-offset-x: 3px;
         --exit-button-hover-offset-y: 3px;
         --game-header-background: rgba(240, 243, 244, 1);
+        --memory-card-width: 120px;
+        --memory-card-height: 100px;
+        --memory-card-background: rgba(30, 117, 148, 1);
+        --memory-card-border-radius: 13px;
+        --memory-card-back-image: url('../../assets/cards/da_theme_card_back.svg');
+        --memory-card-back-width: 49px;
+        --memory-card-back-height: 40px;
         --quit-dialog-width: 456px;
         --quit-dialog-animation: game-screen-dialog-pop-in 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
         --quit-dialog-background: rgba(240, 246, 249, 1);
@@ -120,6 +167,12 @@
         --exit-button-hover-offset-x: 1.5px;
         --exit-button-hover-offset-y: 1.5px;
         --game-header-background: rgba(240, 229, 217, 1);
+        --memory-card-width: 122px;
+        --memory-card-height: 120px;
+        --memory-card-background: rgba(243, 131, 45, 1);
+        --memory-card-back-image: url('../../assets/cards/food_theme_card_back.svg');
+        --memory-card-back-width: 60px;
+        --memory-card-back-height: 48px;
         --quit-dialog-width: 462px;
         --quit-dialog-animation: game-screen-dialog-slide-from-bottom 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
         --quit-dialog-background: rgba(246, 246, 246, 1);
@@ -186,6 +239,39 @@
         padding: var(--game-header-padding);
         background: var(--game-header-background);
         @include mixin.flex-center(row, center, space-between);
+    }
+
+    &__board {
+        margin-top: 54px;
+        display: grid;
+        grid-template-columns: repeat(var(--memory-board-columns), var(--memory-card-width));
+        grid-template-rows: repeat(var(--memory-board-rows), var(--memory-card-height));
+        row-gap: var(--memory-card-row-gap);
+        column-gap: var(--memory-card-column-gap);
+    }
+
+    &__card {
+        width: var(--memory-card-width);
+        height: var(--memory-card-height);
+        background: var(--memory-card-background);
+        border-radius: var(--memory-card-border-radius);
+        box-shadow: var(--memory-card-box-shadow);
+        position: relative;
+
+        &::before {
+            content: '';
+            display: var(--memory-card-back-display);
+            width: var(--memory-card-back-width);
+            height: var(--memory-card-back-height);
+            background-image: var(--memory-card-back-image);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
     }
 
     &__player-status {

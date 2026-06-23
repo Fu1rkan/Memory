@@ -5,6 +5,9 @@ import { renderButtonVisuals } from './render-button-visuals';
 import { setupPlayerStatus, updatePlayerStatusVisuals } from './player-status';
 import { showScreen } from './screen-navigation';
 
+const boardSizes = [16, 24, 36] as const;
+type BoardSize = typeof boardSizes[number];
+
 export function setupGameScreen(gameScreen: HTMLElement, homeScreen: HTMLElement, startScreen: HTMLElement) {
     const quitGameDialog = getDialogById('quit-game-dialog');
 
@@ -53,6 +56,7 @@ function showQuitGameDialog(quitGameDialog: HTMLDialogElement) {
 
 function showGameScreen(gameScreen: HTMLElement, homeScreen: HTMLElement, startScreen: HTMLElement) {
     applySelectedTheme(gameScreen, homeScreen);
+    renderSelectedBoard(gameScreen, homeScreen);
     showScreen(gameScreen, homeScreen, startScreen);
 }
 
@@ -94,4 +98,53 @@ function getSelectedTheme(homeScreen: HTMLElement): GameTheme {
     const selectedTheme = homeScreen.querySelector<HTMLInputElement>('input[name="theme"]:checked')?.value;
 
     return isGameTheme(selectedTheme) ? selectedTheme : 'code-vibes';
+}
+
+function renderSelectedBoard(gameScreen: HTMLElement, homeScreen: HTMLElement) {
+    const boardSize = getSelectedBoardSize(homeScreen);
+    const board = getMemoryBoard(gameScreen);
+    const cards = Array.from({ length: boardSize }, (_, index) => createMemoryCard(index));
+
+    gameScreen.dataset.boardSize = String(boardSize);
+    board.replaceChildren(...cards);
+}
+
+function getSelectedBoardSize(homeScreen: HTMLElement): BoardSize {
+    const selectedBoardSize = homeScreen.querySelector<HTMLInputElement>('input[name="board-size"]:checked');
+
+    if (!selectedBoardSize) {
+        throw new Error('No board size selected.');
+    }
+
+    const boardSize = Number(selectedBoardSize.value);
+
+    if (!isBoardSize(boardSize)) {
+        throw new Error(`Unsupported board size "${selectedBoardSize.value}".`);
+    }
+
+    return boardSize;
+}
+
+function isBoardSize(value: number): value is BoardSize {
+    return boardSizes.includes(value as BoardSize);
+}
+
+function getMemoryBoard(gameScreen: HTMLElement) {
+    const board = gameScreen.querySelector<HTMLElement>('#memory-board');
+
+    if (!board) {
+        throw new Error('Memory board was not found.');
+    }
+
+    return board;
+}
+
+function createMemoryCard(index: number) {
+    const card = document.createElement('button');
+
+    card.className = 'game-screen__card';
+    card.type = 'button';
+    card.setAttribute('aria-label', `Memory card ${index + 1}`);
+
+    return card;
 }
