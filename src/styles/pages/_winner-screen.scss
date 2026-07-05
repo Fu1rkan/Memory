@@ -14,6 +14,20 @@
     --winner-player-font-size: 60px;
     --winner-player-font-weight: 700;
     --winner-player-shadow: none;
+    --winner-image-width: 140px;
+    --winner-button-width: 204px;
+    --winner-button-height: 62px;
+    --winner-button-gap: 10px;
+    --winner-button-padding: 16px 24px;
+    --winner-button-border: 1px solid rgba(77, 213, 188, 1);
+    --winner-button-border-radius: 0;
+    --winner-button-background: rgba(134, 233, 214, 0.2);
+    --winner-button-color: #{variables.$white};
+    --winner-button-font-family: 'RedRose';
+    --winner-button-font-size: 24px;
+    --winner-button-font-weight: 700;
+    --winner-button-hover-background: var(--winner-button-background);
+    --winner-button-hover-shadow: inset 0 0 0 2px rgba(77, 213, 188, 1), 4px 4px 6px 0 rgba(77, 213, 188, 0.2);
 
     position: relative;
     display: flex;
@@ -28,11 +42,51 @@
     &[data-theme='gaming'] {
         --winner-screen-background: rgba(41, 79, 96, 1);
         --winner-screen-animation: end-screen-slide-from-bottom 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        --winner-intro-font-family: 'Orbitron';
+        --winner-intro-font-size: 28px;
+        --winner-intro-font-weight: 700;
+        --winner-player-color: rgba(234, 105, 0, 1);
+        --winner-player-font-family: 'Orbitron';
+        --winner-player-font-size: 64px;
+        --winner-player-font-weight: 700;
+        --winner-player-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+        --winner-button-width: 107px;
+        --winner-button-height: 49px;
+        --winner-button-padding: 12px 20px;
+        --winner-button-border: 2px solid rgba(231, 28, 79, 1);
+        --winner-button-border-radius: 10px;
+        --winner-button-background: rgba(237, 27, 118, 0.08);
+        --winner-button-font-family: 'Orbitron';
+        --winner-button-font-size: 16px;
+        --winner-button-hover-background: rgba(237, 27, 118, 0.14);
+        --winner-button-hover-shadow: inset 0 0 0 1px rgba(231, 28, 79, 1), 3px 3px 5px 0 rgba(47, 46, 46, 0.2);
     }
 
     &[data-theme='da-projects'] {
         --winner-screen-background: rgba(30, 117, 148, 1);
         --winner-screen-animation: end-screen-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+        --winner-intro-color: #{variables.$white};
+        --winner-intro-font-family: 'Figtree';
+        --winner-intro-font-size: 40px;
+        --winner-intro-font-weight: 400;
+        --winner-player-color: #{variables.$white};
+        --winner-player-font-family: 'Figtree';
+        --winner-player-font-size: 80px;
+        --winner-player-font-weight: 700;
+        --winner-image-width: 200px;
+        --winner-image-max-height: 250px;
+        --winner-button-width: 96px;
+        --winner-button-height: 48px;
+        --winner-button-padding: 12px 20px;
+        --winner-button-border: none;
+        --winner-button-border-radius: 10px;
+        --winner-button-background: #{variables.$white};
+        --winner-button-color: rgba(30, 117, 148, 1);
+        --winner-button-font-family: 'Figtree';
+        --winner-button-font-size: 20px;
+        --winner-button-hover-background: rgba(30, 117, 148, 1);
+        --winner-button-hover-color: #{variables.$white};
+        --winner-button-hover-shadow: 3px 3px 5px 0 rgba(47, 46, 46, 0.2);
     }
 
     &[data-theme='foods'] {
@@ -46,6 +100,7 @@
         }
 
         .winner-screen__container {
+            justify-content: center;
             min-height: inherit;
             padding-top: 0;
         }
@@ -53,6 +108,10 @@
 
     &[data-winner='blue'] {
         --winner-player-color: rgba(43, 177, 255, 1);
+    }
+
+    &[data-theme='gaming'][data-winner='blue'] {
+        --winner-player-color: rgba(34, 152, 219, 1);
     }
 
     &[data-winner='draw'] {
@@ -68,10 +127,27 @@
             justify-content: center;
             padding-top: 0;
         }
+    }
 
-        .winner-screen__player-image {
-            display: none;
-        }
+    &[data-theme='gaming'][data-winner='draw'] {
+        --winner-player-color: rgba(237, 27, 118, 1);
+        --winner-player-font-family: 'Orbitron';
+        --winner-player-font-size: 128px;
+        --winner-player-font-weight: 700;
+        --winner-player-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    &[data-theme='da-projects'][data-winner='draw'] {
+        --winner-player-color: rgba(253, 91, 79, 1);
+        --winner-player-font-family: 'Figtree';
+        --winner-player-font-size: 128px;
+        --winner-player-font-weight: 800;
+        --winner-player-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    &[data-winner='draw']:not([data-theme='foods']) {
+        --winner-image-width: 340px;
+        --winner-image-max-height: 272px;
     }
 
     &--entering {
@@ -126,27 +202,33 @@
 
     &__player-image {
         display: block;
-        width: 140px;
+        width: var(--winner-image-width);
+        max-height: var(--winner-image-max-height, none);
         height: auto;
+        object-fit: contain;
     }
 
     &__back-button {
         @include mixin.flex-center(row);
-        width: 204px;
-        height: 62px;
-        gap: 10px;
-        padding: 16px 24px;
-        border: 1px solid rgba(77, 213, 188, 1);
-        background-color: rgba(134, 233, 214, 0.2);
-        color: variables.$white;
-        font-family: 'RedRose';
-        font-size: 18px;
-        font-weight: 700;
-        transition: background-color 180ms ease-in-out, color 180ms ease-in-out;
+        width: var(--winner-button-width);
+        height: var(--winner-button-height);
+        gap: var(--winner-button-gap);
+        padding: var(--winner-button-padding);
+        border: var(--winner-button-border);
+        border-radius: var(--winner-button-border-radius);
+        background-color: var(--winner-button-background);
+        color: var(--winner-button-color);
+        font-family: var(--winner-button-font-family);
+        font-size: var(--winner-button-font-size);
+        font-weight: var(--winner-button-font-weight);
+        line-height: 1;
+        white-space: nowrap;
+        transition: background-color 180ms ease-in-out, box-shadow 180ms ease-in-out;
 
         &:hover {
-            background-color: rgba(134, 233, 214, 0.26);
-            color: rgba(77, 213, 188, 1);
+            background-color: var(--winner-button-hover-background);
+            color: var(--winner-button-hover-color, var(--winner-button-color));
+            box-shadow: var(--winner-button-hover-shadow);
         }
     }
 }

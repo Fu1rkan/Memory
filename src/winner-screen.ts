@@ -30,6 +30,13 @@ const winnerImages: Record<GameTheme, Record<WinnerResult, string>> = {
     },
 };
 
+const winnerButtonLabels: Record<GameTheme, string> = {
+    'code-vibes': 'Back to start',
+    gaming: 'Home',
+    'da-projects': 'Home',
+    foods: 'Back to start',
+};
+
 let showWinnerScreenTimeout: number | undefined;
 
 export function setupWinnerScreen(
@@ -93,8 +100,9 @@ function renderWinnerScreen(winnerScreen: HTMLElement, detail: EndScreenShownEve
     const winnerIntroElement = winnerScreen.querySelector<HTMLElement>('.winner-screen__intro');
     const winnerTextElement = winnerScreen.querySelector<HTMLElement>('[data-winner-player]');
     const winnerImageElement = winnerScreen.querySelector<HTMLImageElement>('[data-winner-image]');
+    const winnerButtonElement = winnerScreen.querySelector<HTMLButtonElement>('.winner-screen__back-button');
 
-    if (!winnerIntroElement || !winnerTextElement || !winnerImageElement) {
+    if (!winnerIntroElement || !winnerTextElement || !winnerImageElement || !winnerButtonElement) {
         throw new Error('Winner screen could not be rendered.');
     }
 
@@ -104,6 +112,7 @@ function renderWinnerScreen(winnerScreen: HTMLElement, detail: EndScreenShownEve
     winnerTextElement.textContent = getWinnerLabel(detail.winner);
     winnerImageElement.src = winnerImages[detail.theme][detail.winner];
     winnerImageElement.alt = getWinnerImageAlt(detail.winner);
+    winnerButtonElement.textContent = winnerButtonLabels[detail.theme];
 }
 
 function getWinnerIntro(winner: WinnerResult) {
