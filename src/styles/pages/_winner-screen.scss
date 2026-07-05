@@ -15,6 +15,9 @@
     --winner-player-font-weight: 700;
     --winner-player-shadow: none;
     --winner-image-width: 140px;
+    --winner-image-height: auto;
+    --winner-image-max-height: none;
+    --winner-image-shadow: none;
     --winner-button-width: 204px;
     --winner-button-height: 62px;
     --winner-button-gap: 10px;
@@ -90,8 +93,32 @@
     }
 
     &[data-theme='foods'] {
-        --winner-screen-background: rgba(243, 131, 45, 1);
+        --winner-screen-background: #{variables.$white};
         --winner-screen-animation: end-screen-slide-from-bottom 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        --winner-intro-color: rgba(164, 82, 18, 1);
+        --winner-intro-font-family: 'Klee One';
+        --winner-intro-font-size: 40px;
+        --winner-intro-font-weight: 400;
+        --winner-player-color: rgba(164, 82, 18, 1);
+        --winner-player-font-family: 'Klee One';
+        --winner-player-font-size: 80px;
+        --winner-player-font-weight: 600;
+        --winner-image-width: 260px;
+        --winner-image-height: 298px;
+        --winner-image-shadow: 3px 3px 6px rgba(0, 0, 0, 0.25);
+        --winner-button-width: 97px;
+        --winner-button-height: 45px;
+        --winner-button-padding: 12px 20px;
+        --winner-button-border: none;
+        --winner-button-border-radius: 10px;
+        --winner-button-background: rgba(243, 131, 45, 1);
+        --winner-button-color: #{variables.$white};
+        --winner-button-font-family: 'Klee One';
+        --winner-button-font-size: 16px;
+        --winner-button-font-weight: 700;
+        --winner-button-hover-background: rgba(247, 230, 213, 1);
+        --winner-button-hover-color: rgba(164, 82, 18, 1);
+        --winner-button-hover-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
     }
 
     &:not([data-theme='code-vibes']) {
@@ -143,6 +170,18 @@
         --winner-player-font-size: 128px;
         --winner-player-font-weight: 800;
         --winner-player-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    &[data-theme='foods'][data-winner='draw'] {
+        --winner-intro-color: rgba(243, 131, 45, 1);
+        --winner-player-color: rgba(243, 131, 45, 1);
+        --winner-player-font-family: 'Klee One';
+        --winner-player-font-size: 128px;
+        --winner-player-font-weight: 600;
+        --winner-player-shadow: none;
+        --winner-image-width: 312px;
+        --winner-image-height: 285px;
+        --winner-image-shadow: 3px 3px 6px rgba(0, 0, 0, 0.25);
     }
 
     &[data-winner='draw']:not([data-theme='foods']) {
@@ -203,8 +242,9 @@
     &__player-image {
         display: block;
         width: var(--winner-image-width);
-        max-height: var(--winner-image-max-height, none);
-        height: auto;
+        height: var(--winner-image-height);
+        max-height: var(--winner-image-max-height);
+        box-shadow: var(--winner-image-shadow);
         object-fit: contain;
     }
 

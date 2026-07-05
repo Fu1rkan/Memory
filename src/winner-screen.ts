@@ -34,7 +34,7 @@ const winnerButtonLabels: Record<GameTheme, string> = {
     'code-vibes': 'Back to start',
     gaming: 'Home',
     'da-projects': 'Home',
-    foods: 'Back to start',
+    foods: 'HOME',
 };
 
 let showWinnerScreenTimeout: number | undefined;
