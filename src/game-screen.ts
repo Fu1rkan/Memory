@@ -14,12 +14,16 @@ const quitDialogBackdropClosingClass = 'game-screen__quit-dialog--backdrop-closi
 const daQuitDialogCloseAnimationDelay = 250;
 const codeVibesQuitDialogBackdropCloseAnimationDelay = 250;
 export const gameFinishedEventName = 'memory:game-finished';
+export type PlayerScores = Record<PlayerColor, number>;
+export type WinnerResult = PlayerColor | 'draw';
 export type GameFinishedEventDetail = {
     skipDelay?: boolean;
+    theme: GameTheme;
+    scores: PlayerScores;
+    winner: WinnerResult;
 };
 
 type BoardSize = typeof boardSizes[number];
-type PlayerScores = Record<PlayerColor, number>;
 type BoardState = {
     currentPlayer: PlayerColor;
     scores: PlayerScores;
@@ -392,8 +396,25 @@ function isGameFinished(gameScreen: HTMLElement) {
     return cards.length > 0 && cards.every(card => card.classList.contains('game-screen__card--matched'));
 }
 
-function finishGame(gameScreen: HTMLElement, detail: GameFinishedEventDetail = {}) {
-    gameScreen.dispatchEvent(new CustomEvent<GameFinishedEventDetail>(gameFinishedEventName, { detail }));
+function finishGame(gameScreen: HTMLElement, detail: Pick<GameFinishedEventDetail, 'skipDelay'> = {}) {
+    const scores = { ...boardState.scores };
+
+    gameScreen.dispatchEvent(new CustomEvent<GameFinishedEventDetail>(gameFinishedEventName, {
+        detail: {
+            ...detail,
+            theme: getGameScreenTheme(gameScreen),
+            scores,
+            winner: getWinner(scores),
+        },
+    }));
+}
+
+function getWinner(scores: PlayerScores): WinnerResult {
+    if (scores.blue === scores.orange) {
+        return 'draw';
+    }
+
+    return scores.blue > scores.orange ? 'blue' : 'orange';
 }
 
 function switchCurrentPlayer(gameScreen: HTMLElement) {

@@ -1,8 +1,10 @@
 import { gameFinishedEventName, type GameFinishedEventDetail } from './game-screen';
 
 const endScreenDelay = 2000;
-const endScreenAnimationFallbackDelay = 650;
+const endScreenAnimationFallbackDelay = 1100;
 let showEndScreenTimeout: number | undefined;
+export const endScreenShownEventName = 'memory:end-screen-shown';
+export type EndScreenShownEventDetail = GameFinishedEventDetail;
 
 export function setupEndScreen(
     endScreen: HTMLElement,
@@ -11,13 +13,15 @@ export function setupEndScreen(
     startScreen: HTMLElement,
 ) {
     gameScreen.addEventListener(gameFinishedEventName, event => {
-        endScreen.dataset.theme = gameScreen.dataset.theme ?? 'code-vibes';
+        const gameFinishedDetail = getGameFinishedDetail(event);
+
+        endScreen.dataset.theme = gameFinishedDetail.theme;
         renderFinalScore(endScreen, gameScreen);
 
         window.clearTimeout(showEndScreenTimeout);
         showEndScreenTimeout = window.setTimeout(() => {
             if (!gameScreen.classList.contains('d_none')) {
-                showEndScreen(endScreen, gameScreen, homeScreen, startScreen);
+                showEndScreen(endScreen, gameScreen, homeScreen, startScreen, gameFinishedDetail);
             }
         }, getEndScreenDelay(event));
     });
@@ -28,6 +32,7 @@ function showEndScreen(
     gameScreen: HTMLElement,
     homeScreen: HTMLElement,
     startScreen: HTMLElement,
+    gameFinishedDetail: GameFinishedEventDetail,
 ) {
     let hasFinishedAnimation = false;
 
@@ -44,6 +49,9 @@ function showEndScreen(
         hasFinishedAnimation = true;
         gameScreen.classList.add('d_none');
         endScreen.classList.remove('game-over-screen--entering');
+        endScreen.dispatchEvent(new CustomEvent<EndScreenShownEventDetail>(endScreenShownEventName, {
+            detail: gameFinishedDetail,
+        }));
     };
 
     endScreen.addEventListener('animationend', finishEndScreenAnimation, { once: true });
@@ -59,13 +67,17 @@ function getEndScreenAnimationFallbackDelay() {
 }
 
 function getEndScreenDelay(event: Event) {
-    if (!(event instanceof CustomEvent)) {
-        return endScreenDelay;
-    }
-
-    const detail = event.detail as GameFinishedEventDetail | undefined;
+    const detail = getGameFinishedDetail(event);
 
     return detail?.skipDelay ? 0 : endScreenDelay;
+}
+
+function getGameFinishedDetail(event: Event) {
+    if (!(event instanceof CustomEvent) || !event.detail) {
+        throw new Error('Game finished detail is missing.');
+    }
+
+    return event.detail as GameFinishedEventDetail;
 }
 
 function renderFinalScore(endScreen: HTMLElement, gameScreen: HTMLElement) {

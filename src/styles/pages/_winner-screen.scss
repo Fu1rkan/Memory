@@ -1,0 +1,158 @@
+@use '../abstract/variables' as variables;
+@use '../abstract/mixin' as mixin;
+
+.winner-screen {
+    --winner-screen-background: #{variables.$codeVibeThemeColor};
+    --winner-screen-animation: end-screen-slide-from-top 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    --winner-screen-gap: 64px;
+    --winner-intro-color: #{variables.$white};
+    --winner-intro-font-family: 'RedRose';
+    --winner-intro-font-size: 40px;
+    --winner-intro-font-weight: 400;
+    --winner-player-color: rgba(245, 142, 57, 1);
+    --winner-player-font-family: 'RedRose';
+    --winner-player-font-size: 60px;
+    --winner-player-font-weight: 700;
+    --winner-player-shadow: none;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100vh;
+    max-height: 100dvh;
+    overflow: hidden;
+    background-color: var(--winner-screen-background);
+
+    &[data-theme='gaming'] {
+        --winner-screen-background: rgba(41, 79, 96, 1);
+        --winner-screen-animation: end-screen-slide-from-bottom 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    &[data-theme='da-projects'] {
+        --winner-screen-background: rgba(30, 117, 148, 1);
+        --winner-screen-animation: end-screen-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    &[data-theme='foods'] {
+        --winner-screen-background: rgba(243, 131, 45, 1);
+        --winner-screen-animation: end-screen-slide-from-bottom 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    &:not([data-theme='code-vibes']) {
+        .winner-screen__confetti {
+            display: none;
+        }
+
+        .winner-screen__container {
+            min-height: inherit;
+            padding-top: 0;
+        }
+    }
+
+    &[data-winner='blue'] {
+        --winner-player-color: rgba(43, 177, 255, 1);
+    }
+
+    &[data-winner='draw'] {
+        --winner-player-color: rgba(77, 213, 188, 1);
+        --winner-player-font-size: 128px;
+        --winner-player-shadow: -7px 0 8px rgba(77, 213, 188, 0.5);
+
+        .winner-screen__confetti {
+            display: none;
+        }
+
+        .winner-screen__container {
+            justify-content: center;
+            padding-top: 0;
+        }
+
+        .winner-screen__player-image {
+            display: none;
+        }
+    }
+
+    &--entering {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+    }
+
+    &--entering:not(.d_none) {
+        animation: var(--winner-screen-animation);
+    }
+
+    &__confetti {
+        display: block;
+        width: 100%;
+        max-width: variables.$contentMaxWidth;
+        height: auto;
+        margin-inline: auto;
+    }
+
+    &__container {
+        @include mixin.flex-center(column, center, flex-start);
+        flex: 1 1 auto;
+        gap: var(--winner-screen-gap);
+        min-height: 0;
+        padding-top: 54px;
+        text-align: center;
+    }
+
+    &__player-info {
+        @include mixin.flex-center(column);
+        gap: 10px;
+    }
+
+    &__intro {
+        color: var(--winner-intro-color);
+        font-family: var(--winner-intro-font-family);
+        font-size: var(--winner-intro-font-size);
+        font-weight: var(--winner-intro-font-weight);
+        line-height: 1;
+    }
+
+    &__player {
+        color: var(--winner-player-color);
+        font-family: var(--winner-player-font-family);
+        font-size: var(--winner-player-font-size);
+        font-weight: var(--winner-player-font-weight);
+        line-height: 1;
+        text-shadow: var(--winner-player-shadow);
+        text-transform: uppercase;
+    }
+
+    &__player-image {
+        display: block;
+        width: 140px;
+        height: auto;
+    }
+
+    &__back-button {
+        @include mixin.flex-center(row);
+        width: 204px;
+        height: 62px;
+        gap: 10px;
+        padding: 16px 24px;
+        border: 1px solid rgba(77, 213, 188, 1);
+        background-color: rgba(134, 233, 214, 0.2);
+        color: variables.$white;
+        font-family: 'RedRose';
+        font-size: 18px;
+        font-weight: 700;
+        transition: background-color 180ms ease-in-out, color 180ms ease-in-out;
+
+        &:hover {
+            background-color: rgba(134, 233, 214, 0.26);
+            color: rgba(77, 213, 188, 1);
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .winner-screen--entering:not(.d_none) {
+        animation: none;
+    }
+}
