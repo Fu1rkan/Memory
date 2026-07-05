@@ -10,6 +10,9 @@ import { showScreen } from './screen-navigation';
 const boardSizes = [16, 24, 36] as const;
 const cardMismatchDelay = 1000;
 export const gameFinishedEventName = 'memory:game-finished';
+export type GameFinishedEventDetail = {
+    skipDelay?: boolean;
+};
 
 type BoardSize = typeof boardSizes[number];
 type PlayerScores = Record<PlayerColor, number>;
@@ -33,6 +36,7 @@ export function setupGameScreen(gameScreen: HTMLElement, homeScreen: HTMLElement
     setupPlayerStatus(gameScreen);
     setupHomeStartButton(gameScreen, homeScreen, startScreen);
     setupQuitDialog(gameScreen, homeScreen, quitGameDialog);
+    setupDevFinishButton(gameScreen);
     setupMemoryCards(gameScreen);
     applySelectedTheme(gameScreen, homeScreen);
 }
@@ -64,6 +68,16 @@ function setupQuitDialog(gameScreen: HTMLElement, homeScreen: HTMLElement, quitG
         if (confirmExitButton) {
             quitGameDialog.close();
             showScreen(homeScreen, gameScreen);
+        }
+    });
+}
+
+function setupDevFinishButton(gameScreen: HTMLElement) {
+    gameScreen.addEventListener('click', event => {
+        const devFinishButton = getClosestElement(event, '.game-screen__dev-finish-button');
+
+        if (devFinishButton) {
+            finishGame(gameScreen, { skipDelay: true });
         }
     });
 }
@@ -256,7 +270,7 @@ function checkSelectedCards(gameScreen: HTMLElement) {
         boardState.selectedCards = [];
 
         if (isGameFinished(gameScreen)) {
-            gameScreen.dispatchEvent(new Event(gameFinishedEventName));
+            finishGame(gameScreen);
         }
 
         return;
@@ -300,6 +314,10 @@ function isGameFinished(gameScreen: HTMLElement) {
     const cards = [...gameScreen.querySelectorAll<HTMLButtonElement>('.game-screen__card')];
 
     return cards.length > 0 && cards.every(card => card.classList.contains('game-screen__card--matched'));
+}
+
+function finishGame(gameScreen: HTMLElement, detail: GameFinishedEventDetail = {}) {
+    gameScreen.dispatchEvent(new CustomEvent<GameFinishedEventDetail>(gameFinishedEventName, { detail }));
 }
 
 function switchCurrentPlayer(gameScreen: HTMLElement) {

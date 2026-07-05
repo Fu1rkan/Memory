@@ -4,7 +4,7 @@
 .game-over-screen {
     --end-screen-background: #{variables.$codeVibeThemeColor};
     --end-screen-gap: 124px;
-    --end-screen-animation: end-screen-slide-from-top 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    --end-screen-animation: end-screen-slide-from-top 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
     --end-screen-title-color: rgba(77, 213, 188, 1);
     --end-screen-title-font-family: 'RedRose';
     --end-screen-title-font-size: 124px;
@@ -20,7 +20,7 @@
     --player-status-width: 323px;
     --player-status-height: 62px;
     --player-status-padding: 17px 20px;
-    --player-status-gap: 20px;
+    --player-status-gap: 32px;
     --player-status-item-gap: 4px;
     --player-status-border-radius: 0;
     --player-status-font-family: 'RedRose';
@@ -30,10 +30,22 @@
     --player-status-icon-height: auto;
 
     background-color: var(--end-screen-background);
+    overflow: hidden;
+
+    &--entering {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+    }
+
+    &--entering:not(.d_none) {
+        animation: var(--end-screen-animation);
+    }
 
     &[data-theme='gaming'] {
         --end-screen-background: rgba(41, 79, 96, 1);
         --end-screen-gap: 104px;
+        --end-screen-animation: end-screen-slide-from-bottom 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
         --end-screen-title-color: rgba(237, 27, 118, 1);
         --end-screen-title-font-family: 'Orbitron';
         --end-screen-title-font-size: 124px;
@@ -58,6 +70,7 @@
     &[data-theme='da-projects'] {
         --end-screen-background: rgba(30, 117, 148, 1);
         --end-screen-gap: 104px;
+        --end-screen-animation: end-screen-pop-in 440ms cubic-bezier(0.16, 1, 0.3, 1) both;
         --end-screen-title-color: rgba(253, 91, 79, 1);
         --end-screen-title-font-family: 'Figtree';
         --end-screen-title-font-size: 130px;
@@ -82,6 +95,7 @@
     &[data-theme='foods'] {
         --end-screen-background: rgba(243, 131, 45, 1);
         --end-screen-gap: 104px;
+        --end-screen-animation: end-screen-slide-from-bottom 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
         --end-screen-title-color: #{variables.$white};
         --end-screen-title-font-family: 'Klee One';
         --end-screen-title-font-size: 130px;
@@ -93,7 +107,7 @@
         --end-screen-score-font-size: 42px;
         --end-screen-score-font-weight: 600;
         --player-status-item-gap: 8px;
-        --player-status-font-family: 'RedRose';
+        --player-status-font-family: 'Klee One';
         --player-status-font-size: 40px;
         --player-status-font-weight: 700;
         --player-status-border-radius: 0;
@@ -123,10 +137,6 @@
         @include mixin.flex-center(column);
         gap: var(--end-screen-gap);
         text-align: center;
-    }
-
-    &:not(.d_none) &__container {
-        animation: var(--end-screen-animation);
     }
 
     &__title {
@@ -211,8 +221,37 @@
     }
 }
 
+@keyframes end-screen-slide-from-bottom {
+    from {
+        opacity: 0;
+        transform: translateY(100vh);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes end-screen-pop-in {
+    from {
+        opacity: 0;
+        transform: scale(0.75);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.04);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
-    .game-over-screen:not(.d_none) .game-over-screen__container {
+    .game-over-screen--entering:not(.d_none) {
         animation: none;
     }
 }
