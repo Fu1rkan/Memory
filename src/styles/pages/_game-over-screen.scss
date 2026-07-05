@@ -15,6 +15,7 @@
     --end-screen-score-color: #{variables.$white};
     --end-screen-score-font-family: 'RedRose';
     --end-screen-score-font-size: 26px;
+    --end-screen-score-font-weight: 400;
     --player-status-background: rgba(134, 233, 214, 0.2);
     --player-status-height: auto;
     --player-status-padding: 17px 20px;
@@ -27,40 +28,52 @@
     background-color: var(--end-screen-background);
 
     &[data-theme='gaming'] {
-        --end-screen-background: #{variables.$gamingThemeColor};
+        --end-screen-background: rgba(41, 79, 96, 1);
+        --end-screen-gap: 104px;
         --end-screen-title-color: rgba(237, 27, 118, 1);
         --end-screen-title-font-family: 'Orbitron';
-        --end-screen-title-font-size: 88px;
-        --end-screen-title-font-weight: 700;
+        --end-screen-title-font-size: 124px;
+        --end-screen-title-font-weight: 900;
         --end-screen-title-text-transform: uppercase;
         --end-screen-title-shadow: none;
+        --end-screen-score-color: #{variables.$white};
         --end-screen-score-font-family: 'Orbitron';
+        --end-screen-score-font-size: 28px;
+        --end-screen-score-font-weight: 700;
         --player-status-item-gap: 8px;
         --player-status-font-family: 'Orbitron';
     }
 
     &[data-theme='da-projects'] {
-        --end-screen-background: #{variables.$DAprojectsThemeColor};
-        --end-screen-title-color: rgba(255, 91, 84, 1);
+        --end-screen-background: rgba(30, 117, 148, 1);
+        --end-screen-gap: 104px;
+        --end-screen-title-color: rgba(253, 91, 79, 1);
         --end-screen-title-font-family: 'Figtree';
-        --end-screen-title-font-size: 88px;
-        --end-screen-title-font-weight: 700;
+        --end-screen-title-font-size: 130px;
+        --end-screen-title-font-weight: 800;
         --end-screen-title-text-transform: uppercase;
-        --end-screen-title-shadow: 6px 6px 0 rgba(0, 0, 0, 0.2);
+        --end-screen-title-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        --end-screen-score-color: #{variables.$white};
         --end-screen-score-font-family: 'Figtree';
+        --end-screen-score-font-size: 40px;
+        --end-screen-score-font-weight: 500;
         --player-status-item-gap: 4px;
         --player-status-font-family: 'Figtree';
     }
 
     &[data-theme='foods'] {
-        --end-screen-background: #{variables.$foodThemeColor};
+        --end-screen-background: rgba(243, 131, 45, 1);
+        --end-screen-gap: 104px;
         --end-screen-title-color: #{variables.$white};
         --end-screen-title-font-family: 'Klee One';
-        --end-screen-title-font-size: 88px;
-        --end-screen-title-font-weight: 400;
+        --end-screen-title-font-size: 130px;
+        --end-screen-title-font-weight: 600;
         --end-screen-title-text-transform: uppercase;
-        --end-screen-title-shadow: 4px 4px 0 rgba(0, 0, 0, 0.25);
+        --end-screen-title-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        --end-screen-score-color: #{variables.$white};
         --end-screen-score-font-family: 'Klee One';
+        --end-screen-score-font-size: 42px;
+        --end-screen-score-font-weight: 600;
         --player-status-item-gap: 4px;
         --player-status-font-family: 'Delius Unicase';
     }
@@ -113,6 +126,7 @@
 
     &__score-title {
         font-size: var(--end-screen-score-font-size);
+        font-weight: var(--end-screen-score-font-weight);
         line-height: 1;
     }
 
