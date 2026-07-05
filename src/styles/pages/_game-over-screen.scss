@@ -2,9 +2,175 @@
 @use '../abstract/mixin' as mixin;
 
 .game-over-screen {
-    background-color: variables.$codeVibeThemeColor;
+    --end-screen-background: #{variables.$codeVibeThemeColor};
+    --end-screen-gap: 124px;
+    --end-screen-animation: end-screen-slide-from-top 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    --end-screen-title-color: rgba(77, 213, 188, 1);
+    --end-screen-title-font-family: 'RedRose';
+    --end-screen-title-font-size: 124px;
+    --end-screen-title-font-weight: 700;
+    --end-screen-title-text-transform: none;
+    --end-screen-title-shadow: -7px 0 8px rgba(77, 213, 188, 0.5);
+    --end-screen-score-gap: 24px;
+    --end-screen-score-color: #{variables.$white};
+    --end-screen-score-font-family: 'RedRose';
+    --end-screen-score-font-size: 26px;
+    --player-status-background: rgba(134, 233, 214, 0.2);
+    --player-status-height: auto;
+    --player-status-padding: 17px 20px;
+    --player-status-gap: 20px;
+    --player-status-item-gap: 4px;
+    --player-status-border-radius: 0;
+    --player-status-font-family: 'RedRose';
+    --player-status-font-size: 24px;
+
+    background-color: var(--end-screen-background);
+
+    &[data-theme='gaming'] {
+        --end-screen-background: #{variables.$gamingThemeColor};
+        --end-screen-title-color: rgba(237, 27, 118, 1);
+        --end-screen-title-font-family: 'Orbitron';
+        --end-screen-title-font-size: 88px;
+        --end-screen-title-font-weight: 700;
+        --end-screen-title-text-transform: uppercase;
+        --end-screen-title-shadow: none;
+        --end-screen-score-font-family: 'Orbitron';
+        --player-status-item-gap: 8px;
+        --player-status-font-family: 'Orbitron';
+    }
+
+    &[data-theme='da-projects'] {
+        --end-screen-background: #{variables.$DAprojectsThemeColor};
+        --end-screen-title-color: rgba(255, 91, 84, 1);
+        --end-screen-title-font-family: 'Figtree';
+        --end-screen-title-font-size: 88px;
+        --end-screen-title-font-weight: 700;
+        --end-screen-title-text-transform: uppercase;
+        --end-screen-title-shadow: 6px 6px 0 rgba(0, 0, 0, 0.2);
+        --end-screen-score-font-family: 'Figtree';
+        --player-status-item-gap: 4px;
+        --player-status-font-family: 'Figtree';
+    }
+
+    &[data-theme='foods'] {
+        --end-screen-background: #{variables.$foodThemeColor};
+        --end-screen-title-color: #{variables.$white};
+        --end-screen-title-font-family: 'Klee One';
+        --end-screen-title-font-size: 88px;
+        --end-screen-title-font-weight: 400;
+        --end-screen-title-text-transform: uppercase;
+        --end-screen-title-shadow: 4px 4px 0 rgba(0, 0, 0, 0.25);
+        --end-screen-score-font-family: 'Klee One';
+        --player-status-item-gap: 4px;
+        --player-status-font-family: 'Delius Unicase';
+    }
+
+    &[data-theme='gaming'],
+    &[data-theme='da-projects'],
+    &[data-theme='foods'] {
+        --player-status-background: #{variables.$white};
+        --player-status-height: 54px;
+        --player-status-padding: 0 16px;
+        --player-status-gap: 40px;
+        --player-status-border-radius: 10px;
+        --player-status-font-size: 30px;
+
+        .game-screen__player-status__orange {
+            color: rgba(234, 105, 0, 1);
+        }
+
+        .game-screen__player-status__blue {
+            color: rgba(9, 127, 197, 1);
+        }
+    }
 
     &__container {
         @include mixin.flex-center(column);
+        gap: var(--end-screen-gap);
+        text-align: center;
+    }
+
+    &:not(.d_none) &__container {
+        animation: var(--end-screen-animation);
+    }
+
+    &__title {
+        color: var(--end-screen-title-color);
+        font-family: var(--end-screen-title-font-family);
+        font-size: var(--end-screen-title-font-size);
+        font-weight: var(--end-screen-title-font-weight);
+        line-height: 1;
+        text-shadow: var(--end-screen-title-shadow);
+        text-transform: var(--end-screen-title-text-transform);
+    }
+
+    &__score {
+        @include mixin.flex-center(column);
+        gap: var(--end-screen-score-gap);
+        color: var(--end-screen-score-color);
+        font-family: var(--end-screen-score-font-family);
+    }
+
+    &__score-title {
+        font-size: var(--end-screen-score-font-size);
+        line-height: 1;
+    }
+
+    &__score-status {
+        @include mixin.flex-center(row);
+    }
+
+    .game-screen__player-status {
+        @include mixin.flex-center(row, center, space-between);
+        box-sizing: border-box;
+        height: var(--player-status-height);
+        padding: var(--player-status-padding);
+        background-color: var(--player-status-background);
+        gap: var(--player-status-gap);
+        border-radius: var(--player-status-border-radius);
+        font-family: var(--player-status-font-family);
+        font-size: var(--player-status-font-size);
+        font-weight: 700;
+    }
+
+    .game-screen__player-status__orange,
+    .game-screen__player-status__blue {
+        @include mixin.flex-center(row, center, space-between);
+        gap: var(--player-status-item-gap);
+    }
+
+    .game-screen__player-status__orange {
+        color: rgba(43, 177, 255, 1);
+    }
+
+    .game-screen__player-status__blue {
+        color: rgba(245, 142, 57, 1);
+    }
+
+    .game-screen__player-status__orange__icon,
+    .game-screen__player-status__blue__icon {
+        @include mixin.flex-center(row, center, space-between);
+    }
+
+    .game-screen__player-status-number {
+        font-family: 'RedRose';
+    }
+}
+
+@keyframes end-screen-slide-from-top {
+    from {
+        opacity: 0;
+        transform: translateY(-100vh);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .game-over-screen:not(.d_none) .game-over-screen__container {
+        animation: none;
     }
 }
