@@ -17,13 +17,17 @@
     --end-screen-score-font-size: 26px;
     --end-screen-score-font-weight: 400;
     --player-status-background: rgba(134, 233, 214, 0.2);
-    --player-status-height: auto;
+    --player-status-width: 323px;
+    --player-status-height: 62px;
     --player-status-padding: 17px 20px;
     --player-status-gap: 20px;
     --player-status-item-gap: 4px;
     --player-status-border-radius: 0;
     --player-status-font-family: 'RedRose';
     --player-status-font-size: 24px;
+    --player-status-font-weight: 700;
+    --player-status-icon-width: auto;
+    --player-status-icon-height: auto;
 
     background-color: var(--end-screen-background);
 
@@ -42,6 +46,13 @@
         --end-screen-score-font-weight: 700;
         --player-status-item-gap: 8px;
         --player-status-font-family: 'Orbitron';
+        --player-status-font-size: 40px;
+        --player-status-font-weight: 700;
+        --player-status-border-radius: 10px;
+        --player-status-width: 222px;
+        --player-status-height: 66px;
+        --player-status-icon-width: 26px;
+        --player-status-icon-height: 32px;
     }
 
     &[data-theme='da-projects'] {
@@ -57,8 +68,15 @@
         --end-screen-score-font-family: 'Figtree';
         --end-screen-score-font-size: 40px;
         --end-screen-score-font-weight: 500;
-        --player-status-item-gap: 4px;
+        --player-status-item-gap: 8px;
         --player-status-font-family: 'Figtree';
+        --player-status-font-size: 38px;
+        --player-status-font-weight: 700;
+        --player-status-border-radius: 10px;
+        --player-status-width: 220px;
+        --player-status-height: 76px;
+        --player-status-icon-width: 24px;
+        --player-status-icon-height: 30px;
     }
 
     &[data-theme='foods'] {
@@ -74,19 +92,23 @@
         --end-screen-score-font-family: 'Klee One';
         --end-screen-score-font-size: 42px;
         --end-screen-score-font-weight: 600;
-        --player-status-item-gap: 4px;
-        --player-status-font-family: 'Delius Unicase';
+        --player-status-item-gap: 8px;
+        --player-status-font-family: 'RedRose';
+        --player-status-font-size: 40px;
+        --player-status-font-weight: 700;
+        --player-status-border-radius: 0;
+        --player-status-width: 220px;
+        --player-status-height: 76px;
+        --player-status-icon-width: 24px;
+        --player-status-icon-height: 30px;
     }
 
     &[data-theme='gaming'],
     &[data-theme='da-projects'],
     &[data-theme='foods'] {
         --player-status-background: #{variables.$white};
-        --player-status-height: 54px;
         --player-status-padding: 0 16px;
         --player-status-gap: 40px;
-        --player-status-border-radius: 10px;
-        --player-status-font-size: 30px;
 
         .game-screen__player-status__orange {
             color: rgba(234, 105, 0, 1);
@@ -135,8 +157,9 @@
     }
 
     .game-screen__player-status {
-        @include mixin.flex-center(row, center, space-between);
+        @include mixin.flex-center(row, center, center);
         box-sizing: border-box;
+        width: var(--player-status-width);
         height: var(--player-status-height);
         padding: var(--player-status-padding);
         background-color: var(--player-status-background);
@@ -144,7 +167,7 @@
         border-radius: var(--player-status-border-radius);
         font-family: var(--player-status-font-family);
         font-size: var(--player-status-font-size);
-        font-weight: 700;
+        font-weight: var(--player-status-font-weight);
     }
 
     .game-screen__player-status__orange,
@@ -164,10 +187,15 @@
     .game-screen__player-status__orange__icon,
     .game-screen__player-status__blue__icon {
         @include mixin.flex-center(row, center, space-between);
+
+        >svg {
+            width: var(--player-status-icon-width);
+            height: var(--player-status-icon-height);
+        }
     }
 
     .game-screen__player-status-number {
-        font-family: 'RedRose';
+        font-family: inherit;
     }
 }
 

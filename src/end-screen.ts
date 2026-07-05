@@ -1,6 +1,9 @@
 import { gameFinishedEventName } from './game-screen';
 import { showScreen } from './screen-navigation';
 
+const endScreenDelay = 2000;
+let showEndScreenTimeout: number | undefined;
+
 export function setupEndScreen(
     endScreen: HTMLElement,
     gameScreen: HTMLElement,
@@ -10,7 +13,13 @@ export function setupEndScreen(
     gameScreen.addEventListener(gameFinishedEventName, () => {
         endScreen.dataset.theme = gameScreen.dataset.theme ?? 'code-vibes';
         renderFinalScore(endScreen, gameScreen);
-        showScreen(endScreen, startScreen, homeScreen, gameScreen);
+
+        window.clearTimeout(showEndScreenTimeout);
+        showEndScreenTimeout = window.setTimeout(() => {
+            if (!gameScreen.classList.contains('d_none')) {
+                showScreen(endScreen, startScreen, homeScreen, gameScreen);
+            }
+        }, endScreenDelay);
     });
 }
 
