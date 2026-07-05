@@ -43,6 +43,10 @@
     --quit-dialog-gap: 54px;
     --quit-dialog-actions-gap: 24px;
     --quit-dialog-animation: game-screen-dialog-slide-from-top 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    --quit-dialog-close-animation: none;
+    --quit-dialog-backdrop-animation: game-screen-dialog-backdrop-fade-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    --quit-dialog-backdrop-close-animation: game-screen-dialog-backdrop-fade-out 250ms ease-in-out both;
+    --quit-dialog-backdrop-background: rgba(0, 0, 0, 0.35);
     --quit-dialog-background: #{variables.$white};
     --quit-dialog-border-radius: 0;
     --quit-dialog-font-family: 'RedRose';
@@ -112,6 +116,7 @@
         --memory-card-back-display: none;
         --quit-dialog-width: 481px;
         --quit-dialog-animation: game-screen-dialog-slide-from-bottom 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        --quit-dialog-backdrop-animation: game-screen-dialog-backdrop-fade-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
         --quit-dialog-background: rgba(240, 246, 249, 1);
         --quit-dialog-border-radius: 20px;
         --quit-dialog-font-family: 'Orbitron';
@@ -154,7 +159,10 @@
         --memory-card-back-width: 49px;
         --memory-card-back-height: 40px;
         --quit-dialog-width: 456px;
-        --quit-dialog-animation: game-screen-dialog-pop-in 440ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        --quit-dialog-animation: game-screen-dialog-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+        --quit-dialog-close-animation: game-screen-dialog-fade-out 250ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        --quit-dialog-backdrop-animation: game-screen-dialog-backdrop-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+        --quit-dialog-backdrop-close-animation: game-screen-dialog-backdrop-fade-out 250ms cubic-bezier(0.16, 1, 0.3, 1) both;
         --quit-dialog-background: rgba(240, 246, 249, 1);
         --quit-dialog-border-radius: 20px;
         --quit-dialog-font-family: 'Figtree';
@@ -188,6 +196,7 @@
         --memory-card-back-height: 48px;
         --quit-dialog-width: 462px;
         --quit-dialog-animation: game-screen-dialog-slide-from-bottom 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        --quit-dialog-backdrop-animation: game-screen-dialog-backdrop-fade-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
         --quit-dialog-background: rgba(246, 246, 246, 1);
         --quit-dialog-border-radius: 20px;
         --quit-dialog-font-family: 'Klee One';
@@ -452,8 +461,23 @@
             animation: var(--quit-dialog-animation);
         }
 
+        &[open].game-screen__quit-dialog--closing {
+            animation: var(--quit-dialog-close-animation);
+        }
+
         &::backdrop {
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: var(--quit-dialog-backdrop-background);
+            animation: var(--quit-dialog-backdrop-animation);
+        }
+
+        &[open].game-screen__quit-dialog--closing:not(.game-screen__quit-dialog--backdrop-closing)::backdrop,
+        &[open].game-screen__quit-dialog--backdrop-closing:not(.game-screen__quit-dialog--closing)::backdrop {
+            animation: var(--quit-dialog-backdrop-close-animation);
+        }
+
+        &[open].game-screen__quit-dialog--closing.game-screen__quit-dialog--backdrop-closing::backdrop {
+            background-color: transparent;
+            animation: none;
         }
     }
 
@@ -594,25 +618,53 @@
     }
 }
 
-@keyframes game-screen-dialog-pop-in {
+@keyframes game-screen-dialog-fade-in {
     from {
         opacity: 0;
-        transform: scale(0.75);
-    }
-
-    70% {
-        opacity: 1;
-        transform: scale(1.04);
     }
 
     to {
         opacity: 1;
-        transform: scale(1);
+    }
+}
+
+@keyframes game-screen-dialog-fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes game-screen-dialog-backdrop-fade-in {
+    from {
+        background-color: transparent;
+    }
+
+    to {
+        background-color: var(--quit-dialog-backdrop-background);
+    }
+}
+
+@keyframes game-screen-dialog-backdrop-fade-out {
+    from {
+        background-color: var(--quit-dialog-backdrop-background);
+    }
+
+    to {
+        background-color: transparent;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .game-screen__quit-dialog[open] {
+    .game-screen__quit-dialog[open],
+    .game-screen__quit-dialog[open].game-screen__quit-dialog--closing,
+    .game-screen__quit-dialog[open].game-screen__quit-dialog--backdrop-closing,
+    .game-screen__quit-dialog[open]::backdrop,
+    .game-screen__quit-dialog[open].game-screen__quit-dialog--closing::backdrop,
+    .game-screen__quit-dialog[open].game-screen__quit-dialog--backdrop-closing::backdrop {
         animation: none;
     }
 }

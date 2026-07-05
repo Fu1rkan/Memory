@@ -9,6 +9,10 @@ import { showScreen } from './screen-navigation';
 
 const boardSizes = [16, 24, 36] as const;
 const cardMismatchDelay = 1000;
+const quitDialogClosingClass = 'game-screen__quit-dialog--closing';
+const quitDialogBackdropClosingClass = 'game-screen__quit-dialog--backdrop-closing';
+const daQuitDialogCloseAnimationDelay = 250;
+const codeVibesQuitDialogBackdropCloseAnimationDelay = 250;
 export const gameFinishedEventName = 'memory:game-finished';
 export type GameFinishedEventDetail = {
     skipDelay?: boolean;
@@ -62,7 +66,7 @@ function setupQuitDialog(gameScreen: HTMLElement, homeScreen: HTMLElement, quitG
         }
 
         if (backToGameButton) {
-            quitGameDialog.close();
+            closeQuitGameDialog(gameScreen, quitGameDialog);
         }
 
         if (confirmExitButton) {
@@ -84,8 +88,80 @@ function setupDevFinishButton(gameScreen: HTMLElement) {
 
 function showQuitGameDialog(quitGameDialog: HTMLDialogElement) {
     if (!quitGameDialog.open) {
+        quitGameDialog.classList.remove(quitDialogClosingClass, quitDialogBackdropClosingClass);
         quitGameDialog.showModal();
     }
+}
+
+function closeQuitGameDialog(gameScreen: HTMLElement, quitGameDialog: HTMLDialogElement) {
+    if (
+        !quitGameDialog.open ||
+        quitGameDialog.classList.contains(quitDialogClosingClass) ||
+        quitGameDialog.classList.contains(quitDialogBackdropClosingClass)
+    ) {
+        return;
+    }
+
+    if (prefersReducedMotion()) {
+        quitGameDialog.close();
+        return;
+    }
+
+    if (gameScreen.dataset.theme === 'code-vibes') {
+        closeCodeVibesQuitGameDialog(quitGameDialog);
+        return;
+    }
+
+    if (gameScreen.dataset.theme === 'da-projects') {
+        closeQuitGameDialogAfterAnimation(quitGameDialog, [quitDialogClosingClass], daQuitDialogCloseAnimationDelay);
+        return;
+    }
+
+    quitGameDialog.close();
+}
+
+function closeCodeVibesQuitGameDialog(quitGameDialog: HTMLDialogElement) {
+    quitGameDialog.classList.add(quitDialogBackdropClosingClass);
+
+    window.setTimeout(() => {
+        if (!quitGameDialog.open) {
+            return;
+        }
+
+        quitGameDialog.classList.remove(quitDialogBackdropClosingClass);
+        quitGameDialog.close();
+    }, codeVibesQuitDialogBackdropCloseAnimationDelay);
+}
+
+function closeQuitGameDialogAfterAnimation(quitGameDialog: HTMLDialogElement, classNames: string[], animationDelay: number) {
+    let didClose = false;
+
+    const finishCloseAfterAnimation = (event: AnimationEvent) => {
+        if (event.target !== quitGameDialog || event.pseudoElement) {
+            return;
+        }
+
+        finishClose();
+    };
+
+    const finishClose = () => {
+        if (didClose) {
+            return;
+        }
+
+        didClose = true;
+        quitGameDialog.removeEventListener('animationend', finishCloseAfterAnimation);
+        quitGameDialog.classList.remove(...classNames);
+        quitGameDialog.close();
+    };
+
+    quitGameDialog.classList.add(...classNames);
+    quitGameDialog.addEventListener('animationend', finishCloseAfterAnimation);
+    window.setTimeout(finishClose, animationDelay + 100);
+}
+
+function prefersReducedMotion() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 function showGameScreen(gameScreen: HTMLElement, homeScreen: HTMLElement, startScreen: HTMLElement) {
