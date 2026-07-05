@@ -9,6 +9,8 @@ import { showScreen } from './screen-navigation';
 
 const boardSizes = [16, 24, 36] as const;
 const cardMismatchDelay = 1000;
+export const gameFinishedEventName = 'memory:game-finished';
+
 type BoardSize = typeof boardSizes[number];
 type PlayerScores = Record<PlayerColor, number>;
 type BoardState = {
@@ -252,6 +254,11 @@ function checkSelectedCards(gameScreen: HTMLElement) {
         increaseCurrentPlayerScore(gameScreen);
         markCardsAsMatched(firstCard, secondCard);
         boardState.selectedCards = [];
+
+        if (isGameFinished(gameScreen)) {
+            gameScreen.dispatchEvent(new Event(gameFinishedEventName));
+        }
+
         return;
     }
 
@@ -287,6 +294,12 @@ function closeMemoryCard(card: HTMLButtonElement) {
 function isCardOpen(card: HTMLButtonElement) {
     return card.classList.contains('game-screen__card--flipped')
         || card.classList.contains('game-screen__card--matched');
+}
+
+function isGameFinished(gameScreen: HTMLElement) {
+    const cards = [...gameScreen.querySelectorAll<HTMLButtonElement>('.game-screen__card')];
+
+    return cards.length > 0 && cards.every(card => card.classList.contains('game-screen__card--matched'));
 }
 
 function switchCurrentPlayer(gameScreen: HTMLElement) {
