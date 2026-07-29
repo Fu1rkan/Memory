@@ -8,9 +8,10 @@ import { setupPlayerStatus, updatePlayerScores, updatePlayerStatusVisuals } from
 import { showScreen } from './screen-navigation';
 
 const boardSizes = [16, 24, 36] as const;
-const cardMismatchDelay = 1000;
+const cardMismatchDelay = 600;
 const quitDialogClosingClass = 'game-screen__quit-dialog--closing';
 const quitDialogBackdropClosingClass = 'game-screen__quit-dialog--backdrop-closing';
+const revealingCardsClass = 'game-screen--revealing-cards';
 const daQuitDialogCloseAnimationDelay = 250;
 const codeVibesQuitDialogBackdropCloseAnimationDelay = 250;
 export const gameFinishedEventName = 'memory:game-finished';
@@ -44,7 +45,7 @@ export function setupGameScreen(gameScreen: HTMLElement, homeScreen: HTMLElement
     setupPlayerStatus(gameScreen);
     setupHomeStartButton(gameScreen, homeScreen, startScreen);
     setupQuitDialog(gameScreen, homeScreen, quitGameDialog);
-    setupDevFinishButton(gameScreen);
+    setupDevButtons(gameScreen);
     setupMemoryCards(gameScreen);
     applySelectedTheme(gameScreen, homeScreen);
 }
@@ -80,14 +81,26 @@ function setupQuitDialog(gameScreen: HTMLElement, homeScreen: HTMLElement, quitG
     });
 }
 
-function setupDevFinishButton(gameScreen: HTMLElement) {
+function setupDevButtons(gameScreen: HTMLElement) {
     gameScreen.addEventListener('click', event => {
         const devFinishButton = getClosestElement(event, '.game-screen__dev-finish-button');
+        const devRevealButton = getClosestElement(event, '.game-screen__dev-reveal-button');
 
         if (devFinishButton) {
             finishGame(gameScreen, { skipDelay: true });
         }
+
+        if (devRevealButton instanceof HTMLElement) {
+            toggleCardRevealMode(gameScreen, devRevealButton);
+        }
     });
+}
+
+function toggleCardRevealMode(gameScreen: HTMLElement, devRevealButton: HTMLElement) {
+    const isRevealingCards = gameScreen.classList.toggle(revealingCardsClass);
+
+    devRevealButton.textContent = isRevealingCards ? 'Hide cards' : 'Show cards';
+    devRevealButton.setAttribute('aria-pressed', String(isRevealingCards));
 }
 
 function showQuitGameDialog(quitGameDialog: HTMLDialogElement) {
@@ -223,10 +236,22 @@ function renderSelectedBoard(gameScreen: HTMLElement, homeScreen: HTMLElement) {
         .map((imageSrc, index) => createMemoryCard(imageSrc, index));
 
     resetBoardState(selectedPlayer);
+    resetCardRevealMode(gameScreen);
     updateCurrentPlayerIndicator(gameScreen, selectedTheme, boardState.currentPlayer);
     updatePlayerScores(gameScreen, selectedTheme, boardState.scores);
     gameScreen.dataset.boardSize = String(boardSize);
     board.replaceChildren(...cards);
+}
+
+function resetCardRevealMode(gameScreen: HTMLElement) {
+    const devRevealButton = gameScreen.querySelector<HTMLElement>('.game-screen__dev-reveal-button');
+
+    gameScreen.classList.remove(revealingCardsClass);
+    devRevealButton?.setAttribute('aria-pressed', 'false');
+
+    if (devRevealButton) {
+        devRevealButton.textContent = 'Show cards';
+    }
 }
 
 function setupMemoryCards(gameScreen: HTMLElement) {

@@ -186,6 +186,11 @@
         gap: var(--player-status-item-gap);
     }
 
+    .game-screen__player-status__orange__counter,
+    .game-screen__player-status__blue__counter {
+        white-space: nowrap;
+    }
+
     .game-screen__player-status__orange {
         color: rgba(43, 177, 255, 1);
     }
@@ -205,30 +210,60 @@
     }
 
     .game-screen__player-status-number {
+        display: inline-block;
         font-family: inherit;
+    }
+
+    &[data-theme='code-vibes'] {
+        .game-screen__player-status__orange__counter,
+        .game-screen__player-status__blue__counter {
+            position: relative;
+            padding-right: 1ch;
+        }
+
+        .game-screen__player-status-number {
+            position: absolute;
+            top: 50%;
+            left: calc(100% - 0.8ch);
+            transform: translateY(-50%);
+        }
+
+        .game-screen__player-status--expanded-score {
+            padding-right: 26px;
+        }
+    }
+
+    &:not([data-theme='code-vibes']) {
+        .game-screen__player-status__orange__counter,
+        .game-screen__player-status__blue__counter {
+            display: inline-block;
+            width: 1ch;
+            overflow: visible;
+            text-align: left;
+        }
+
+        .game-screen__player-status--expanded-score {
+            width: calc(var(--player-status-width) + 18px);
+        }
     }
 }
 
 @keyframes end-screen-slide-from-top {
     from {
-        opacity: 0;
-        transform: translateY(-100vh);
+        transform: translateY(-100%);
     }
 
     to {
-        opacity: 1;
         transform: translateY(0);
     }
 }
 
 @keyframes end-screen-slide-from-bottom {
     from {
-        opacity: 0;
-        transform: translateY(100vh);
+        transform: translateY(100%);
     }
 
     to {
-        opacity: 1;
         transform: translateY(0);
     }
 }

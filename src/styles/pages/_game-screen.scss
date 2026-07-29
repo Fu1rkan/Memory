@@ -296,6 +296,10 @@
         transform: rotateY(180deg);
     }
 
+    &--revealing-cards &__card:not(&__card--flipped):not(&__card--matched) &__card-inner {
+        transform: rotateY(180deg);
+    }
+
     &__card-face {
         position: absolute;
         inset: 0;
@@ -359,6 +363,10 @@
             &__icon {
                 @include mixin.flex-center(row, center, space-between);
             }
+
+            &__counter {
+                white-space: nowrap;
+            }
         }
 
         &__blue {
@@ -369,11 +377,49 @@
             &__icon {
                 @include mixin.flex-center(row, center, space-between);
             }
+
+            &__counter {
+                white-space: nowrap;
+            }
         }
     }
 
     &__player-status-number {
+        display: inline-block;
         font-family: 'RedRose';
+    }
+
+    &[data-theme='code-vibes'] {
+        .game-screen__player-status__orange__counter,
+        .game-screen__player-status__blue__counter {
+            position: relative;
+            padding-right: 1ch;
+        }
+
+        .game-screen__player-status-number {
+            position: absolute;
+            top: 50%;
+            left: calc(100% - 0.8ch);
+            transform: translateY(-50%);
+        }
+
+        .game-screen__player-status--expanded-score {
+            padding-right: 26px;
+        }
+    }
+
+    &:not([data-theme='code-vibes']) {
+        .game-screen__player-status__orange__counter,
+        .game-screen__player-status__blue__counter {
+            display: inline-block;
+            width: 1ch;
+            overflow: visible;
+            text-align: left;
+        }
+
+        .game-screen__player-status--expanded-score {
+            padding-right: 28px;
+        }
     }
 
     &__current-player-info {
@@ -573,12 +619,18 @@
         box-shadow: var(--quit-dialog-text-button-hover-box-shadow);
     }
 
-    &__dev-finish-button {
+    &__dev-actions {
         position: absolute;
         left: 50%;
         bottom: 32px;
         transform: translateX(-50%);
         z-index: 10;
+        @include mixin.flex-center(row);
+        gap: 12px;
+    }
+
+    &__dev-finish-button,
+    &__dev-reveal-button {
         padding: 12px 20px;
         border-radius: 8px;
         background-color: rgba(255, 255, 255, 0.9);

@@ -49,6 +49,7 @@ export function updatePlayerStatusVisuals(gameScreen: HTMLElement, selectedTheme
 export function updatePlayerScores(gameScreen: HTMLElement, selectedTheme: GameTheme, scores: PlayerScores) {
     updatePlayerScore(gameScreen, selectedTheme, 'blue', scores.blue);
     updatePlayerScore(gameScreen, selectedTheme, 'orange', scores.orange);
+    updatePlayerStatusSize(gameScreen, selectedTheme, scores);
 }
 
 function getThemePlayerStatusVisuals(selectedTheme: GameTheme) {
@@ -111,6 +112,18 @@ function updatePlayerScore(
     }
 
     counterElement.textContent = String(score);
+}
+
+function updatePlayerStatusSize(gameScreen: HTMLElement, selectedTheme: GameTheme, scores: PlayerScores) {
+    const playerStatusElement = gameScreen.querySelector<HTMLElement>('.game-screen__player-status');
+
+    if (!playerStatusElement) {
+        return;
+    }
+
+    const scoreThatNeedsMoreSpace = selectedTheme === 'code-vibes' ? scores.orange : scores.blue;
+
+    playerStatusElement.classList.toggle('game-screen__player-status--expanded-score', scoreThatNeedsMoreSpace > 9);
 }
 
 function getStatusKeyForPlayer(selectedTheme: GameTheme, playerColor: PlayerColor): PlayerStatusKey {

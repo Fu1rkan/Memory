@@ -44,7 +44,6 @@ export function setupWinnerScreen(
     endScreen: HTMLElement,
     gameScreen: HTMLElement,
     homeScreen: HTMLElement,
-    startScreen: HTMLElement,
 ) {
     endScreen.addEventListener(endScreenShownEventName, event => {
         const detail = getEndScreenShownDetail(event);
@@ -63,7 +62,7 @@ export function setupWinnerScreen(
 
         if (backButton) {
             window.clearTimeout(showWinnerScreenTimeout);
-            showScreen(startScreen, winnerScreen, endScreen, gameScreen, homeScreen);
+            showScreen(homeScreen, winnerScreen, endScreen, gameScreen);
         }
     });
 }

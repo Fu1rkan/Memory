@@ -18,6 +18,6 @@ function init() {
     setupStartScreen(startScreen, homeScreen);
     setupHomeScreen(homeScreen);
     setupEndScreen(gameOverScreen, gameScreen, homeScreen, startScreen);
-    setupWinnerScreen(winnerScreen, gameOverScreen, gameScreen, homeScreen, startScreen);
+    setupWinnerScreen(winnerScreen, gameOverScreen, gameScreen, homeScreen);
     setupGameScreen(gameScreen, homeScreen, startScreen);
 }
