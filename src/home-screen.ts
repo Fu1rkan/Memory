@@ -3,6 +3,7 @@ import { isGameTheme, type GameTheme } from './game-themes';
 type SettingName = 'theme' | 'player' | 'board-size';
 
 type FooterInfo = {
+    footer: HTMLElement;
     theme: HTMLElement;
     player: HTMLElement;
     boardSize: HTMLElement;
@@ -13,6 +14,8 @@ type FooterInfo = {
 
 const themeImageFolder = `${import.meta.env.BASE_URL}img/themes`;
 const requiredSettings: SettingName[] = ['theme', 'player', 'board-size'];
+const footerWidthTransitionDuration = 250;
+let footerResizeTimeout: number | undefined;
 
 const themePreviewImages: Record<GameTheme, string> = {
     'code-vibes': `${themeImageFolder}/code_vibes.png`,
@@ -26,61 +29,62 @@ export function setupHomeScreen(homeScreen: HTMLElement) {
     const footerInfo = getFooterInfo(homeScreen);
 
     homeScreen.addEventListener('change', event => {
-        updateThemePreview(event, previewImage, footerInfo.theme);
-        updatePlayerInfo(event, footerInfo.player);
-        updateBoardSizeInfo(event, footerInfo.boardSize);
-        updateSeparatorStates(homeScreen, footerInfo);
+        updateThemePreview(event, previewImage, footerInfo);
+        updatePlayerInfo(event, footerInfo);
+        updateBoardSizeInfo(event, footerInfo);
+        animateFooterWidth(footerInfo.footer, () => updateSeparatorStates(homeScreen, footerInfo));
         updateStartButtonState(homeScreen, footerInfo.startButton);
     });
 
-    showSelectedTheme(homeScreen, previewImage, footerInfo.theme);
+    showSelectedTheme(homeScreen, previewImage, footerInfo);
     updateSeparatorStates(homeScreen, footerInfo);
     updateStartButtonState(homeScreen, footerInfo.startButton);
 }
 
-function updateThemePreview(event: Event, previewImage: HTMLImageElement, footerLabel: HTMLElement) {
+function updateThemePreview(event: Event, previewImage: HTMLImageElement, footerInfo: FooterInfo) {
     const themeInput = getChangedRadioInput(event, 'theme');
 
     if (themeInput) {
-        showThemePreview(themeInput, previewImage, footerLabel);
+        showThemePreview(themeInput, previewImage, footerInfo);
     }
 }
 
-function showThemePreview(input: HTMLInputElement, previewImage: HTMLImageElement, footerLabel: HTMLElement, animateLabel = true) {
+function showThemePreview(input: HTMLInputElement, previewImage: HTMLImageElement, footerInfo: FooterInfo, animateLabel = true) {
     if (!isGameTheme(input.value)) {
         return;
     }
 
     previewImage.src = themePreviewImages[input.value];
-    setFooterText(footerLabel, getOptionText(input), animateLabel);
+    setFooterText(footerInfo.footer, footerInfo.theme, getOptionText(input), animateLabel);
 }
 
-function updatePlayerInfo(event: Event, footerLabel: HTMLElement) {
+function updatePlayerInfo(event: Event, footerInfo: FooterInfo) {
     const playerInput = getChangedRadioInput(event, 'player');
 
     if (playerInput) {
-        setFooterText(footerLabel, `${getOptionText(playerInput)} Player`);
+        setFooterText(footerInfo.footer, footerInfo.player, `${getOptionText(playerInput)} Player`);
     }
 }
 
-function updateBoardSizeInfo(event: Event, footerLabel: HTMLElement) {
+function updateBoardSizeInfo(event: Event, footerInfo: FooterInfo) {
     const boardSizeInput = getChangedRadioInput(event, 'board-size');
 
     if (boardSizeInput) {
-        setFooterText(footerLabel, `Board ${getOptionText(boardSizeInput)}`);
+        setFooterText(footerInfo.footer, footerInfo.boardSize, `Board ${getOptionText(boardSizeInput)}`);
     }
 }
 
-function showSelectedTheme(homeScreen: HTMLElement, previewImage: HTMLImageElement, footerLabel: HTMLElement) {
+function showSelectedTheme(homeScreen: HTMLElement, previewImage: HTMLImageElement, footerInfo: FooterInfo) {
     const checkedTheme = homeScreen.querySelector<HTMLInputElement>('input[name="theme"]:checked');
 
     if (checkedTheme) {
-        showThemePreview(checkedTheme, previewImage, footerLabel, false);
+        showThemePreview(checkedTheme, previewImage, footerInfo, false);
     }
 }
 
 function getFooterInfo(homeScreen: HTMLElement): FooterInfo {
     return {
+        footer: getHomeElement(homeScreen, '.home-screen__footer'),
         theme: getHomeElement(homeScreen, '#game-theme-info'),
         player: getHomeElement(homeScreen, '#player-info'),
         boardSize: getHomeElement(homeScreen, '#board-size-info'),
@@ -135,7 +139,11 @@ function getOptionText(input: HTMLInputElement) {
     return input.closest('label')?.textContent?.trim() || '';
 }
 
-function setFooterText(footerLabel: HTMLElement, text: string, animate = true) {
+function setFooterTextNow(footerLabel: HTMLElement, text: string) {
+    footerLabel.innerText = text;
+}
+
+function setFooterText(footer: HTMLElement, footerLabel: HTMLElement, text: string, animate = true) {
     if (footerLabel.innerText === text) {
         return;
     }
@@ -145,18 +153,43 @@ function setFooterText(footerLabel: HTMLElement, text: string, animate = true) {
         return;
     }
 
-    animateFooterText(footerLabel, text);
+    animateFooterWidth(footer, () => setFooterTextNow(footerLabel, text));
 }
 
-function setFooterTextNow(footerLabel: HTMLElement, text: string) {
-    footerLabel.innerText = text;
+function animateFooterWidth(footer: HTMLElement, updateContent: () => void) {
+    const startWidth = footer.getBoundingClientRect().width;
+
+    footer.style.width = `${startWidth}px`;
+    updateContent();
+
+    const endWidth = getFooterNaturalWidth(footer);
+
+    if (Math.abs(startWidth - endWidth) < 1) {
+        footer.style.width = '';
+        return;
+    }
+
+    window.clearTimeout(footerResizeTimeout);
+    footer.style.width = `${startWidth}px`;
+    footer.getBoundingClientRect();
+    footer.style.width = `${endWidth}px`;
+
+    footerResizeTimeout = window.setTimeout(() => {
+        footer.style.width = '';
+    }, footerWidthTransitionDuration);
 }
 
-function animateFooterText(footerLabel: HTMLElement, text: string) {
-    footerLabel.classList.add('home-screen__footer-info--changing');
+function getFooterNaturalWidth(footer: HTMLElement) {
+    const previousTransition = footer.style.transition;
+    const previousWidth = footer.style.width;
 
-    window.setTimeout(() => {
-        setFooterTextNow(footerLabel, text);
-        footerLabel.classList.remove('home-screen__footer-info--changing');
-    }, 120);
+    footer.style.transition = 'none';
+    footer.style.width = 'max-content';
+
+    const width = footer.getBoundingClientRect().width;
+
+    footer.style.width = previousWidth;
+    footer.style.transition = previousTransition;
+
+    return width;
 }
