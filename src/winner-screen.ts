@@ -173,10 +173,15 @@ function getWinnerLabel(winner: WinnerResult): string {
 /** Returns the alt text for the winner image. */
 function getWinnerImageAlt(winner: WinnerResult): string {
   if (winner === 'draw') {
-    return 'Draw';
+    return 'Draw result illustration';
   }
 
-  return `${winner} player`;
+  return `${getWinnerColorLabel(winner)} player winner illustration`;
+}
+
+/** Returns the visible color label for a winning player. */
+function getWinnerColorLabel(winner: Exclude<WinnerResult, 'draw'>): string {
+  return winner === 'blue' ? 'Blue' : 'Orange';
 }
 
 /** Reads the detail data from the end-screen event. */

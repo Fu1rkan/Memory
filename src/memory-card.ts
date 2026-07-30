@@ -115,6 +115,24 @@ function configureMemoryCard(card: HTMLButtonElement, imageSrc: string, index: n
 function configureCardImage(cardImage: HTMLImageElement, imageSrc: string): void {
   cardImage.className = 'game-screen__card-image';
   cardImage.src = imageSrc;
-  cardImage.alt = '';
+  cardImage.alt = createCardImageAlt(imageSrc);
   cardImage.draggable = false;
+}
+
+/** Creates readable alt text from a card image file path. */
+function createCardImageAlt(imageSrc: string): string {
+  const fileName = getFileNameFromPath(imageSrc);
+  const label = fileName.replace(/\.[^/.]+$/, '').replaceAll('_', ' ').replaceAll('-', ' ');
+
+  return toTitleCase(label);
+}
+
+/** Returns the file name from an image path. */
+function getFileNameFromPath(imageSrc: string): string {
+  return decodeURIComponent(imageSrc.split('/').pop() ?? 'memory card image');
+}
+
+/** Converts a label to title case. */
+function toTitleCase(label: string): string {
+  return label.replace(/\b\w/g, letter => letter.toUpperCase());
 }

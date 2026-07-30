@@ -26,6 +26,13 @@ const THEME_PREVIEW_IMAGES: Record<GameTheme, string> = {
   foods: `${THEME_IMAGE_FOLDER}/food_theme.png`,
 };
 
+const THEME_PREVIEW_ALT_TEXTS: Record<GameTheme, string> = {
+  'code-vibes': 'Preview of the Code Vibes theme',
+  gaming: 'Preview of the Gaming theme',
+  'da-projects': 'Preview of the DA Projects theme',
+  foods: 'Preview of the Foods theme',
+};
+
 /** Sets up theme, player and card selection on the home screen. */
 export function setupHomeScreen(homeScreen: HTMLElement): void {
   const previewImage = getHomeElement<HTMLImageElement>(homeScreen, '.home-screen__preview-image');
@@ -87,8 +94,14 @@ function showThemePreview(
     return;
   }
 
-  previewImage.src = THEME_PREVIEW_IMAGES[input.value];
+  updateThemePreviewImage(previewImage, input.value);
   setFooterText(footerInfo.footer, footerInfo.theme, getOptionText(input), animateLabel);
+}
+
+/** Updates the source and alt text of the theme preview image. */
+function updateThemePreviewImage(previewImage: HTMLImageElement, selectedTheme: GameTheme): void {
+  previewImage.src = THEME_PREVIEW_IMAGES[selectedTheme];
+  previewImage.alt = THEME_PREVIEW_ALT_TEXTS[selectedTheme];
 }
 
 /** Updates the selected player in the footer. */
