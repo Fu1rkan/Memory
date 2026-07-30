@@ -1,5 +1,4 @@
 import { getClosestElement, getDialogById } from './dom';
-import { setupDevButtons } from './game-dev-tools';
 import { applySelectedTheme } from './game-theme';
 import { renderSelectedBoard, setupMemoryCards } from './memory-board';
 import { setupPlayerStatus } from './player-status';
@@ -17,7 +16,6 @@ export function setupGameScreen(
   setupPlayerStatus(gameScreen);
   setupHomeStartButton(gameScreen, homeScreen, startScreen);
   setupQuitDialog(gameScreen, homeScreen, quitGameDialog);
-  setupDevButtons(gameScreen);
   setupMemoryCards(gameScreen);
   applySelectedTheme(gameScreen, homeScreen);
 }

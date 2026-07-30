@@ -44,8 +44,7 @@
         transition: transform 450ms ease;
     }
 
-    &__card--flipped &__card-inner,
-    &--revealing-cards &__card:not(&__card--flipped):not(&__card--matched) &__card-inner {
+    &__card--flipped &__card-inner {
         transform: rotateY(180deg);
     }
 
@@ -228,32 +227,6 @@
             top: var(--exit-button-hover-offset-y);
             left: var(--exit-button-hover-offset-x);
             opacity: 0;
-        }
-    }
-
-    &__dev-actions {
-        @include mixin.flex-center(row);
-        position: absolute;
-        left: 50%;
-        bottom: 32px;
-        z-index: 10;
-        gap: 12px;
-        transform: translateX(-50%);
-    }
-
-    &__dev-finish-button,
-    &__dev-reveal-button {
-        padding: 12px 20px;
-        border-radius: 8px;
-        background-color: rgba(255, 255, 255, 0.9);
-        color: variables.$codeVibeThemeColor;
-        font-family: 'RedRose';
-        font-size: 18px;
-        font-weight: 700;
-        transition: background-color 180ms ease-in-out;
-
-        &:hover {
-            background-color: variables.$white;
         }
     }
 }

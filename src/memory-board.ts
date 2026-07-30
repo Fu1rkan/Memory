@@ -12,7 +12,6 @@ import {
   switchCurrentPlayer,
   unlockBoard,
 } from './game-board-state';
-import { resetCardRevealMode } from './game-dev-tools';
 import { finishGame } from './game-finish';
 import {
   getGameScreenTheme,
@@ -47,7 +46,6 @@ export function renderSelectedBoard(gameScreen: HTMLElement, homeScreen: HTMLEle
   const cards = createBoardCards(selectedTheme, boardSize);
 
   resetBoardState(selectedPlayer);
-  resetCardRevealMode(gameScreen);
   updateBoardHeader(gameScreen, selectedTheme);
   setBoardSize(gameScreen, boardSize);
   getMemoryBoard(gameScreen).replaceChildren(...cards);
