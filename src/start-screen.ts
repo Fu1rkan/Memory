@@ -1,12 +1,20 @@
 import { getClosestElement } from './dom';
 import { showScreen } from './screen-navigation';
 
-export function setupStartScreen(startScreen: HTMLElement, homeScreen: HTMLElement) {
-    startScreen.addEventListener('click', event => {
-        const playButton = getClosestElement(event, '.start-screen__play-button');
+/** Richtet den Startscreen ein und oeffnet nach Klick den Home Screen. */
+export function setupStartScreen(startScreen: HTMLElement, homeScreen: HTMLElement): void {
+  startScreen.addEventListener('click', event => {
+    showHomeScreenWhenPlayWasClicked(event, startScreen, homeScreen);
+  });
+}
 
-        if (playButton) {
-            showScreen(homeScreen, startScreen);
-        }
-    });
+/** Wechselt vom Startscreen zum Home Screen, wenn Play geklickt wurde. */
+function showHomeScreenWhenPlayWasClicked(
+  event: Event,
+  startScreen: HTMLElement,
+  homeScreen: HTMLElement,
+): void {
+  if (getClosestElement(event, '.start-screen__play-button')) {
+    showScreen(homeScreen, startScreen);
+  }
 }

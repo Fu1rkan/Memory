@@ -21,88 +21,90 @@ import gameThemeExitButtonSvg from './assets/buttons/game_theme_exit_button.svg?
 import gameThemeExitHoverButtonSvg from './assets/buttons/game_theme_exit_hover_button.svg?raw';
 
 export type ButtonVisual = {
-    type: 'inline-svg';
-    markup: string;
+  type: 'inline-svg';
+  markup: string;
 } | {
-    type: 'text';
-    label: string;
+  type: 'text';
+  label: string;
 };
 
 export type ButtonVisuals = {
-    default: ButtonVisual;
-    hover: ButtonVisual;
+  default: ButtonVisual;
+  hover: ButtonVisual;
 };
 
 export type QuitDialogButtonVisuals = {
-    back: ButtonVisuals;
-    exit: ButtonVisuals;
+  back: ButtonVisuals;
+  exit: ButtonVisuals;
 };
 
+/** Erstellt eine Button-Visualisierung aus Inline-SVG-Markup. */
 const inlineSvgVisual = (markup: string): ButtonVisual => ({
-    type: 'inline-svg',
-    markup,
+  type: 'inline-svg',
+  markup,
 });
 
+/** Erstellt eine Button-Visualisierung aus reinem Text. */
 const textVisual = (label: string): ButtonVisual => ({ type: 'text', label });
 
-export const exitButtonVisuals: Record<GameTheme, ButtonVisuals> = {
-    'code-vibes': {
-        default: inlineSvgVisual(codeThemeExitButtonSvg),
-        hover: inlineSvgVisual(codeThemeExitHoverButtonSvg),
-    },
-    gaming: {
-        default: inlineSvgVisual(gameThemeExitButtonSvg),
-        hover: inlineSvgVisual(gameThemeExitHoverButtonSvg),
-    },
-    'da-projects': {
-        default: inlineSvgVisual(daThemeExitButtonSvg),
-        hover: inlineSvgVisual(daThemeExitHoverButtonSvg),
-    },
-    foods: {
-        default: inlineSvgVisual(foodThemeExitHoverButtonSvg),
-        hover: inlineSvgVisual(foodThemeExitButtonSvg),
-    },
+export const EXIT_BUTTON_VISUALS: Record<GameTheme, ButtonVisuals> = {
+  'code-vibes': {
+    default: inlineSvgVisual(codeThemeExitButtonSvg),
+    hover: inlineSvgVisual(codeThemeExitHoverButtonSvg),
+  },
+  gaming: {
+    default: inlineSvgVisual(gameThemeExitButtonSvg),
+    hover: inlineSvgVisual(gameThemeExitHoverButtonSvg),
+  },
+  'da-projects': {
+    default: inlineSvgVisual(daThemeExitButtonSvg),
+    hover: inlineSvgVisual(daThemeExitHoverButtonSvg),
+  },
+  foods: {
+    default: inlineSvgVisual(foodThemeExitHoverButtonSvg),
+    hover: inlineSvgVisual(foodThemeExitButtonSvg),
+  },
 };
 
-export const quitDialogButtonVisuals: Record<GameTheme, QuitDialogButtonVisuals> = {
-    'code-vibes': {
-        back: {
-            default: inlineSvgVisual(codeThemeBackToGameButtonSvg),
-            hover: inlineSvgVisual(codeThemeBackToGameHoverButtonSvg),
-        },
-        exit: {
-            default: textVisual('Exit game'),
-            hover: textVisual('Exit game'),
-        },
+export const QUIT_DIALOG_BUTTON_VISUALS: Record<GameTheme, QuitDialogButtonVisuals> = {
+  'code-vibes': {
+    back: {
+      default: inlineSvgVisual(codeThemeBackToGameButtonSvg),
+      hover: inlineSvgVisual(codeThemeBackToGameHoverButtonSvg),
     },
-    gaming: {
-        back: {
-            default: inlineSvgVisual(gameThemeBackToGameButtonSvg),
-            hover: inlineSvgVisual(gameThemeBackToGameHoverButtonSvg),
-        },
-        exit: {
-            default: textVisual('Yes, quit game'),
-            hover: textVisual('Yes, quit game'),
-        },
+    exit: {
+      default: textVisual('Exit game'),
+      hover: textVisual('Exit game'),
     },
-    'da-projects': {
-        back: {
-            default: inlineSvgVisual(daThemeBackToGameButtonSvg),
-            hover: inlineSvgVisual(daThemeBackToGameHoverButtonSvg),
-        },
-        exit: {
-            default: inlineSvgVisual(daThemeDialogExitButtonSvg),
-            hover: inlineSvgVisual(daThemeDialogExitHoverButtonSvg),
-        },
+  },
+  gaming: {
+    back: {
+      default: inlineSvgVisual(gameThemeBackToGameButtonSvg),
+      hover: inlineSvgVisual(gameThemeBackToGameHoverButtonSvg),
     },
-    foods: {
-        back: {
-            default: inlineSvgVisual(foodThemeBackToGameHoverButtonSvg),
-            hover: inlineSvgVisual(foodThemeBackToGameButtonSvg),
-        },
-        exit: {
-            default: inlineSvgVisual(foodThemeDialogExitButtonSvg),
-            hover: inlineSvgVisual(foodThemeDialogExitHoverButtonSvg),
-        },
+    exit: {
+      default: textVisual('Yes, quit game'),
+      hover: textVisual('Yes, quit game'),
     },
+  },
+  'da-projects': {
+    back: {
+      default: inlineSvgVisual(daThemeBackToGameButtonSvg),
+      hover: inlineSvgVisual(daThemeBackToGameHoverButtonSvg),
+    },
+    exit: {
+      default: inlineSvgVisual(daThemeDialogExitButtonSvg),
+      hover: inlineSvgVisual(daThemeDialogExitHoverButtonSvg),
+    },
+  },
+  foods: {
+    back: {
+      default: inlineSvgVisual(foodThemeBackToGameHoverButtonSvg),
+      hover: inlineSvgVisual(foodThemeBackToGameButtonSvg),
+    },
+    exit: {
+      default: inlineSvgVisual(foodThemeDialogExitButtonSvg),
+      hover: inlineSvgVisual(foodThemeDialogExitHoverButtonSvg),
+    },
+  },
 };
