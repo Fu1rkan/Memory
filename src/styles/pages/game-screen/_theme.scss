@@ -1,0 +1,251 @@
+@use '../../abstract/variables' as variables;
+
+.game-screen {
+    --game-screen-background: #{variables.$codeVibeThemeColor};
+    --player-status-background: rgba(134, 233, 214, 0.2);
+    --player-status-height: auto;
+    --player-status-padding: 17px 20px;
+    --player-status-gap: 20px;
+    --player-status-item-gap: 4px;
+    --player-status-border-radius: 0;
+    --player-status-font-family: 'RedRose';
+    --player-status-font-size: 24px;
+    --current-player-color: #{variables.$white};
+    --current-player-font-family: 'RedRose';
+    --current-player-font-size: 26px;
+    --current-player-font-weight: 400;
+    --current-player-gap: 8px;
+    --current-player-align-self: flex-end;
+    --memory-board-columns: 4;
+    --memory-board-rows: 4;
+    --memory-card-width: 120px;
+    --memory-card-height: 120px;
+    --memory-card-row-gap: 16px;
+    --memory-card-column-gap: 16px;
+    --memory-card-background: linear-gradient(212.26deg, #4DD5BC 29.42%, #286F62 123.94%);
+    --memory-card-front-background: rgba(232, 243, 240, 1);
+    --memory-card-box-shadow: none;
+    --memory-card-border-radius: 0;
+    --memory-card-back-image: url('../../../assets/cards/code_vibes_card_back.svg');
+    --memory-card-back-display: block;
+    --memory-card-back-width: 60px;
+    --memory-card-back-height: 48px;
+    --exit-button-width: 219px;
+    --exit-button-height: 74px;
+    --exit-button-default-offset-x: 6px;
+    --exit-button-default-offset-y: 6px;
+    --exit-button-hover-offset-x: 4px;
+    --exit-button-hover-offset-y: 4px;
+    --game-header-background: transparent;
+    --game-header-padding: 0;
+    --quit-dialog-width: 539px;
+    --quit-dialog-gap: 54px;
+    --quit-dialog-actions-gap: 24px;
+    --quit-dialog-animation: game-screen-dialog-slide-from-top 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    --quit-dialog-close-animation: none;
+    --quit-dialog-backdrop-animation: game-screen-dialog-backdrop-fade-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    --quit-dialog-backdrop-close-animation: game-screen-dialog-backdrop-fade-out 250ms ease-in-out both;
+    --quit-dialog-backdrop-background: rgba(0, 0, 0, 0.35);
+    --quit-dialog-background: #{variables.$white};
+    --quit-dialog-border-radius: 0;
+    --quit-dialog-font-family: 'RedRose';
+    --quit-dialog-font-size: 32px;
+    --quit-dialog-back-width: 182px;
+    --quit-dialog-back-height: 57px;
+    --quit-dialog-exit-width: 148px;
+    --quit-dialog-exit-height: 57px;
+    --quit-dialog-button-transition: opacity 180ms ease-in-out;
+    --quit-dialog-button-hover-offset-x: 0px;
+    --quit-dialog-button-hover-offset-y: 0px;
+    --quit-dialog-back-hover-offset-x: var(--quit-dialog-button-hover-offset-x);
+    --quit-dialog-back-hover-offset-y: var(--quit-dialog-button-hover-offset-y);
+    --quit-dialog-exit-hover-offset-x: var(--quit-dialog-button-hover-offset-x);
+    --quit-dialog-exit-hover-offset-y: var(--quit-dialog-button-hover-offset-y);
+    --quit-dialog-text-button-background: rgba(134, 233, 214, 0.14);
+    --quit-dialog-text-button-border: 2px solid rgba(77, 213, 188, 1);
+    --quit-dialog-text-button-border-radius: 0;
+    --quit-dialog-text-button-color: rgba(77, 213, 188, 1);
+    --quit-dialog-text-button-font-family: 'RedRose';
+    --quit-dialog-text-button-font-size: 20px;
+    --quit-dialog-text-button-hover-background: rgba(134, 233, 214, 0.26);
+    --quit-dialog-text-button-hover-box-shadow: inset 0 0 0 1px rgba(77, 213, 188, 1), 4px 4px 6px rgba(77, 213, 188, 0.2);
+
+    background-color: var(--game-screen-background);
+    position: relative;
+
+    &[data-board-size='16'] {
+        --memory-board-columns: 4;
+        --memory-board-rows: 4;
+        --memory-card-row-gap: 16px;
+        --memory-card-column-gap: 16px;
+    }
+
+    &[data-board-size='24'] {
+        --memory-board-columns: 6;
+        --memory-board-rows: 4;
+        --memory-card-row-gap: 8px;
+        --memory-card-column-gap: 8px;
+    }
+
+    &[data-board-size='36'] {
+        --memory-board-columns: 6;
+        --memory-board-rows: 6;
+        --memory-card-row-gap: 8px;
+        --memory-card-column-gap: 8px;
+    }
+
+    &[data-theme='gaming'] {
+        --game-screen-background: #{variables.$gamingThemeColor};
+        --current-player-color: #{variables.$white};
+        --current-player-font-family: 'Orbitron';
+        --current-player-font-weight: 700;
+        --exit-button-width: 205px;
+        --exit-button-height: 64px;
+        --exit-button-default-offset-x: 5px;
+        --exit-button-default-offset-y: 5px;
+        --exit-button-hover-offset-x: 3px;
+        --exit-button-hover-offset-y: 3px;
+        --game-header-background: rgba(253, 150, 201, 0.2);
+        --memory-card-width: 105px;
+        --memory-card-height: 120px;
+        --memory-card-background: linear-gradient(147.13deg, #ED1B76 1.28%, #0A2835 142.53%);
+        --memory-card-front-background: rgba(246, 241, 243, 1);
+        --memory-card-box-shadow: 6px 6px 12px 0 rgba(0, 0, 0, 0.25);
+        --memory-card-border-radius: 12px;
+        --memory-card-back-display: none;
+        --quit-dialog-width: 481px;
+        --quit-dialog-animation: game-screen-dialog-slide-from-bottom 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        --quit-dialog-backdrop-animation: game-screen-dialog-backdrop-fade-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        --quit-dialog-background: rgba(240, 246, 249, 1);
+        --quit-dialog-border-radius: 20px;
+        --quit-dialog-font-family: 'Orbitron';
+        --quit-dialog-font-size: 28px;
+        --quit-dialog-back-width: 201px;
+        --quit-dialog-back-height: 44px;
+        --quit-dialog-exit-width: 176px;
+        --quit-dialog-exit-height: 44px;
+        --quit-dialog-button-transition: none;
+        --quit-dialog-button-hover-offset-x: -1.5px;
+        --quit-dialog-button-hover-offset-y: -1.5px;
+        --quit-dialog-text-button-background: rgba(237, 27, 118, 0.08);
+        --quit-dialog-text-button-border: 2px solid rgba(231, 28, 79, 1);
+        --quit-dialog-text-button-border-radius: 10px;
+        --quit-dialog-text-button-color: rgba(237, 27, 118, 1);
+        --quit-dialog-text-button-font-family: 'Orbitron';
+        --quit-dialog-text-button-font-size: 16px;
+        --quit-dialog-text-button-hover-background: rgba(237, 27, 118, 0.14);
+        --quit-dialog-text-button-hover-box-shadow: inset 0 0 0 1px rgba(231, 28, 79, 1), 3px 3px 5px rgba(47, 46, 46, 0.2);
+    }
+
+    &[data-theme='da-projects'] {
+        --game-screen-background: #{variables.$white};
+        --current-player-color: #{variables.$blue};
+        --current-player-font-family: 'Figtree';
+        --current-player-font-weight: 700;
+        --exit-button-width: 182px;
+        --exit-button-height: 64px;
+        --exit-button-default-offset-x: 5px;
+        --exit-button-default-offset-y: 5px;
+        --exit-button-hover-offset-x: 3px;
+        --exit-button-hover-offset-y: 3px;
+        --game-header-background: rgba(240, 243, 244, 1);
+        --memory-card-width: 120px;
+        --memory-card-height: 100px;
+        --memory-card-background: #{variables.$daProjectsThemeColor};
+        --memory-card-front-background: rgba(234, 242, 244, 1);
+        --memory-card-border-radius: 13px;
+        --memory-card-back-image: url('../../../assets/cards/da_theme_card_back.svg');
+        --memory-card-back-width: 49px;
+        --memory-card-back-height: 40px;
+        --quit-dialog-width: 456px;
+        --quit-dialog-animation: game-screen-dialog-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+        --quit-dialog-close-animation: game-screen-dialog-fade-out 250ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        --quit-dialog-backdrop-animation: game-screen-dialog-backdrop-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+        --quit-dialog-backdrop-close-animation: game-screen-dialog-backdrop-fade-out 250ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        --quit-dialog-background: rgba(240, 246, 249, 1);
+        --quit-dialog-border-radius: 20px;
+        --quit-dialog-font-family: 'Figtree';
+        --quit-dialog-font-size: 28px;
+        --quit-dialog-back-width: 150px;
+        --quit-dialog-back-height: 53px;
+        --quit-dialog-exit-width: 124px;
+        --quit-dialog-exit-height: 53px;
+        --quit-dialog-button-hover-offset-x: 2px;
+        --quit-dialog-button-hover-offset-y: 2px;
+    }
+
+    &[data-theme='foods'] {
+        --game-screen-background: #{variables.$white};
+        --current-player-color: #{variables.$orange};
+        --current-player-font-family: 'Klee One';
+        --current-player-font-weight: 600;
+        --exit-button-width: 183px;
+        --exit-button-height: 56px;
+        --exit-button-default-offset-x: 2.85px;
+        --exit-button-default-offset-y: 2px;
+        --exit-button-hover-offset-x: 1.5px;
+        --exit-button-hover-offset-y: 1.5px;
+        --game-header-background: rgba(240, 229, 217, 1);
+        --memory-card-width: 122px;
+        --memory-card-height: 120px;
+        --memory-card-background: #{variables.$foodThemeColor};
+        --memory-card-front-background: rgba(244, 236, 228, 1);
+        --memory-card-back-image: url('../../../assets/cards/food_theme_card_back.svg');
+        --memory-card-back-width: 60px;
+        --memory-card-back-height: 48px;
+        --quit-dialog-width: 462px;
+        --quit-dialog-animation: game-screen-dialog-slide-from-bottom 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        --quit-dialog-backdrop-animation: game-screen-dialog-backdrop-fade-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        --quit-dialog-background: rgba(246, 246, 246, 1);
+        --quit-dialog-border-radius: 20px;
+        --quit-dialog-font-family: 'Klee One';
+        --quit-dialog-font-size: 28px;
+        --quit-dialog-back-width: 214px;
+        --quit-dialog-back-height: 48px;
+        --quit-dialog-exit-width: 144px;
+        --quit-dialog-exit-height: 49px;
+        --quit-dialog-back-hover-offset-x: -1.1px;
+        --quit-dialog-back-hover-offset-y: -0.5px;
+        --quit-dialog-exit-hover-offset-x: 0px;
+        --quit-dialog-exit-hover-offset-y: 0px;
+    }
+
+    &[data-theme='gaming'],
+    &[data-theme='da-projects'],
+    &[data-theme='foods'] {
+        --player-status-background: #{variables.$white};
+        --player-status-height: 54px;
+        --player-status-gap: 40px;
+        --player-status-border-radius: 10px;
+        --player-status-font-size: 30px;
+        --current-player-font-size: 32px;
+        --current-player-gap: 18px;
+        --current-player-align-self: center;
+        --game-header-padding: 24px;
+        --quit-dialog-gap: 40px;
+        --player-status-padding: 0 16px;
+
+        .game-screen__player-status__orange {
+            color: rgba(234, 105, 0, 1);
+        }
+
+        .game-screen__player-status__blue {
+            color: rgba(9, 127, 197, 1);
+        }
+    }
+
+    &[data-theme='gaming'] {
+        --player-status-item-gap: 8px;
+        --player-status-font-family: 'Orbitron';
+    }
+
+    &[data-theme='da-projects'] {
+        --player-status-item-gap: 4px;
+        --player-status-font-family: 'Figtree';
+    }
+
+    &[data-theme='foods'] {
+        --player-status-item-gap: 4px;
+        --player-status-font-family: 'Delius Unicase';
+    }
+}

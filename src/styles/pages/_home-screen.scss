@@ -58,7 +58,6 @@
         font-size: fct.px-to-rem(20);
         position: relative;
         width: fit-content;
-        transition: 0ms;
 
         &:hover {
             font-weight: 700;
@@ -84,14 +83,13 @@
         }
 
         input[type="radio"] {
-            transition: 0ms;
             appearance: none;
             width: 20px;
             height: 20px;
             border: 3px solid variables.$codeVibeThemeColor;
             border-radius: 50%;
             cursor: pointer;
-            
+
             &:checked {
                 background: radial-gradient(circle, variables.$codeVibeThemeColor 21%, transparent 34%);
                 border: 2px solid variables.$codeVibeThemeColor;
@@ -128,7 +126,6 @@
         flex: 0 0 auto;
         text-align: right;
         white-space: nowrap;
-        transition: none;
     }
 
     &__footer-separator {
@@ -169,10 +166,12 @@
         gap: 8px;
         padding: 14px 20px;
         cursor: default;
+        transition: padding 180ms ease-in-out, background-color 180ms ease-in-out;
 
         svg {
             width: 20px;
             height: 16px;
+            transition: width 180ms ease-in-out, height 180ms ease-in-out, transform 180ms ease-in-out;
         }
 
         &:not(:disabled) {

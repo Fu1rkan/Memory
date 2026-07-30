@@ -68,7 +68,7 @@
     }
 
     &[data-theme='da-projects'] {
-        --end-screen-background: rgba(30, 117, 148, 1);
+        --end-screen-background: #{variables.$daProjectsThemeColor};
         --end-screen-gap: 104px;
         --end-screen-animation: end-screen-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
         --end-screen-title-color: rgba(253, 91, 79, 1);
@@ -93,7 +93,7 @@
     }
 
     &[data-theme='foods'] {
-        --end-screen-background: rgba(243, 131, 45, 1);
+        --end-screen-background: #{variables.$foodThemeColor};
         --end-screen-gap: 104px;
         --end-screen-animation: end-screen-slide-from-bottom 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
         --end-screen-title-color: #{variables.$white};
@@ -203,7 +203,7 @@
     .game-screen__player-status__blue__icon {
         @include mixin.flex-center(row, center, space-between);
 
-        >svg {
+        > svg {
             width: var(--player-status-icon-width);
             height: var(--player-status-icon-height);
         }
@@ -245,36 +245,6 @@
         .game-screen__player-status--expanded-score {
             width: calc(var(--player-status-width) + 18px);
         }
-    }
-}
-
-@keyframes end-screen-slide-from-top {
-    from {
-        transform: translateY(-100%);
-    }
-
-    to {
-        transform: translateY(0);
-    }
-}
-
-@keyframes end-screen-slide-from-bottom {
-    from {
-        transform: translateY(100%);
-    }
-
-    to {
-        transform: translateY(0);
-    }
-}
-
-@keyframes end-screen-fade-in {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
     }
 }
 

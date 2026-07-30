@@ -66,7 +66,7 @@
     }
 
     &[data-theme='da-projects'] {
-        --winner-screen-background: rgba(30, 117, 148, 1);
+        --winner-screen-background: #{variables.$daProjectsThemeColor};
         --winner-screen-animation: end-screen-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
         --winner-intro-color: #{variables.$white};
         --winner-intro-font-family: 'Figtree';
@@ -84,10 +84,10 @@
         --winner-button-border: 2px solid #{variables.$white};
         --winner-button-border-radius: 10px;
         --winner-button-background: #{variables.$white};
-        --winner-button-color: rgba(30, 117, 148, 1);
+        --winner-button-color: #{variables.$daProjectsThemeColor};
         --winner-button-font-family: 'Figtree';
         --winner-button-font-size: 20px;
-        --winner-button-hover-background: rgba(30, 117, 148, 1);
+        --winner-button-hover-background: #{variables.$daProjectsThemeColor};
         --winner-button-hover-color: #{variables.$white};
         --winner-button-hover-shadow: 3px 3px 5px 0 rgba(47, 46, 46, 0.2);
     }
@@ -111,7 +111,7 @@
         --winner-button-padding: 12px 20px;
         --winner-button-border: none;
         --winner-button-border-radius: 10px;
-        --winner-button-background: rgba(243, 131, 45, 1);
+        --winner-button-background: #{variables.$foodThemeColor};
         --winner-button-color: #{variables.$white};
         --winner-button-font-family: 'Klee One';
         --winner-button-font-size: 16px;
@@ -173,8 +173,8 @@
     }
 
     &[data-theme='foods'][data-winner='draw'] {
-        --winner-intro-color: rgba(243, 131, 45, 1);
-        --winner-player-color: rgba(243, 131, 45, 1);
+        --winner-intro-color: #{variables.$foodThemeColor};
+        --winner-player-color: #{variables.$foodThemeColor};
         --winner-player-font-family: 'Klee One';
         --winner-player-font-size: 128px;
         --winner-player-font-weight: 600;
@@ -263,7 +263,7 @@
         font-weight: var(--winner-button-font-weight);
         line-height: 1;
         white-space: nowrap;
-        transition: background-color 180ms ease-in-out, box-shadow 180ms ease-in-out;
+        transition: background-color 180ms ease-in-out, color 180ms ease-in-out, box-shadow 180ms ease-in-out;
 
         &:hover {
             background-color: var(--winner-button-hover-background);

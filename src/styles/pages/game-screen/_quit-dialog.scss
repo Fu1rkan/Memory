@@ -1,0 +1,211 @@
+@use '../../abstract/variables' as variables;
+@use '../../abstract/mixin' as mixin;
+
+.game-screen {
+    &__quit-dialog {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        width: min(var(--quit-dialog-width), calc(100vw - 32px));
+        margin: auto;
+        padding: 40px;
+        gap: var(--quit-dialog-gap);
+        border-radius: var(--quit-dialog-border-radius);
+        background-color: var(--quit-dialog-background);
+        color: variables.$codeVibeThemeColor;
+        font-family: var(--quit-dialog-font-family);
+        transform-origin: center;
+
+        &[open] {
+            display: flex;
+            animation: var(--quit-dialog-animation);
+        }
+
+        &[open].game-screen__quit-dialog--closing {
+            animation: var(--quit-dialog-close-animation);
+        }
+
+        &::backdrop {
+            background-color: var(--quit-dialog-backdrop-background);
+            animation: var(--quit-dialog-backdrop-animation);
+        }
+
+        &[open].game-screen__quit-dialog--closing:not(.game-screen__quit-dialog--backdrop-closing)::backdrop,
+        &[open].game-screen__quit-dialog--backdrop-closing:not(.game-screen__quit-dialog--closing)::backdrop {
+            animation: var(--quit-dialog-backdrop-close-animation);
+        }
+
+        &[open].game-screen__quit-dialog--closing.game-screen__quit-dialog--backdrop-closing::backdrop {
+            background-color: transparent;
+            animation: none;
+        }
+    }
+
+    &__quit-dialog-title {
+        max-width: 100%;
+        font-size: var(--quit-dialog-font-size);
+        line-height: 1.3;
+        text-align: center;
+    }
+
+    &__quit-dialog-actions {
+        @include mixin.flex-center(row);
+        gap: var(--quit-dialog-actions-gap);
+    }
+
+    &__quit-dialog-button {
+        position: relative;
+        background-color: transparent;
+
+        &--back {
+            width: var(--quit-dialog-back-width);
+            height: var(--quit-dialog-back-height);
+
+            .game-screen__quit-dialog-button-image--hover:not(.game-screen__button-text-visual) {
+                top: var(--quit-dialog-back-hover-offset-y);
+                left: var(--quit-dialog-back-hover-offset-x);
+            }
+        }
+
+        &--exit {
+            width: var(--quit-dialog-exit-width);
+            height: var(--quit-dialog-exit-height);
+
+            .game-screen__quit-dialog-button-image--hover:not(.game-screen__button-text-visual) {
+                top: var(--quit-dialog-exit-hover-offset-y);
+                left: var(--quit-dialog-exit-hover-offset-x);
+            }
+        }
+
+        &:hover {
+            .game-screen__quit-dialog-button-image--default {
+                opacity: 0;
+            }
+
+            .game-screen__quit-dialog-button-image--hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    &__quit-dialog-button-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: auto;
+        height: auto;
+        line-height: 0;
+        transition: var(--quit-dialog-button-transition);
+
+        > img,
+        > svg {
+            display: block;
+        }
+
+        &--hover {
+            opacity: 0;
+        }
+
+        &--hover:not(.game-screen__button-text-visual) {
+            top: var(--quit-dialog-button-hover-offset-y);
+            left: var(--quit-dialog-button-hover-offset-x);
+        }
+    }
+
+    &__button-text-visual {
+        @include mixin.flex-center(row);
+        width: 100%;
+        height: 100%;
+        border: var(--quit-dialog-text-button-border);
+        border-radius: var(--quit-dialog-text-button-border-radius);
+        background-color: var(--quit-dialog-text-button-background);
+        color: var(--quit-dialog-text-button-color);
+        font-family: var(--quit-dialog-text-button-font-family);
+        font-size: var(--quit-dialog-text-button-font-size);
+        font-weight: 700;
+        line-height: 1;
+        transition: var(--quit-dialog-button-transition);
+    }
+
+    &__quit-dialog-button-image--hover.game-screen__button-text-visual {
+        background-color: var(--quit-dialog-text-button-hover-background);
+        box-shadow: var(--quit-dialog-text-button-hover-box-shadow);
+    }
+}
+
+@keyframes game-screen-dialog-slide-from-top {
+    from {
+        opacity: 0;
+        transform: translateY(-100vh);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes game-screen-dialog-slide-from-bottom {
+    from {
+        opacity: 0;
+        transform: translateY(100vh);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes game-screen-dialog-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes game-screen-dialog-fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes game-screen-dialog-backdrop-fade-in {
+    from {
+        background-color: transparent;
+    }
+
+    to {
+        background-color: var(--quit-dialog-backdrop-background);
+    }
+}
+
+@keyframes game-screen-dialog-backdrop-fade-out {
+    from {
+        background-color: var(--quit-dialog-backdrop-background);
+    }
+
+    to {
+        background-color: transparent;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .game-screen__quit-dialog[open],
+    .game-screen__quit-dialog[open].game-screen__quit-dialog--closing,
+    .game-screen__quit-dialog[open].game-screen__quit-dialog--backdrop-closing,
+    .game-screen__quit-dialog[open]::backdrop,
+    .game-screen__quit-dialog[open].game-screen__quit-dialog--closing::backdrop,
+    .game-screen__quit-dialog[open].game-screen__quit-dialog--backdrop-closing::backdrop {
+        animation: none;
+    }
+}

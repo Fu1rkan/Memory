@@ -33,6 +33,7 @@
             position: relative;
             width: 35px;
             height: 100%;
+            transition: width 50ms ease-in-out;
 
             &__main {
                 width: 100%;
