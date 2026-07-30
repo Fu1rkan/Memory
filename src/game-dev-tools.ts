@@ -3,12 +3,12 @@ import { finishGame } from './game-finish';
 
 const REVEALING_CARDS_CLASS = 'game-screen--revealing-cards';
 
-/** Aktiviert die temporaeren Testbuttons im Game Screen. */
+/** Enables the temporary test buttons on the game screen. */
 export function setupDevButtons(gameScreen: HTMLElement): void {
   gameScreen.addEventListener('click', event => handleDevButtonClick(event, gameScreen));
 }
 
-/** Setzt den Karten-Anzeigemodus wieder auf den Standard zurueck. */
+/** Resets the card reveal mode to its default state. */
 export function resetCardRevealMode(gameScreen: HTMLElement): void {
   const revealButton = gameScreen.querySelector<HTMLElement>('.game-screen__dev-reveal-button');
 
@@ -17,7 +17,7 @@ export function resetCardRevealMode(gameScreen: HTMLElement): void {
   updateRevealButtonText(revealButton, false);
 }
 
-/** Reagiert auf Klicks der temporaeren Testbuttons. */
+/** Handles clicks on the temporary test buttons. */
 function handleDevButtonClick(event: Event, gameScreen: HTMLElement): void {
   const finishButton = getClosestElement(event, '.game-screen__dev-finish-button');
   const revealButton = getClosestElement(event, '.game-screen__dev-reveal-button');
@@ -31,7 +31,7 @@ function handleDevButtonClick(event: Event, gameScreen: HTMLElement): void {
   }
 }
 
-/** Schaltet die Kartenrueckseiten testweise sichtbar oder unsichtbar. */
+/** Toggles the card backs for testing. */
 function toggleCardRevealMode(gameScreen: HTMLElement, revealButton: HTMLElement): void {
   const isRevealingCards = gameScreen.classList.toggle(REVEALING_CARDS_CLASS);
 
@@ -39,7 +39,7 @@ function toggleCardRevealMode(gameScreen: HTMLElement, revealButton: HTMLElement
   updateRevealButtonText(revealButton, isRevealingCards);
 }
 
-/** Aktualisiert den Text des Reveal-Testbuttons. */
+/** Updates the text of the reveal test button. */
 function updateRevealButtonText(button: HTMLElement | null | undefined, isRevealingCards: boolean): void {
   if (button) {
     button.textContent = isRevealingCards ? 'Hide cards' : 'Show cards';

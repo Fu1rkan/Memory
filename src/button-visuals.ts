@@ -38,13 +38,13 @@ export type QuitDialogButtonVisuals = {
   exit: ButtonVisuals;
 };
 
-/** Erstellt eine Button-Visualisierung aus Inline-SVG-Markup. */
+/** Creates a button visual from inline SVG markup. */
 const inlineSvgVisual = (markup: string): ButtonVisual => ({
   type: 'inline-svg',
   markup,
 });
 
-/** Erstellt eine Button-Visualisierung aus reinem Text. */
+/** Creates a button visual from plain text. */
 const textVisual = (label: string): ButtonVisual => ({ type: 'text', label });
 
 export const EXIT_BUTTON_VISUALS: Record<GameTheme, ButtonVisuals> = {

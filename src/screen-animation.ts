@@ -9,7 +9,7 @@ type AnimationState = {
   isFinished: boolean;
 };
 
-/** Wartet auf die Enter-Animation eines Screens und fuehrt danach Cleanup aus. */
+/** Waits for a screen enter animation and runs cleanup afterward. */
 export function runScreenEnterAnimation(options: ScreenEnterAnimationOptions): void {
   const finishAnimation = createAnimationFinisher(options);
 
@@ -17,14 +17,14 @@ export function runScreenEnterAnimation(options: ScreenEnterAnimationOptions): v
   window.setTimeout(finishAnimation, getMotionAwareDelay(options.fallbackDelay));
 }
 
-/** Erstellt einen Finisher, der nur einmal ausgefuehrt werden kann. */
+/** Creates a finisher that can only run once. */
 function createAnimationFinisher(options: ScreenEnterAnimationOptions): () => void {
   const state: AnimationState = { isFinished: false };
 
   return () => finishAnimationOnce(options, state);
 }
 
-/** Schliesst die Animation ab, falls sie noch nicht abgeschlossen wurde. */
+/** Finishes the animation if it has not already finished. */
 function finishAnimationOnce(options: ScreenEnterAnimationOptions, state: AnimationState): void {
   if (state.isFinished) {
     return;
@@ -35,7 +35,7 @@ function finishAnimationOnce(options: ScreenEnterAnimationOptions, state: Animat
   options.onFinished();
 }
 
-/** Gibt bei reduzierter Bewegung sofort zurueck, sonst den Fallback-Wert. */
+/** Returns immediately for reduced motion, otherwise returns the fallback value. */
 function getMotionAwareDelay(fallbackDelay: number): number {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     return 0;

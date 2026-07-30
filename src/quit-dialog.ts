@@ -7,7 +7,7 @@ const BACKDROP_CLOSING_CLASS = 'game-screen__quit-dialog--backdrop-closing';
 const DA_CLOSE_ANIMATION_DELAY = 250;
 const CODE_VIBES_BACKDROP_CLOSE_DELAY = 250;
 
-/** Verbindet Exit-, Back- und Confirm-Button mit dem Quit-Dialog. */
+/** Connects the exit, back and confirm buttons with the quit dialog. */
 export function setupQuitDialog(
   gameScreen: HTMLElement,
   homeScreen: HTMLElement,
@@ -18,7 +18,7 @@ export function setupQuitDialog(
   });
 }
 
-/** Reagiert auf alle Klicks, die den Quit-Dialog betreffen. */
+/** Handles all clicks related to the quit dialog. */
 function handleQuitDialogClick(
   event: Event,
   gameScreen: HTMLElement,
@@ -30,14 +30,14 @@ function handleQuitDialogClick(
   leaveGameWhenConfirmed(event, homeScreen, gameScreen, quitGameDialog);
 }
 
-/** Oeffnet den Dialog, wenn der Header-Exit-Button geklickt wurde. */
+/** Opens the dialog when the header exit button was clicked. */
 function openDialogWhenExitWasClicked(event: Event, dialog: HTMLDialogElement): void {
   if (getClosestElement(event, '.game-screen__exit-button')) {
     showQuitGameDialog(dialog);
   }
 }
 
-/** Schliesst den Dialog, wenn der Back-to-game-Button geklickt wurde. */
+/** Closes the dialog when the back-to-game button was clicked. */
 function closeDialogWhenBackWasClicked(
   event: Event,
   gameScreen: HTMLElement,
@@ -48,7 +48,7 @@ function closeDialogWhenBackWasClicked(
   }
 }
 
-/** Wechselt zurueck zum Home Screen, wenn das Verlassen bestaetigt wurde. */
+/** Goes back to the home screen when leaving was confirmed. */
 function leaveGameWhenConfirmed(
   event: Event,
   homeScreen: HTMLElement,
@@ -61,7 +61,7 @@ function leaveGameWhenConfirmed(
   }
 }
 
-/** Oeffnet den Quit-Dialog, wenn er noch nicht offen ist. */
+/** Opens the quit dialog when it is not already open. */
 function showQuitGameDialog(dialog: HTMLDialogElement): void {
   if (!dialog.open) {
     dialog.classList.remove(CLOSING_CLASS, BACKDROP_CLOSING_CLASS);
@@ -69,7 +69,7 @@ function showQuitGameDialog(dialog: HTMLDialogElement): void {
   }
 }
 
-/** Schliesst den Quit-Dialog je nach Theme mit der passenden Animation. */
+/** Closes the quit dialog with the matching theme animation. */
 function closeQuitGameDialog(gameScreen: HTMLElement, dialog: HTMLDialogElement): void {
   if (shouldIgnoreCloseRequest(dialog)) {
     return;
@@ -78,14 +78,14 @@ function closeQuitGameDialog(gameScreen: HTMLElement, dialog: HTMLDialogElement)
   closeDialogForTheme(gameScreen.dataset.theme, dialog);
 }
 
-/** Prueft, ob der Dialog schon schliesst oder gar nicht offen ist. */
+/** Checks whether the dialog is already closing or not open. */
 function shouldIgnoreCloseRequest(dialog: HTMLDialogElement): boolean {
   return !dialog.open
     || dialog.classList.contains(CLOSING_CLASS)
     || dialog.classList.contains(BACKDROP_CLOSING_CLASS);
 }
 
-/** Schliesst den Dialog passend zum aktiven Theme. */
+/** Closes the dialog based on the active theme. */
 function closeDialogForTheme(theme: string | undefined, dialog: HTMLDialogElement): void {
   if (prefersReducedMotion()) {
     dialog.close();
@@ -98,15 +98,15 @@ function closeDialogForTheme(theme: string | undefined, dialog: HTMLDialogElemen
   }
 }
 
-/** Schliesst beim Code-Vibes-Theme erst den Backdrop und dann den Dialog. */
+/** Closes the backdrop first and then the dialog for the Code Vibes theme. */
 function closeCodeVibesQuitGameDialog(dialog: HTMLDialogElement): void {
   dialog.classList.add(BACKDROP_CLOSING_CLASS);
   window.setTimeout(() => closeDialogNow(dialog, [BACKDROP_CLOSING_CLASS]), CODE_VIBES_BACKDROP_CLOSE_DELAY);
 }
 
-/** Schliesst den Dialog nach der DA-Fade-Animation. */
+/** Closes the dialog after the DA fade animation. */
 function closeQuitGameDialogAfterAnimation(dialog: HTMLDialogElement): void {
-  /** Leitet das Animation-Ende an den Dialog-Cleanup weiter. */
+  /** Passes the animation end event to the dialog cleanup. */
   const closeOnAnimationEnd = (event: AnimationEvent): void => closeAfterDialogAnimation(event, dialog);
 
   dialog.classList.add(CLOSING_CLASS);
@@ -114,14 +114,14 @@ function closeQuitGameDialogAfterAnimation(dialog: HTMLDialogElement): void {
   window.setTimeout(() => closeDialogNow(dialog, [CLOSING_CLASS]), DA_CLOSE_ANIMATION_DELAY + ANIMATION_FALLBACK_BUFFER);
 }
 
-/** Schliesst den Dialog nur nach seiner eigenen Animation. */
+/** Closes the dialog only after its own animation. */
 function closeAfterDialogAnimation(event: AnimationEvent, dialog: HTMLDialogElement): void {
   if (event.target === dialog && !event.pseudoElement) {
     closeDialogNow(dialog, [CLOSING_CLASS]);
   }
 }
 
-/** Entfernt Schliessklassen und schliesst den Dialog sofort. */
+/** Removes closing classes and closes the dialog immediately. */
 function closeDialogNow(dialog: HTMLDialogElement, classNames: string[]): void {
   if (dialog.open) {
     dialog.classList.remove(...classNames);
@@ -129,7 +129,7 @@ function closeDialogNow(dialog: HTMLDialogElement, classNames: string[]): void {
   }
 }
 
-/** Prueft, ob Nutzer Animationen reduziert haben moechten. */
+/** Checks whether the user prefers reduced motion. */
 function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }

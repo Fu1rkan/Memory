@@ -4,7 +4,7 @@ import type { GameTheme } from './game-themes';
 import { renderButtonVisuals } from './render-button-visuals';
 import { updatePlayerStatusVisuals } from './player-status';
 
-/** Uebernimmt das im Home Screen gewaehlte Theme fuer den Game Screen. */
+/** Applies the theme selected on the home screen to the game screen. */
 export function applySelectedTheme(gameScreen: HTMLElement, homeScreen: HTMLElement): void {
   const selectedTheme = getSelectedTheme(homeScreen);
 
@@ -14,14 +14,14 @@ export function applySelectedTheme(gameScreen: HTMLElement, homeScreen: HTMLElem
   updateQuitDialogButtonVisuals(gameScreen, selectedTheme);
 }
 
-/** Aktualisiert die visuelle Variante des Header-Exit-Buttons. */
+/** Updates the visual variant of the header exit button. */
 function updateExitButtonVisuals(gameScreen: HTMLElement, selectedTheme: GameTheme): void {
   const exitButton = getRequiredElement(gameScreen, '.game-screen__exit-button');
 
   renderButtonVisuals(exitButton, EXIT_BUTTON_VISUALS[selectedTheme], 'game-screen__exit-button-image');
 }
 
-/** Aktualisiert die beiden Buttons im Quit-Dialog. */
+/** Updates both buttons in the quit dialog. */
 function updateQuitDialogButtonVisuals(gameScreen: HTMLElement, selectedTheme: GameTheme): void {
   const visuals = QUIT_DIALOG_BUTTON_VISUALS[selectedTheme];
 
@@ -29,7 +29,7 @@ function updateQuitDialogButtonVisuals(gameScreen: HTMLElement, selectedTheme: G
   updateDialogButtonVisuals(gameScreen, '.game-screen__quit-dialog-button--exit', visuals.exit);
 }
 
-/** Aktualisiert einen einzelnen Button im Quit-Dialog. */
+/** Updates a single button in the quit dialog. */
 function updateDialogButtonVisuals(
   gameScreen: HTMLElement,
   buttonSelector: string,
@@ -40,7 +40,7 @@ function updateDialogButtonVisuals(
   renderButtonVisuals(button, visuals, 'game-screen__quit-dialog-button-image');
 }
 
-/** Gibt ein Element zurueck oder meldet einen klaren Strukturfehler. */
+/** Returns an element or reports a clear structure error. */
 function getRequiredElement(root: HTMLElement, selector: string): HTMLElement {
   const element = root.querySelector<HTMLElement>(selector);
 

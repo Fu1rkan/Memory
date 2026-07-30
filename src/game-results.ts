@@ -13,7 +13,7 @@ export type GameFinishedEventDetail = {
   winner: WinnerResult;
 };
 
-/** Gibt anhand der Punkte den Gewinner oder ein Unentschieden zurueck. */
+/** Returns the winner or a draw based on the scores. */
 export function getWinner(scores: PlayerScores): WinnerResult {
   if (scores.blue === scores.orange) {
     return 'draw';

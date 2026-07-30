@@ -1,4 +1,4 @@
-/** Gibt ein Element anhand seiner ID zurueck oder wirft einen klaren Fehler. */
+/** Returns an element by its ID or throws a clear error. */
 export function getElementById(id: string): HTMLElement {
   const element = document.getElementById(id);
 
@@ -9,7 +9,7 @@ export function getElementById(id: string): HTMLElement {
   return element;
 }
 
-/** Gibt ein Dialog-Element anhand seiner ID zurueck. */
+/** Returns a dialog element by its ID. */
 export function getDialogById(id: string): HTMLDialogElement {
   const element = getElementById(id);
 
@@ -20,7 +20,7 @@ export function getDialogById(id: string): HTMLDialogElement {
   return element;
 }
 
-/** Gibt das naechste passende Element zum Event-Target zurueck. */
+/** Returns the closest matching element from the event target. */
 export function getClosestElement(event: Event, selector: string): Element | null {
   const target = event.target;
 

@@ -10,17 +10,17 @@ type BoardState = {
 
 const boardState: BoardState = createInitialBoardState();
 
-/** Gibt den Spieler zurueck, der aktuell am Zug ist. */
+/** Returns the player whose turn is active. */
 export function getCurrentPlayer(): PlayerColor {
   return boardState.currentPlayer;
 }
 
-/** Gibt eine Kopie der aktuellen Punkte zurueck. */
+/** Returns a copy of the current scores. */
 export function getScores(): PlayerScores {
   return { ...boardState.scores };
 }
 
-/** Setzt den Board-State fuer ein neues Spiel zurueck. */
+/** Resets the board state for a new game. */
 export function resetBoardState(currentPlayer: PlayerColor): void {
   boardState.currentPlayer = currentPlayer;
   boardState.scores = createInitialPlayerScores();
@@ -28,51 +28,51 @@ export function resetBoardState(currentPlayer: PlayerColor): void {
   boardState.isLocked = false;
 }
 
-/** Prueft, ob gerade keine weiteren Karten geoeffnet werden duerfen. */
+/** Checks whether the board is currently locked. */
 export function isBoardLocked(): boolean {
   return boardState.isLocked;
 }
 
-/** Sperrt das Board, solange ein falsches Paar sichtbar ist. */
+/** Locks the board while a mismatched pair is visible. */
 export function lockBoard(): void {
   boardState.isLocked = true;
 }
 
-/** Hebt die Board-Sperre wieder auf. */
+/** Unlocks the board again. */
 export function unlockBoard(): void {
   boardState.isLocked = false;
 }
 
-/** Merkt sich eine aufgedeckte Karte fuer den Paarvergleich. */
+/** Stores an opened card for the pair comparison. */
 export function addSelectedCard(card: HTMLButtonElement): void {
   boardState.selectedCards.push(card);
 }
 
-/** Gibt die aktuell ausgewaehlten Karten zurueck. */
+/** Returns the currently selected cards. */
 export function getSelectedCards(): HTMLButtonElement[] {
   return boardState.selectedCards;
 }
 
-/** Entfernt alle aktuell ausgewaehlten Karten aus dem Vergleich. */
+/** Removes all currently selected cards from the comparison. */
 export function clearSelectedCards(): void {
   boardState.selectedCards = [];
 }
 
-/** Erhoeht die Punkte des aktuellen Spielers und gibt die neuen Punkte zurueck. */
+/** Increases the current player's score and returns the updated scores. */
 export function increaseCurrentPlayerScore(): PlayerScores {
   boardState.scores[boardState.currentPlayer] += 1;
 
   return getScores();
 }
 
-/** Wechselt zum naechsten Spieler und gibt ihn zurueck. */
+/** Switches to the next player and returns that player. */
 export function switchCurrentPlayer(): PlayerColor {
   boardState.currentPlayer = getNextPlayer(boardState.currentPlayer);
 
   return boardState.currentPlayer;
 }
 
-/** Erstellt den initialen Board-State. */
+/** Creates the initial board state. */
 function createInitialBoardState(): BoardState {
   return {
     currentPlayer: 'blue',
@@ -82,7 +82,7 @@ function createInitialBoardState(): BoardState {
   };
 }
 
-/** Erstellt leere Punkte fuer beide Spieler. */
+/** Creates empty scores for both players. */
 function createInitialPlayerScores(): PlayerScores {
   return {
     blue: 0,

@@ -49,14 +49,14 @@ const COMPACT_PLAYER_STATUS_VISUALS = createChessPiecePlayerStatusVisuals(
 
 let codeVibesPlayerStatusVisuals: PlayerStatusVisuals | undefined;
 
-/** Speichert die urspruengliche Code-Vibes-Anzeige als Template. */
+/** Stores the original Code Vibes display as a template. */
 export function setupPlayerStatus(gameScreen: HTMLElement): void {
   const defaultPlayerStatusVisuals = getPlayerStatusVisuals(gameScreen);
 
   codeVibesPlayerStatusVisuals = createCodeVibesPlayerStatusVisuals(defaultPlayerStatusVisuals);
 }
 
-/** Tauscht Icons und Counter passend zum aktiven Theme aus. */
+/** Replaces icons and counters based on the active theme. */
 export function updatePlayerStatusVisuals(gameScreen: HTMLElement, selectedTheme: GameTheme): void {
   const visuals = getThemePlayerStatusVisuals(selectedTheme);
 
@@ -68,7 +68,7 @@ export function updatePlayerStatusVisuals(gameScreen: HTMLElement, selectedTheme
   updatePlayerStatusItem(gameScreen, 'blue', visuals.blue);
 }
 
-/** Aktualisiert beide Punktestaende und bei Bedarf die Containerbreite. */
+/** Updates both scores and the container width when needed. */
 export function updatePlayerScores(
   gameScreen: HTMLElement,
   selectedTheme: GameTheme,
@@ -79,7 +79,7 @@ export function updatePlayerScores(
   updatePlayerStatusSize(gameScreen, selectedTheme, scores);
 }
 
-/** Gibt die Anzeige-Templates fuer das aktive Theme zurueck. */
+/** Returns the display templates for the active theme. */
 function getThemePlayerStatusVisuals(selectedTheme: GameTheme): PlayerStatusVisuals | undefined {
   switch (selectedTheme) {
     case 'code-vibes':
@@ -92,7 +92,7 @@ function getThemePlayerStatusVisuals(selectedTheme: GameTheme): PlayerStatusVisu
   }
 }
 
-/** Baut die Code-Vibes-Anzeige mit Text und absolutem Zahlen-Span. */
+/** Builds the Code Vibes display with text and an absolute number span. */
 function createCodeVibesPlayerStatusVisuals(visuals: PlayerStatusVisuals): PlayerStatusVisuals {
   return {
     orange: createCodeVibesStatusVisual(visuals.orange, 'blue'),
@@ -100,7 +100,7 @@ function createCodeVibesPlayerStatusVisuals(visuals: PlayerStatusVisuals): Playe
   };
 }
 
-/** Erstellt eine einzelne Code-Vibes-Spieleranzeige. */
+/** Creates a single Code Vibes player display. */
 function createCodeVibesStatusVisual(
   visual: PlayerStatusItemVisual,
   playerColor: PlayerColor,
@@ -112,7 +112,7 @@ function createCodeVibesStatusVisual(
   };
 }
 
-/** Aktualisiert Icon und Counter eines Status-Items. */
+/** Updates the icon and counter of one status item. */
 function updatePlayerStatusItem(
   gameScreen: HTMLElement,
   statusKey: PlayerStatusKey,
@@ -124,13 +124,13 @@ function updatePlayerStatusItem(
   renderPlayerStatusCounter(elements.counter, visual);
 }
 
-/** Rendert das Icon einer Spieleranzeige. */
+/** Renders the icon of a player display. */
 function renderPlayerStatusIcon(iconElement: HTMLElement, iconMarkup: string): void {
   iconElement.innerHTML = iconMarkup;
   iconElement.querySelector('svg')?.setAttribute('focusable', 'false');
 }
 
-/** Rendert den Counter einer Spieleranzeige. */
+/** Renders the counter of a player display. */
 function renderPlayerStatusCounter(
   counterElement: HTMLElement,
   visual: PlayerStatusItemVisual,
@@ -142,7 +142,7 @@ function renderPlayerStatusCounter(
   }
 }
 
-/** Aktualisiert den Punktestand eines einzelnen Spielers. */
+/** Updates the score of a single player. */
 function updatePlayerScore(
   gameScreen: HTMLElement,
   selectedTheme: GameTheme,
@@ -155,7 +155,7 @@ function updatePlayerScore(
   setPlayerScoreText(counterElement, selectedTheme, playerColor, score);
 }
 
-/** Setzt den sichtbaren Score-Text passend zum Theme. */
+/** Sets the visible score text based on the theme. */
 function setPlayerScoreText(
   counterElement: HTMLElement,
   selectedTheme: GameTheme,
@@ -169,7 +169,7 @@ function setPlayerScoreText(
   }
 }
 
-/** Erweitert die Spieleranzeige, wenn der relevante Score zweistellig wird. */
+/** Expands the player display when the relevant score becomes double-digit. */
 function updatePlayerStatusSize(
   gameScreen: HTMLElement,
   selectedTheme: GameTheme,
@@ -182,7 +182,7 @@ function updatePlayerStatusSize(
   }
 }
 
-/** Schaltet die Klasse fuer groessere zweistellige Scores. */
+/** Toggles the class for larger double-digit scores. */
 function toggleExpandedScoreClass(
   playerStatusElement: HTMLElement,
   selectedTheme: GameTheme,
@@ -196,7 +196,7 @@ function toggleExpandedScoreClass(
   );
 }
 
-/** Ordnet den Spieler dem sichtbaren Status-Item zu. */
+/** Maps the player to the visible status item. */
 function getStatusKeyForPlayer(selectedTheme: GameTheme, playerColor: PlayerColor): PlayerStatusKey {
   if (selectedTheme === 'code-vibes') {
     return playerColor === 'blue' ? 'orange' : 'blue';
@@ -205,17 +205,17 @@ function getStatusKeyForPlayer(selectedTheme: GameTheme, playerColor: PlayerColo
   return playerColor;
 }
 
-/** Erstellt den Code-Vibes-Score mit getrenntem Zahlen-Span. */
+/** Creates the Code Vibes score with a separate number span. */
 function createCodeVibesScoreMarkup(playerColor: PlayerColor, score: number): string {
   return `${getPlayerLabel(playerColor)} <span class="game-screen__player-status-number">${score}</span>`;
 }
 
-/** Gibt den sichtbaren Spielernamen zurueck. */
+/** Returns the visible player label. */
 function getPlayerLabel(playerColor: PlayerColor): string {
   return playerColor === 'blue' ? 'Blue' : 'Orange';
 }
 
-/** Gibt das Counter-Element eines Spielerstatus zurueck. */
+/** Returns the counter element of a player status. */
 function getPlayerStatusCounterElement(
   gameScreen: HTMLElement,
   statusKey: PlayerStatusKey,
@@ -223,7 +223,7 @@ function getPlayerStatusCounterElement(
   return getPlayerStatusElements(gameScreen, statusKey).counter;
 }
 
-/** Liest die aktuellen Player-Status-Templates aus dem DOM. */
+/** Reads the current player status templates from the DOM. */
 function getPlayerStatusVisuals(gameScreen: HTMLElement): PlayerStatusVisuals {
   return {
     orange: getPlayerStatusItemVisual(gameScreen, 'orange'),
@@ -231,7 +231,7 @@ function getPlayerStatusVisuals(gameScreen: HTMLElement): PlayerStatusVisuals {
   };
 }
 
-/** Liest Icon und Countertext eines Spielerstatus aus. */
+/** Reads icon and counter text from one player status. */
 function getPlayerStatusItemVisual(
   gameScreen: HTMLElement,
   statusKey: PlayerStatusKey,
@@ -244,7 +244,7 @@ function getPlayerStatusItemVisual(
   };
 }
 
-/** Gibt Icon und Counter eines Spielerstatus zurueck. */
+/** Returns the icon and counter of a player status. */
 function getPlayerStatusElements(gameScreen: HTMLElement, statusKey: PlayerStatusKey): PlayerStatusElements {
   const iconElement = getPlayerStatusElement(gameScreen, statusKey, 'icon');
   const counterElement = getPlayerStatusElement(gameScreen, statusKey, 'counter');
@@ -255,7 +255,7 @@ function getPlayerStatusElements(gameScreen: HTMLElement, statusKey: PlayerStatu
   };
 }
 
-/** Gibt ein einzelnes Element aus einem Spielerstatus zurueck. */
+/** Returns a single element from a player status. */
 function getPlayerStatusElement(
   gameScreen: HTMLElement,
   statusKey: PlayerStatusKey,
@@ -271,7 +271,7 @@ function getPlayerStatusElement(
   return element;
 }
 
-/** Erstellt die Schachfiguren-Anzeige fuer ein Theme. */
+/** Creates the chess piece display for one theme. */
 function createChessPiecePlayerStatusVisuals(width: number, height: number): PlayerStatusVisuals {
   return {
     orange: createChessPiecePlayerStatusVisual(ORANGE_CHESS_COLOR, width, height),
@@ -279,7 +279,7 @@ function createChessPiecePlayerStatusVisuals(width: number, height: number): Pla
   };
 }
 
-/** Erstellt ein einzelnes Schachfiguren-Template. */
+/** Creates a single chess piece template. */
 function createChessPiecePlayerStatusVisual(
   fill: string,
   width: number,

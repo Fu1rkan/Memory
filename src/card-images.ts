@@ -92,7 +92,7 @@ export const CARD_IMAGES: Record<GameTheme, string[]> = {
   foods: createCardImagePaths('food_theme', FOOD_IMAGES),
 };
 
-/** Erstellt vollstaendige Bildpfade fuer einen Theme-Ordner. */
+/** Creates full image paths for a theme folder. */
 function createCardImagePaths(themeFolder: string, fileNames: string[]): string[] {
   return fileNames.map(fileName => `${CARD_IMAGE_FOLDER}/${themeFolder}/${fileName}`);
 }

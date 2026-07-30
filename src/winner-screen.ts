@@ -48,7 +48,7 @@ const WINNER_BUTTON_LABELS: Record<GameTheme, string> = {
 
 let showWinnerScreenTimeout: number | undefined;
 
-/** Richtet den Winnerscreen nach dem Endscreen ein. */
+/** Sets up the winner screen after the end screen. */
 export function setupWinnerScreen(
   winnerScreen: HTMLElement,
   endScreen: HTMLElement,
@@ -59,7 +59,7 @@ export function setupWinnerScreen(
   setupWinnerBackButton(winnerScreen, endScreen, gameScreen, homeScreen);
 }
 
-/** Reagiert darauf, dass der Endscreen komplett sichtbar ist. */
+/** Reacts when the end screen is fully visible. */
 function setupEndScreenShownListener(winnerScreen: HTMLElement, endScreen: HTMLElement): void {
   endScreen.addEventListener(END_SCREEN_SHOWN_EVENT_NAME, event => {
     const detail = getEndScreenShownDetail(event);
@@ -69,7 +69,7 @@ function setupEndScreenShownListener(winnerScreen: HTMLElement, endScreen: HTMLE
   });
 }
 
-/** Plant den Winnerscreen nach kurzer Ergebnis-Anzeige ein. */
+/** Schedules the winner screen after a short result display. */
 function scheduleWinnerScreen(winnerScreen: HTMLElement, endScreen: HTMLElement): void {
   window.clearTimeout(showWinnerScreenTimeout);
   showWinnerScreenTimeout = window.setTimeout(() => {
@@ -77,14 +77,14 @@ function scheduleWinnerScreen(winnerScreen: HTMLElement, endScreen: HTMLElement)
   }, WINNER_SCREEN_DELAY);
 }
 
-/** Zeigt den Winnerscreen nur, wenn der Endscreen noch aktiv ist. */
+/** Shows the winner screen only while the end screen is still active. */
 function showWinnerScreenIfEndScreenIsVisible(winnerScreen: HTMLElement, endScreen: HTMLElement): void {
   if (!endScreen.classList.contains('d_none')) {
     showWinnerScreen(winnerScreen, endScreen);
   }
 }
 
-/** Fuehrt den Back-to-start-Button zum Home Screen zurueck. */
+/** Connects the back-to-start button to the home screen. */
 function setupWinnerBackButton(
   winnerScreen: HTMLElement,
   endScreen: HTMLElement,
@@ -96,7 +96,7 @@ function setupWinnerBackButton(
   });
 }
 
-/** Wechselt zum Home Screen, wenn der Winnerscreen-Button geklickt wurde. */
+/** Switches to the home screen when the winner screen button was clicked. */
 function goHomeWhenBackButtonWasClicked(
   event: Event,
   winnerScreen: HTMLElement,
@@ -110,7 +110,7 @@ function goHomeWhenBackButtonWasClicked(
   }
 }
 
-/** Startet die Enter-Animation des Winnerscreens. */
+/** Starts the enter animation of the winner screen. */
 function showWinnerScreen(winnerScreen: HTMLElement, endScreen: HTMLElement): void {
   winnerScreen.classList.add(WINNER_SCREEN_ENTERING_CLASS);
   winnerScreen.classList.remove('d_none');
@@ -122,7 +122,7 @@ function showWinnerScreen(winnerScreen: HTMLElement, endScreen: HTMLElement): vo
   });
 }
 
-/** Rendert Gewinner, Bild und Buttontext passend zum Ergebnis. */
+/** Renders the winner, image and button text based on the result. */
 function renderWinnerScreen(winnerScreen: HTMLElement, detail: EndScreenShownEventDetail): void {
   const elements = getWinnerScreenElements(winnerScreen);
 
@@ -135,7 +135,7 @@ function renderWinnerScreen(winnerScreen: HTMLElement, detail: EndScreenShownEve
   elements.button.textContent = WINNER_BUTTON_LABELS[detail.theme];
 }
 
-/** Sammelt die benoetigten DOM-Elemente des Winnerscreens. */
+/** Collects the required DOM elements of the winner screen. */
 function getWinnerScreenElements(winnerScreen: HTMLElement): WinnerScreenElements {
   return {
     intro: getWinnerElement(winnerScreen, '.winner-screen__intro'),
@@ -145,7 +145,7 @@ function getWinnerScreenElements(winnerScreen: HTMLElement): WinnerScreenElement
   };
 }
 
-/** Gibt ein Winnerscreen-Element zurueck oder meldet einen Strukturfehler. */
+/** Returns a winner screen element or reports a structure error. */
 function getWinnerElement<T extends HTMLElement>(winnerScreen: HTMLElement, selector: string): T {
   const element = winnerScreen.querySelector<T>(selector);
 
@@ -156,12 +156,12 @@ function getWinnerElement<T extends HTMLElement>(winnerScreen: HTMLElement, sele
   return element;
 }
 
-/** Gibt die kleine Headline ueber dem Gewinner zurueck. */
+/** Returns the small headline above the winner. */
 function getWinnerIntro(winner: WinnerResult): string {
   return winner === 'draw' ? "It's a" : 'The winner is';
 }
 
-/** Gibt den Ergebnistext fuer Gewinner oder Draw zurueck. */
+/** Returns the result text for winner or draw. */
 function getWinnerLabel(winner: WinnerResult): string {
   if (winner === 'draw') {
     return 'Draw';
@@ -170,7 +170,7 @@ function getWinnerLabel(winner: WinnerResult): string {
   return `${winner.toUpperCase()} PLAYER`;
 }
 
-/** Gibt den Alt-Text fuer das Gewinnerbild zurueck. */
+/** Returns the alt text for the winner image. */
 function getWinnerImageAlt(winner: WinnerResult): string {
   if (winner === 'draw') {
     return 'Draw';
@@ -179,7 +179,7 @@ function getWinnerImageAlt(winner: WinnerResult): string {
   return `${winner} player`;
 }
 
-/** Holt die Detail-Daten aus dem Endscreen-Event. */
+/** Reads the detail data from the end-screen event. */
 function getEndScreenShownDetail(event: Event): EndScreenShownEventDetail {
   if (!(event instanceof CustomEvent) || !event.detail) {
     throw new Error('End screen detail is missing.');

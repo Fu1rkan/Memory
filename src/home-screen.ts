@@ -26,7 +26,7 @@ const THEME_PREVIEW_IMAGES: Record<GameTheme, string> = {
   foods: `${THEME_IMAGE_FOLDER}/food_theme.png`,
 };
 
-/** Richtet die Theme-, Spieler- und Karten-Auswahl im Home Screen ein. */
+/** Sets up theme, player and card selection on the home screen. */
 export function setupHomeScreen(homeScreen: HTMLElement): void {
   const previewImage = getHomeElement<HTMLImageElement>(homeScreen, '.home-screen__preview-image');
   const footerInfo = getFooterInfo(homeScreen);
@@ -38,7 +38,7 @@ export function setupHomeScreen(homeScreen: HTMLElement): void {
   showInitialFooterState(homeScreen, previewImage, footerInfo);
 }
 
-/** Aktualisiert alle Footer-Infos nach einer Auswahl-Aenderung. */
+/** Updates all footer details after a selection change. */
 function handleHomeScreenChange(
   event: Event,
   homeScreen: HTMLElement,
@@ -52,7 +52,7 @@ function handleHomeScreenChange(
   updateStartButtonState(homeScreen, footerInfo.startButton);
 }
 
-/** Setzt die Startwerte fuer Preview, Separatoren und Startbutton. */
+/** Sets the initial values for preview, separators and start button. */
 function showInitialFooterState(
   homeScreen: HTMLElement,
   previewImage: HTMLImageElement,
@@ -63,7 +63,7 @@ function showInitialFooterState(
   updateStartButtonState(homeScreen, footerInfo.startButton);
 }
 
-/** Aktualisiert das Theme-Bild, wenn ein Theme gewaehlt wurde. */
+/** Updates the theme image when a theme was selected. */
 function updateThemePreview(
   event: Event,
   previewImage: HTMLImageElement,
@@ -76,7 +76,7 @@ function updateThemePreview(
   }
 }
 
-/** Zeigt das Preview-Bild und den Theme-Namen im Footer. */
+/** Shows the preview image and theme name in the footer. */
 function showThemePreview(
   input: HTMLInputElement,
   previewImage: HTMLImageElement,
@@ -91,7 +91,7 @@ function showThemePreview(
   setFooterText(footerInfo.footer, footerInfo.theme, getOptionText(input), animateLabel);
 }
 
-/** Aktualisiert den ausgewaehlten Spieler im Footer. */
+/** Updates the selected player in the footer. */
 function updatePlayerInfo(event: Event, footerInfo: FooterInfo): void {
   const playerInput = getChangedRadioInput(event, 'player');
 
@@ -100,7 +100,7 @@ function updatePlayerInfo(event: Event, footerInfo: FooterInfo): void {
   }
 }
 
-/** Aktualisiert die ausgewaehlte Board-Groesse im Footer. */
+/** Updates the selected board size in the footer. */
 function updateBoardSizeInfo(event: Event, footerInfo: FooterInfo): void {
   const boardSizeInput = getChangedRadioInput(event, 'board-size');
 
@@ -109,7 +109,7 @@ function updateBoardSizeInfo(event: Event, footerInfo: FooterInfo): void {
   }
 }
 
-/** Uebernimmt beim Laden ein bereits gesetztes Theme in die Preview. */
+/** Applies an already selected theme to the preview on load. */
 function showSelectedTheme(
   homeScreen: HTMLElement,
   previewImage: HTMLImageElement,
@@ -122,7 +122,7 @@ function showSelectedTheme(
   }
 }
 
-/** Sammelt alle Footer-Elemente, die gemeinsam aktualisiert werden. */
+/** Collects all footer elements that are updated together. */
 function getFooterInfo(homeScreen: HTMLElement): FooterInfo {
   return {
     footer: getHomeElement(homeScreen, '.home-screen__footer'),
@@ -135,33 +135,33 @@ function getFooterInfo(homeScreen: HTMLElement): FooterInfo {
   };
 }
 
-/** Aktualisiert die Sichtbarkeit der Footer-Separatoren. */
+/** Updates the visibility state of the footer separators. */
 function updateSeparatorStates(homeScreen: HTMLElement, footerInfo: FooterInfo): void {
   setSeparatorState(footerInfo.playerSeparator, hasSelectedOption(homeScreen, 'player'));
   setSeparatorState(footerInfo.boardSizeSeparator, hasSelectedOption(homeScreen, 'board-size'));
 }
 
-/** Markiert einen Footer-Separator als aktiv oder inaktiv. */
+/** Marks a footer separator as active or inactive. */
 function setSeparatorState(separator: SVGSVGElement, isActive: boolean): void {
   separator.classList.toggle('home-screen__footer-separator--active', isActive);
 }
 
-/** Aktiviert den Startbutton erst, wenn alle Einstellungen gesetzt sind. */
+/** Enables the start button only after all settings are selected. */
 function updateStartButtonState(homeScreen: HTMLElement, startButton: HTMLButtonElement): void {
   startButton.disabled = !hasSelectedAllSettings(homeScreen);
 }
 
-/** Prueft, ob Theme, Spieler und Board-Groesse gewaehlt wurden. */
+/** Checks whether theme, player and board size were selected. */
 function hasSelectedAllSettings(homeScreen: HTMLElement): boolean {
   return REQUIRED_SETTINGS.every(settingName => hasSelectedOption(homeScreen, settingName));
 }
 
-/** Prueft, ob eine bestimmte Radio-Gruppe eine Auswahl hat. */
+/** Checks whether a specific radio group has a selection. */
 function hasSelectedOption(homeScreen: HTMLElement, inputName: SettingName): boolean {
   return Boolean(homeScreen.querySelector(`input[name="${inputName}"]:checked`));
 }
 
-/** Gibt den geaenderten Radio-Input zurueck, falls er zur Gruppe passt. */
+/** Returns the changed radio input when it belongs to the requested group. */
 function getChangedRadioInput(event: Event, inputName: SettingName): HTMLInputElement | null {
   const target = event.target;
 
@@ -172,7 +172,7 @@ function getChangedRadioInput(event: Event, inputName: SettingName): HTMLInputEl
   return target;
 }
 
-/** Gibt ein Home-Screen-Element zurueck oder meldet einen Strukturfehler. */
+/** Returns a home screen element or reports a structure error. */
 function getHomeElement<T extends Element = HTMLElement>(homeScreen: HTMLElement, selector: string): T {
   const element = homeScreen.querySelector<T>(selector);
 
@@ -183,17 +183,17 @@ function getHomeElement<T extends Element = HTMLElement>(homeScreen: HTMLElement
   return element;
 }
 
-/** Liest den sichtbaren Text der Option aus. */
+/** Reads the visible text from an option. */
 function getOptionText(input: HTMLInputElement): string {
   return input.closest('label')?.textContent?.trim() || '';
 }
 
-/** Setzt einen Footer-Text ohne Animation. */
+/** Sets footer text without animation. */
 function setFooterTextNow(footerLabel: HTMLElement, text: string): void {
   footerLabel.innerText = text;
 }
 
-/** Setzt einen Footer-Text bei Bedarf mit Breitenanimation. */
+/** Sets footer text with width animation when needed. */
 function setFooterText(
   footer: HTMLElement,
   footerLabel: HTMLElement,
@@ -207,7 +207,7 @@ function setFooterText(
   updateFooterText(footer, footerLabel, text, animate);
 }
 
-/** Entscheidet, ob der Footer-Text animiert oder direkt gesetzt wird. */
+/** Decides whether footer text is animated or set directly. */
 function updateFooterText(
   footer: HTMLElement,
   footerLabel: HTMLElement,
@@ -221,7 +221,7 @@ function updateFooterText(
   }
 }
 
-/** Animiert die Footer-Breite um geaenderte Inhalte herum. */
+/** Animates the footer width around changed content. */
 function animateFooterWidth(footer: HTMLElement, updateContent: () => void): void {
   const startWidth = setFixedFooterWidth(footer);
 
@@ -229,7 +229,7 @@ function animateFooterWidth(footer: HTMLElement, updateContent: () => void): voi
   animateToNaturalFooterWidth(footer, startWidth);
 }
 
-/** Fixiert die aktuelle Footer-Breite und gibt sie zurueck. */
+/** Fixes the current footer width and returns it. */
 function setFixedFooterWidth(footer: HTMLElement): number {
   const startWidth = footer.getBoundingClientRect().width;
 
@@ -238,7 +238,7 @@ function setFixedFooterWidth(footer: HTMLElement): number {
   return startWidth;
 }
 
-/** Animiert den Footer auf seine natuerliche Breite. */
+/** Animates the footer to its natural width. */
 function animateToNaturalFooterWidth(footer: HTMLElement, startWidth: number): void {
   const endWidth = getFooterNaturalWidth(footer);
 
@@ -250,12 +250,12 @@ function animateToNaturalFooterWidth(footer: HTMLElement, startWidth: number): v
   animateFooterToWidth(footer, startWidth, endWidth);
 }
 
-/** Prueft, ob die Breite zu klein fuer eine sichtbare Animation ist. */
+/** Checks whether the width change is too small for a visible animation. */
 function hasTinyWidthChange(startWidth: number, endWidth: number): boolean {
   return Math.abs(startWidth - endWidth) < MIN_WIDTH_CHANGE;
 }
 
-/** Startet die eigentliche CSS-Transition fuer die Footer-Breite. */
+/** Starts the actual CSS transition for the footer width. */
 function animateFooterToWidth(footer: HTMLElement, startWidth: number, endWidth: number): void {
   window.clearTimeout(footerResizeTimeout);
   footer.style.width = `${startWidth}px`;
@@ -264,12 +264,12 @@ function animateFooterToWidth(footer: HTMLElement, startWidth: number, endWidth:
   footerResizeTimeout = window.setTimeout(resetFooterWidth, FOOTER_WIDTH_TRANSITION_DURATION, footer);
 }
 
-/** Entfernt die fixe Footer-Breite nach der Animation. */
+/** Removes the fixed footer width after the animation. */
 function resetFooterWidth(footer: HTMLElement): void {
   footer.style.width = '';
 }
 
-/** Misst die natuerliche Footer-Breite ohne laufende Transition. */
+/** Measures the natural footer width without an active transition. */
 function getFooterNaturalWidth(footer: HTMLElement): number {
   const previousTransition = footer.style.transition;
   const previousWidth = footer.style.width;
@@ -280,7 +280,7 @@ function getFooterNaturalWidth(footer: HTMLElement): number {
   return restoreFooterAfterMeasurement(footer, previousWidth, previousTransition);
 }
 
-/** Stellt alte Styles wieder her und gibt die gemessene Breite zurueck. */
+/** Restores previous styles and returns the measured width. */
 function restoreFooterAfterMeasurement(
   footer: HTMLElement,
   previousWidth: string,

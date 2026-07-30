@@ -13,7 +13,7 @@ type MemoryCardElements = {
 const CARDS_PER_PAIR = 2;
 const FIRST_CARD_NUMBER = 1;
 
-/** Erstellt gemischte Bildpaare fuer das aktuelle Memory-Spiel. */
+/** Creates shuffled image pairs for the current memory game. */
 export function createShuffledCardImages(selectedTheme: GameTheme, boardSize: BoardSize): string[] {
   const pairCount = boardSize / CARDS_PER_PAIR;
   const selectedImages = getRandomCardImages(CARD_IMAGES[selectedTheme], pairCount);
@@ -22,7 +22,7 @@ export function createShuffledCardImages(selectedTheme: GameTheme, boardSize: Bo
   return shuffle(cardImagePairs);
 }
 
-/** Erstellt ein klickbares Memory-Karten-Element. */
+/** Creates a clickable memory card element. */
 export function createMemoryCard(imageSrc: string, index: number): HTMLButtonElement {
   const elements = createMemoryCardElements();
 
@@ -35,7 +35,7 @@ export function createMemoryCard(imageSrc: string, index: number): HTMLButtonEle
   return elements.card;
 }
 
-/** Waehlt zufaellige Bilder fuer die benoetigten Kartenpaare. */
+/** Selects random images for the needed card pairs. */
 function getRandomCardImages(images: string[], count: number): string[] {
   assertHasCardImages(images);
   const selectedImages = shuffle([...images]).slice(0, count);
@@ -45,26 +45,26 @@ function getRandomCardImages(images: string[], count: number): string[] {
   return selectedImages;
 }
 
-/** Bricht ab, wenn ein Theme keine Kartenbilder besitzt. */
+/** Fails when a theme has no card images. */
 function assertHasCardImages(images: string[]): void {
   if (images.length === 0) {
     throw new Error('No card images found for selected theme.');
   }
 }
 
-/** Fuellt fehlende Bilder auf, falls ein Theme zu wenige Motive hat. */
+/** Fills missing images when a theme has too few motifs. */
 function fillMissingCardImages(selectedImages: string[], images: string[], count: number): void {
   while (selectedImages.length < count) {
     selectedImages.push(images[getRandomIndex(images)]);
   }
 }
 
-/** Gibt einen zufaelligen Array-Index zurueck. */
+/** Returns a random array index. */
 function getRandomIndex(items: string[]): number {
   return Math.floor(Math.random() * items.length);
 }
 
-/** Mischt ein Array mit dem Fisher-Yates-Algorithmus. */
+/** Shuffles an array with the Fisher-Yates algorithm. */
 function shuffle<T>(items: T[]): T[] {
   const shuffledItems = [...items];
 
@@ -75,14 +75,14 @@ function shuffle<T>(items: T[]): T[] {
   return shuffledItems;
 }
 
-/** Tauscht ein Element mit einem zufaelligen vorherigen Element. */
+/** Swaps one item with a random previous item. */
 function swapWithRandomPreviousItem<T>(items: T[], index: number): void {
   const randomIndex = Math.floor(Math.random() * (index + 1));
 
   [items[index], items[randomIndex]] = [items[randomIndex], items[index]];
 }
 
-/** Erstellt die DOM-Elemente einer Memory-Karte. */
+/** Creates the DOM elements of a memory card. */
 function createMemoryCardElements(): MemoryCardElements {
   return {
     card: document.createElement('button'),
@@ -93,7 +93,7 @@ function createMemoryCardElements(): MemoryCardElements {
   };
 }
 
-/** Erstellt ein Span-Element mit der uebergebenen Klasse. */
+/** Creates a span element with the given class name. */
 function createCardSpan(className: string): HTMLSpanElement {
   const spanElement = document.createElement('span');
 
@@ -102,7 +102,7 @@ function createCardSpan(className: string): HTMLSpanElement {
   return spanElement;
 }
 
-/** Setzt Attribute und Daten fuer eine Memory-Karte. */
+/** Sets attributes and data for a memory card. */
 function configureMemoryCard(card: HTMLButtonElement, imageSrc: string, index: number): void {
   card.className = 'game-screen__card';
   card.type = 'button';
@@ -111,7 +111,7 @@ function configureMemoryCard(card: HTMLButtonElement, imageSrc: string, index: n
   card.setAttribute('aria-pressed', 'false');
 }
 
-/** Setzt Bildquelle und Drag-Verhalten fuer ein Kartenbild. */
+/** Sets image source and drag behavior for a card image. */
 function configureCardImage(cardImage: HTMLImageElement, imageSrc: string): void {
   cardImage.className = 'game-screen__card-image';
   cardImage.src = imageSrc;

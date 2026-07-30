@@ -10,7 +10,7 @@ let showEndScreenTimeout: number | undefined;
 export const END_SCREEN_SHOWN_EVENT_NAME = 'memory:end-screen-shown';
 export type EndScreenShownEventDetail = GameFinishedEventDetail;
 
-/** Richtet den Game-over-Screen fuer das Spielende ein. */
+/** Sets up the game-over screen for the end of the game. */
 export function setupEndScreen(
   endScreen: HTMLElement,
   gameScreen: HTMLElement,
@@ -22,7 +22,7 @@ export function setupEndScreen(
   });
 }
 
-/** Verarbeitet das Spielende-Event und plant den Endscreen. */
+/** Handles the game-finished event and schedules the end screen. */
 function handleGameFinished(
   event: Event,
   endScreen: HTMLElement,
@@ -36,7 +36,7 @@ function handleGameFinished(
   scheduleEndScreen(endScreen, gameScreen, homeScreen, startScreen, gameFinishedDetail);
 }
 
-/** Aktualisiert Theme und finale Punkte vor dem Anzeigen. */
+/** Updates the theme and final score before showing the screen. */
 function prepareEndScreen(
   endScreen: HTMLElement,
   gameScreen: HTMLElement,
@@ -46,7 +46,7 @@ function prepareEndScreen(
   renderFinalScore(endScreen, gameScreen);
 }
 
-/** Wartet den passenden Delay ab und zeigt dann den Endscreen. */
+/** Waits for the matching delay and then shows the end screen. */
 function scheduleEndScreen(
   endScreen: HTMLElement,
   gameScreen: HTMLElement,
@@ -60,7 +60,7 @@ function scheduleEndScreen(
   }, getEndScreenDelay(detail));
 }
 
-/** Zeigt den Endscreen nur, wenn der Game Screen noch aktiv ist. */
+/** Shows the end screen only while the game screen is still active. */
 function showEndScreenIfGameIsVisible(
   endScreen: HTMLElement,
   gameScreen: HTMLElement,
@@ -73,7 +73,7 @@ function showEndScreenIfGameIsVisible(
   }
 }
 
-/** Startet den Endscreen mit passender Enter-Animation. */
+/** Starts the end screen with the matching enter animation. */
 function showEndScreen(
   endScreen: HTMLElement, gameScreen: HTMLElement, homeScreen: HTMLElement, startScreen: HTMLElement,
   detail: GameFinishedEventDetail,
@@ -87,7 +87,7 @@ function showEndScreen(
   });
 }
 
-/** Macht den Endscreen sichtbar und versteckt nicht benoetigte Screens. */
+/** Shows the end screen layer and hides screens that are no longer needed. */
 function showEndScreenLayer(
   endScreen: HTMLElement,
   homeScreen: HTMLElement,
@@ -99,7 +99,7 @@ function showEndScreenLayer(
   endScreen.classList.remove('d_none');
 }
 
-/** Raeumt nach der Enter-Animation auf und meldet den sichtbaren Endscreen. */
+/** Cleans up after the enter animation and announces the visible end screen. */
 function finishEndScreenAnimation(
   endScreen: HTMLElement,
   gameScreen: HTMLElement,
@@ -109,19 +109,19 @@ function finishEndScreenAnimation(
   dispatchEndScreenShownEvent(endScreen, detail);
 }
 
-/** Sendet die Daten fuer den folgenden Winnerscreen weiter. */
+/** Sends the data for the following winner screen. */
 function dispatchEndScreenShownEvent(endScreen: HTMLElement, detail: GameFinishedEventDetail): void {
   endScreen.dispatchEvent(new CustomEvent<EndScreenShownEventDetail>(END_SCREEN_SHOWN_EVENT_NAME, {
     detail,
   }));
 }
 
-/** Gibt den Spielende-Delay zurueck oder ueberspringt ihn fuer Dev-Tools. */
+/** Returns the end-screen delay or skips it for dev tools. */
 function getEndScreenDelay(detail: GameFinishedEventDetail): number {
   return detail.skipDelay ? 0 : END_SCREEN_DELAY;
 }
 
-/** Holt die Detail-Daten aus dem Game-finished-Event. */
+/** Reads the detail data from the game-finished event. */
 function getGameFinishedDetail(event: Event): GameFinishedEventDetail {
   if (!(event instanceof CustomEvent) || !event.detail) {
     throw new Error('Game finished detail is missing.');
@@ -130,7 +130,7 @@ function getGameFinishedDetail(event: Event): GameFinishedEventDetail {
   return event.detail as GameFinishedEventDetail;
 }
 
-/** Rendert den finalen Score anhand der aktuellen Spieleranzeige. */
+/** Renders the final score from the current player status. */
 function renderFinalScore(endScreen: HTMLElement, gameScreen: HTMLElement): void {
   const finalScoreElement = getFinalScoreElement(endScreen);
   const finalScore = createFinalScoreElement(gameScreen);
@@ -138,7 +138,7 @@ function renderFinalScore(endScreen: HTMLElement, gameScreen: HTMLElement): void
   finalScoreElement.replaceChildren(finalScore);
 }
 
-/** Gibt den Zielcontainer fuer den finalen Score zurueck. */
+/** Returns the target container for the final score. */
 function getFinalScoreElement(endScreen: HTMLElement): HTMLElement {
   const finalScoreElement = endScreen.querySelector<HTMLElement>('[data-final-score]');
 
@@ -149,7 +149,7 @@ function getFinalScoreElement(endScreen: HTMLElement): HTMLElement {
   return finalScoreElement;
 }
 
-/** Erstellt eine Kopie der Spieleranzeige fuer den Endscreen. */
+/** Creates a copy of the player status for the end screen. */
 function createFinalScoreElement(gameScreen: HTMLElement): HTMLElement {
   const playerStatusElement = getPlayerStatusElement(gameScreen);
   const finalScore = playerStatusElement.cloneNode(true);
@@ -161,7 +161,7 @@ function createFinalScoreElement(gameScreen: HTMLElement): HTMLElement {
   return finalScore;
 }
 
-/** Gibt die aktuelle Spieleranzeige aus dem Game Screen zurueck. */
+/** Returns the current player status from the game screen. */
 function getPlayerStatusElement(gameScreen: HTMLElement): HTMLElement {
   const playerStatusElement = gameScreen.querySelector<HTMLElement>('.game-screen__player-status');
 

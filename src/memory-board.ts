@@ -28,7 +28,7 @@ import { updatePlayerScores } from './player-status';
 
 const CARD_MISMATCH_DELAY = 600;
 
-/** Verbindet Klicks auf Memory-Karten mit der Spiellogik. */
+/** Connects memory card clicks with the game logic. */
 export function setupMemoryCards(gameScreen: HTMLElement): void {
   gameScreen.addEventListener('click', event => {
     const card = getClosestElement(event, '.game-screen__card');
@@ -39,7 +39,7 @@ export function setupMemoryCards(gameScreen: HTMLElement): void {
   });
 }
 
-/** Rendert das Board passend zu den gewaehlten Startoptionen neu. */
+/** Renders the board again based on the selected start options. */
 export function renderSelectedBoard(gameScreen: HTMLElement, homeScreen: HTMLElement): void {
   const selectedTheme = getSelectedTheme(homeScreen);
   const boardSize = getSelectedBoardSize(homeScreen);
@@ -53,24 +53,24 @@ export function renderSelectedBoard(gameScreen: HTMLElement, homeScreen: HTMLEle
   getMemoryBoard(gameScreen).replaceChildren(...cards);
 }
 
-/** Erstellt alle Karten fuer das aktuelle Board. */
+/** Creates all cards for the current board. */
 function createBoardCards(selectedTheme: GameTheme, boardSize: BoardSize): HTMLButtonElement[] {
   return createShuffledCardImages(selectedTheme, boardSize)
     .map((imageSrc, index) => createMemoryCard(imageSrc, index));
 }
 
-/** Aktualisiert Spieleranzeige und Punkte im Header. */
+/** Updates the player indicator and scores in the header. */
 function updateBoardHeader(gameScreen: HTMLElement, selectedTheme: GameTheme): void {
   updateCurrentPlayerIndicator(gameScreen, selectedTheme, getCurrentPlayer());
   updatePlayerScores(gameScreen, selectedTheme, getScores());
 }
 
-/** Schreibt die Board-Groesse fuer das Styling ans DOM. */
+/** Writes the board size to the DOM for styling. */
 function setBoardSize(gameScreen: HTMLElement, boardSize: BoardSize): void {
   gameScreen.dataset.boardSize = String(boardSize);
 }
 
-/** Verarbeitet den Klick auf eine einzelne Memory-Karte. */
+/** Handles the click on a single memory card. */
 function handleMemoryCardClick(card: HTMLButtonElement, gameScreen: HTMLElement): void {
   if (isBoardLocked() || isCardOpen(card)) {
     return;
@@ -81,14 +81,14 @@ function handleMemoryCardClick(card: HTMLButtonElement, gameScreen: HTMLElement)
   compareCardsWhenPairIsSelected(gameScreen);
 }
 
-/** Vergleicht die Karten, sobald zwei Karten offen sind. */
+/** Compares the cards as soon as two cards are open. */
 function compareCardsWhenPairIsSelected(gameScreen: HTMLElement): void {
   if (getSelectedCards().length === 2) {
     checkSelectedCards(gameScreen);
   }
 }
 
-/** Entscheidet, ob die ausgewaehlten Karten gleich sind. */
+/** Decides whether the selected cards match. */
 function checkSelectedCards(gameScreen: HTMLElement): void {
   const [firstCard, secondCard] = getSelectedCards();
 
@@ -99,12 +99,12 @@ function checkSelectedCards(gameScreen: HTMLElement): void {
   }
 }
 
-/** Prueft, ob zwei Karten dasselbe Bild tragen. */
+/** Checks whether two cards use the same image. */
 function haveSameCardImage(firstCard: HTMLButtonElement, secondCard: HTMLButtonElement): boolean {
   return firstCard.dataset.cardImage === secondCard.dataset.cardImage;
 }
 
-/** Wertet ein richtiges Kartenpaar aus. */
+/** Resolves a matching card pair. */
 function handleMatchingCards(
   gameScreen: HTMLElement,
   firstCard: HTMLButtonElement,
@@ -116,7 +116,7 @@ function handleMatchingCards(
   finishGameWhenBoardIsComplete(gameScreen);
 }
 
-/** Wertet ein falsches Kartenpaar aus. */
+/** Resolves a mismatched card pair. */
 function handleMismatchedCards(
   gameScreen: HTMLElement,
   firstCard: HTMLButtonElement,
@@ -126,7 +126,7 @@ function handleMismatchedCards(
   window.setTimeout(() => resetMismatchedCards(gameScreen, firstCard, secondCard), CARD_MISMATCH_DELAY);
 }
 
-/** Setzt ein falsches Paar zurueck und wechselt den Spieler. */
+/** Resets a mismatched pair and switches the player. */
 function resetMismatchedCards(
   gameScreen: HTMLElement,
   firstCard: HTMLButtonElement,
@@ -139,28 +139,28 @@ function resetMismatchedCards(
   updateCurrentPlayerAfterMismatch(gameScreen);
 }
 
-/** Erhoeht die Punkte des aktuellen Spielers im State und UI. */
+/** Increases the current player's score in state and UI. */
 function updateScoreForCurrentPlayer(gameScreen: HTMLElement): void {
   const scores = increaseCurrentPlayerScore();
 
   updatePlayerScores(gameScreen, getGameScreenTheme(gameScreen), scores);
 }
 
-/** Wechselt nach einem falschen Paar die Spieleranzeige. */
+/** Updates the active player indicator after a mismatch. */
 function updateCurrentPlayerAfterMismatch(gameScreen: HTMLElement): void {
   const currentPlayer = switchCurrentPlayer();
 
   updateCurrentPlayerIndicator(gameScreen, getGameScreenTheme(gameScreen), currentPlayer);
 }
 
-/** Beendet das Spiel, sobald alle Karten gefunden wurden. */
+/** Finishes the game once all cards were matched. */
 function finishGameWhenBoardIsComplete(gameScreen: HTMLElement): void {
   if (isGameFinished(gameScreen)) {
     finishGame(gameScreen);
   }
 }
 
-/** Markiert Karten als dauerhaft gefunden. */
+/** Marks cards as permanently matched. */
 function markCardsAsMatched(...cards: HTMLButtonElement[]): void {
   cards.forEach(card => {
     card.classList.add('game-screen__card--matched');
@@ -169,37 +169,37 @@ function markCardsAsMatched(...cards: HTMLButtonElement[]): void {
   });
 }
 
-/** Oeffnet eine Karte visuell und fuer Assistive Technology. */
+/** Opens a card visually and for assistive technology. */
 function openMemoryCard(card: HTMLButtonElement): void {
   card.classList.add('game-screen__card--flipped');
   card.setAttribute('aria-pressed', 'true');
 }
 
-/** Schliesst eine Karte visuell und fuer Assistive Technology. */
+/** Closes a card visually and for assistive technology. */
 function closeMemoryCard(card: HTMLButtonElement): void {
   card.classList.remove('game-screen__card--flipped');
   card.setAttribute('aria-pressed', 'false');
 }
 
-/** Prueft, ob eine Karte schon offen oder gefunden ist. */
+/** Checks whether a card is already open or matched. */
 function isCardOpen(card: HTMLButtonElement): boolean {
   return card.classList.contains('game-screen__card--flipped')
     || card.classList.contains('game-screen__card--matched');
 }
 
-/** Prueft, ob alle Karten gefunden wurden. */
+/** Checks whether all cards were matched. */
 function isGameFinished(gameScreen: HTMLElement): boolean {
   const cards = [...gameScreen.querySelectorAll<HTMLButtonElement>('.game-screen__card')];
 
   return cards.length > 0 && cards.every(isMatchedCard);
 }
 
-/** Prueft, ob eine Karte bereits gefunden wurde. */
+/** Checks whether a card has already been matched. */
 function isMatchedCard(card: HTMLButtonElement): boolean {
   return card.classList.contains('game-screen__card--matched');
 }
 
-/** Gibt das Board-Element zurueck oder meldet einen Strukturfehler. */
+/** Returns the board element or reports a structure error. */
 function getMemoryBoard(gameScreen: HTMLElement): HTMLElement {
   const board = gameScreen.querySelector<HTMLElement>('#memory-board');
 

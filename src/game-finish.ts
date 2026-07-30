@@ -9,7 +9,7 @@ import {
 
 type FinishGameOptions = Pick<GameFinishedEventDetail, 'skipDelay'>;
 
-/** Loest das Spielende aus und uebergibt Theme, Punkte und Gewinner. */
+/** Triggers the end of the game and passes theme, scores and winner. */
 export function finishGame(gameScreen: HTMLElement, options: FinishGameOptions = {}): void {
   const scores = getScores();
   const detail = createGameFinishedDetail(gameScreen, scores, options);
@@ -17,7 +17,7 @@ export function finishGame(gameScreen: HTMLElement, options: FinishGameOptions =
   dispatchGameFinishedEvent(gameScreen, detail);
 }
 
-/** Erstellt die Nutzdaten fuer das Spielende-Event. */
+/** Creates the payload for the game-finished event. */
 function createGameFinishedDetail(
   gameScreen: HTMLElement,
   scores: PlayerScores,
@@ -31,7 +31,7 @@ function createGameFinishedDetail(
   };
 }
 
-/** Sendet das Spielende-Event am Game Screen. */
+/** Dispatches the game-finished event on the game screen. */
 function dispatchGameFinishedEvent(
   gameScreen: HTMLElement,
   detail: GameFinishedEventDetail,

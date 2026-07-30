@@ -6,7 +6,7 @@ import { setupPlayerStatus } from './player-status';
 import { setupQuitDialog } from './quit-dialog';
 import { showScreen } from './screen-navigation';
 
-/** Richtet den Game Screen und seine Interaktionen ein. */
+/** Sets up the game screen and its interactions. */
 export function setupGameScreen(
   gameScreen: HTMLElement,
   homeScreen: HTMLElement,
@@ -22,7 +22,7 @@ export function setupGameScreen(
   applySelectedTheme(gameScreen, homeScreen);
 }
 
-/** Verbindet den Startbutton im Home Screen mit dem eigentlichen Spielstart. */
+/** Connects the home screen start button to the actual game start. */
 function setupHomeStartButton(
   gameScreen: HTMLElement,
   homeScreen: HTMLElement,
@@ -33,7 +33,7 @@ function setupHomeStartButton(
   });
 }
 
-/** Startet ein neues Spiel, wenn der Startbutton geklickt wurde. */
+/** Starts a new game when the start button was clicked. */
 function startGameWhenStartButtonWasClicked(
   event: Event,
   gameScreen: HTMLElement,
@@ -45,7 +45,7 @@ function startGameWhenStartButtonWasClicked(
   }
 }
 
-/** Zeigt den Game Screen mit frischem Board und aktueller Theme-Auswahl. */
+/** Shows the game screen with a fresh board and current theme selection. */
 function showGameScreen(
   gameScreen: HTMLElement,
   homeScreen: HTMLElement,

@@ -1,14 +1,14 @@
 import { getClosestElement } from './dom';
 import { showScreen } from './screen-navigation';
 
-/** Richtet den Startscreen ein und oeffnet nach Klick den Home Screen. */
+/** Sets up the start screen and opens the home screen after a click. */
 export function setupStartScreen(startScreen: HTMLElement, homeScreen: HTMLElement): void {
   startScreen.addEventListener('click', event => {
     showHomeScreenWhenPlayWasClicked(event, startScreen, homeScreen);
   });
 }
 
-/** Wechselt vom Startscreen zum Home Screen, wenn Play geklickt wurde. */
+/** Switches from the start screen to the home screen when play was clicked. */
 function showHomeScreenWhenPlayWasClicked(
   event: Event,
   startScreen: HTMLElement,

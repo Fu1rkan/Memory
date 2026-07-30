@@ -6,21 +6,21 @@ const DEFAULT_GAME_THEME: GameTheme = 'code-vibes';
 
 export type BoardSize = typeof BOARD_SIZES[number];
 
-/** Gibt das aktuell gewaehlte Theme der Startauswahl zurueck. */
+/** Returns the currently selected theme from the start options. */
 export function getSelectedTheme(homeScreen: HTMLElement): GameTheme {
   const selectedTheme = getCheckedInputValue(homeScreen, 'theme');
 
   return isGameTheme(selectedTheme) ? selectedTheme : DEFAULT_GAME_THEME;
 }
 
-/** Gibt das Theme zurueck, das aktuell am Game Screen aktiv ist. */
+/** Returns the theme currently active on the game screen. */
 export function getGameScreenTheme(gameScreen: HTMLElement): GameTheme {
   const selectedTheme = gameScreen.dataset.theme;
 
   return isGameTheme(selectedTheme) ? selectedTheme : DEFAULT_GAME_THEME;
 }
 
-/** Gibt den gewaehlten Startspieler zurueck. */
+/** Returns the selected starting player. */
 export function getSelectedPlayer(homeScreen: HTMLElement): PlayerColor {
   const selectedPlayer = getCheckedInputValue(homeScreen, 'player');
 
@@ -31,7 +31,7 @@ export function getSelectedPlayer(homeScreen: HTMLElement): PlayerColor {
   return selectedPlayer;
 }
 
-/** Gibt die gewaehlte Anzahl an Memory-Karten zurueck. */
+/** Returns the selected number of memory cards. */
 export function getSelectedBoardSize(homeScreen: HTMLElement): BoardSize {
   const selectedBoardSize = getRequiredCheckedInput(homeScreen, 'board-size');
   const boardSize = Number(selectedBoardSize.value);
@@ -39,12 +39,12 @@ export function getSelectedBoardSize(homeScreen: HTMLElement): BoardSize {
   return parseBoardSize(boardSize, selectedBoardSize.value);
 }
 
-/** Gibt den Wert eines ausgewaehlten Radio-Inputs zurueck. */
+/** Returns the value of a checked radio input. */
 function getCheckedInputValue(root: HTMLElement, inputName: string): string | undefined {
   return root.querySelector<HTMLInputElement>(`input[name="${inputName}"]:checked`)?.value;
 }
 
-/** Gibt einen ausgewaehlten Radio-Input zurueck oder bricht bewusst ab. */
+/** Returns a checked radio input or fails intentionally. */
 function getRequiredCheckedInput(root: HTMLElement, inputName: string): HTMLInputElement {
   const input = root.querySelector<HTMLInputElement>(`input[name="${inputName}"]:checked`);
 
@@ -55,7 +55,7 @@ function getRequiredCheckedInput(root: HTMLElement, inputName: string): HTMLInpu
   return input;
 }
 
-/** Wandelt eine Zahl in eine erlaubte Board-Groesse um. */
+/** Converts a number into an allowed board size. */
 function parseBoardSize(boardSize: number, rawValue: string): BoardSize {
   if (!isBoardSize(boardSize)) {
     throw new Error(`Unsupported board size "${rawValue}".`);
@@ -64,7 +64,7 @@ function parseBoardSize(boardSize: number, rawValue: string): BoardSize {
   return boardSize;
 }
 
-/** Prueft, ob eine Zahl eine erlaubte Board-Groesse ist. */
+/** Checks whether a number is an allowed board size. */
 function isBoardSize(value: number): value is BoardSize {
   return BOARD_SIZES.includes(value as BoardSize);
 }

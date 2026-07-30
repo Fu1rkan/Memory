@@ -7,7 +7,7 @@ import { setupHomeScreen } from './home-screen';
 import { setupStartScreen } from './start-screen';
 import { setupWinnerScreen } from './winner-screen';
 
-/** Startet die App und verbindet alle Screens miteinander. */
+/** Starts the app and connects all screens. */
 function init(): void {
   const startScreen = getElementById('start-screen');
   const homeScreen = getElementById('home-screen');
