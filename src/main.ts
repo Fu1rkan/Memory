@@ -1,11 +1,11 @@
 import './styles/style.scss';
 
-import { getElementById } from './dom';
-import { setupEndScreen } from './end-screen';
-import { setupGameScreen } from './game-screen';
-import { setupHomeScreen } from './home-screen';
-import { setupStartScreen } from './start-screen';
-import { setupWinnerScreen } from './winner-screen';
+import { setupEndScreen } from './screens/end-screen';
+import { setupGameScreen } from './screens/game-screen';
+import { setupHomeScreen } from './screens/home-screen';
+import { setupStartScreen } from './screens/start-screen';
+import { setupWinnerScreen } from './screens/winner-screen';
+import { getElementById } from './ui/dom';
 
 /** Starts the app and connects all screens. */
 function init(): void {

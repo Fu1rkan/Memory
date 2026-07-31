@@ -1,4 +1,4 @@
-import type { GameTheme } from './game-themes';
+import type { GameTheme } from '../themes/themes';
 
 export const PLAYER_COLORS = ['blue', 'orange'] as const;
 export type PlayerColor = typeof PLAYER_COLORS[number];

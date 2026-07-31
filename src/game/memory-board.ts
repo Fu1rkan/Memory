@@ -1,4 +1,3 @@
-import { getClosestElement } from './dom';
 import {
   addSelectedCard,
   clearSelectedCards,
@@ -20,10 +19,11 @@ import {
   getSelectedTheme,
   type BoardSize,
 } from './game-settings';
-import type { GameTheme } from './game-themes';
 import { updateCurrentPlayerIndicator } from './current-player';
 import { createMemoryCard, createShuffledCardImages } from './memory-card';
 import { updatePlayerScores } from './player-status';
+import type { GameTheme } from '../themes/themes';
+import { getClosestElement } from '../ui/dom';
 
 const CARD_MISMATCH_DELAY = 600;
 

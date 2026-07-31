@@ -1,9 +1,9 @@
-import { getClosestElement, getDialogById } from './dom';
-import { applySelectedTheme } from './game-theme';
-import { renderSelectedBoard, setupMemoryCards } from './memory-board';
-import { setupPlayerStatus } from './player-status';
-import { setupQuitDialog } from './quit-dialog';
-import { showScreen } from './screen-navigation';
+import { renderSelectedBoard, setupMemoryCards } from '../game/memory-board';
+import { setupPlayerStatus } from '../game/player-status';
+import { setupQuitDialog } from '../game/quit-dialog';
+import { applySelectedTheme } from '../themes/apply-game-theme';
+import { getClosestElement, getDialogById } from '../ui/dom';
+import { showScreen } from '../ui/screen-navigation';
 
 /** Sets up the game screen and its interactions. */
 export function setupGameScreen(

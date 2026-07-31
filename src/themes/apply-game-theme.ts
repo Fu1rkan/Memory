@@ -1,8 +1,8 @@
 import { EXIT_BUTTON_VISUALS, QUIT_DIALOG_BUTTON_VISUALS, type ButtonVisuals } from './button-visuals';
-import { getSelectedTheme } from './game-settings';
-import type { GameTheme } from './game-themes';
-import { renderButtonVisuals } from './render-button-visuals';
-import { updatePlayerStatusVisuals } from './player-status';
+import type { GameTheme } from './themes';
+import { getSelectedTheme } from '../game/game-settings';
+import { updatePlayerStatusVisuals } from '../game/player-status';
+import { renderButtonVisuals } from '../ui/render-button-visuals';
 
 /** Applies the theme selected on the home screen to the game screen. */
 export function applySelectedTheme(gameScreen: HTMLElement, homeScreen: HTMLElement): void {

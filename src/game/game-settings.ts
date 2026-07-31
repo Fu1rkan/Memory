@@ -1,5 +1,5 @@
 import { isPlayerColor, type PlayerColor } from './current-player';
-import { isGameTheme, type GameTheme } from './game-themes';
+import { isGameTheme, type GameTheme } from '../themes/themes';
 
 const BOARD_SIZES = [16, 24, 36] as const;
 const DEFAULT_GAME_THEME: GameTheme = 'code-vibes';

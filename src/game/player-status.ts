@@ -1,7 +1,7 @@
 import type { PlayerColor } from './current-player';
-import type { GameTheme } from './game-themes';
 import type { PlayerScores } from './game-results';
 import { createChessPieceSvg } from './player-status-icons';
+import type { GameTheme } from '../themes/themes';
 
 type PlayerStatusKey = 'orange' | 'blue';
 

@@ -1,4 +1,5 @@
-import { isGameTheme, type GameTheme } from './game-themes';
+import { THEME_PREVIEW_ALT_TEXTS, THEME_PREVIEW_IMAGES } from '../themes/theme-previews';
+import { isGameTheme, type GameTheme } from '../themes/themes';
 
 type SettingName = 'theme' | 'player' | 'board-size';
 
@@ -12,26 +13,11 @@ type FooterInfo = {
   startButton: HTMLButtonElement;
 };
 
-const THEME_IMAGE_FOLDER = `${import.meta.env.BASE_URL}img/themes`;
 const REQUIRED_SETTINGS: SettingName[] = ['theme', 'player', 'board-size'];
 const FOOTER_WIDTH_TRANSITION_DURATION = 250;
 const MIN_WIDTH_CHANGE = 1;
 
 let footerResizeTimeout: number | undefined;
-
-const THEME_PREVIEW_IMAGES: Record<GameTheme, string> = {
-  'code-vibes': `${THEME_IMAGE_FOLDER}/code_vibes.png`,
-  gaming: `${THEME_IMAGE_FOLDER}/gaming_theme.png`,
-  'da-projects': `${THEME_IMAGE_FOLDER}/da_theme.png`,
-  foods: `${THEME_IMAGE_FOLDER}/food_theme.png`,
-};
-
-const THEME_PREVIEW_ALT_TEXTS: Record<GameTheme, string> = {
-  'code-vibes': 'Preview of the Code Vibes theme',
-  gaming: 'Preview of the Gaming theme',
-  'da-projects': 'Preview of the DA Projects theme',
-  foods: 'Preview of the Foods theme',
-};
 
 /** Sets up theme, player and card selection on the home screen. */
 export function setupHomeScreen(homeScreen: HTMLElement): void {

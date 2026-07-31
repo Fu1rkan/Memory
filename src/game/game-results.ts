@@ -1,5 +1,5 @@
 import type { PlayerColor } from './current-player';
-import type { GameTheme } from './game-themes';
+import type { GameTheme } from '../themes/themes';
 
 export const GAME_FINISHED_EVENT_NAME = 'memory:game-finished';
 

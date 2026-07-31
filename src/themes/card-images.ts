@@ -1,4 +1,4 @@
-import type { GameTheme } from './game-themes';
+import type { GameTheme } from './themes';
 
 const CARD_IMAGE_FOLDER = `${import.meta.env.BASE_URL}img/cards`;
 

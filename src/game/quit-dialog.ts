@@ -1,5 +1,5 @@
-import { getClosestElement } from './dom';
-import { showScreen } from './screen-navigation';
+import { getClosestElement } from '../ui/dom';
+import { showScreen } from '../ui/screen-navigation';
 
 const ANIMATION_FALLBACK_BUFFER = 100;
 const CLOSING_CLASS = 'game-screen__quit-dialog--closing';

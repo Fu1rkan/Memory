@@ -1,5 +1,5 @@
-import { GAME_FINISHED_EVENT_NAME, type GameFinishedEventDetail } from './game-results';
-import { runScreenEnterAnimation } from './screen-animation';
+import { GAME_FINISHED_EVENT_NAME, type GameFinishedEventDetail } from '../game/game-results';
+import { runScreenEnterAnimation } from '../ui/screen-animation';
 
 const END_SCREEN_DELAY = 2000;
 const END_SCREEN_ANIMATION_FALLBACK_DELAY = 1100;

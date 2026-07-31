@@ -1,6 +1,6 @@
-import { CARD_IMAGES } from './card-images';
 import type { BoardSize } from './game-settings';
-import type { GameTheme } from './game-themes';
+import { CARD_IMAGES } from '../themes/card-images';
+import type { GameTheme } from '../themes/themes';
 
 type MemoryCardElements = {
   card: HTMLButtonElement;

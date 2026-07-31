@@ -1,5 +1,5 @@
-import { getClosestElement } from './dom';
-import { showScreen } from './screen-navigation';
+import { getClosestElement } from '../ui/dom';
+import { showScreen } from '../ui/screen-navigation';
 
 /** Sets up the start screen and opens the home screen after a click. */
 export function setupStartScreen(startScreen: HTMLElement, homeScreen: HTMLElement): void {

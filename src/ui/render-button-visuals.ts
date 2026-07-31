@@ -1,4 +1,4 @@
-import type { ButtonVisual, ButtonVisuals } from './button-visuals';
+import type { ButtonVisual, ButtonVisuals } from '../themes/button-visuals';
 
 let inlineSvgId = 0;
 

@@ -1,9 +1,9 @@
-import { getClosestElement } from './dom';
 import { END_SCREEN_SHOWN_EVENT_NAME, type EndScreenShownEventDetail } from './end-screen';
-import type { GameTheme } from './game-themes';
-import type { WinnerResult } from './game-results';
-import { runScreenEnterAnimation } from './screen-animation';
-import { showScreen } from './screen-navigation';
+import type { WinnerResult } from '../game/game-results';
+import type { GameTheme } from '../themes/themes';
+import { getClosestElement } from '../ui/dom';
+import { runScreenEnterAnimation } from '../ui/screen-animation';
+import { showScreen } from '../ui/screen-navigation';
 
 type WinnerScreenElements = {
   intro: HTMLElement;
