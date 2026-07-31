@@ -4,7 +4,6 @@ import { isGameTheme, type GameTheme } from '../themes/themes';
 type SettingName = 'theme' | 'player' | 'board-size';
 
 type FooterInfo = {
-  footer: HTMLElement;
   theme: HTMLElement;
   player: HTMLElement;
   boardSize: HTMLElement;
@@ -14,10 +13,6 @@ type FooterInfo = {
 };
 
 const REQUIRED_SETTINGS: SettingName[] = ['theme', 'player', 'board-size'];
-const FOOTER_WIDTH_TRANSITION_DURATION = 250;
-const MIN_WIDTH_CHANGE = 1;
-
-let footerResizeTimeout: number | undefined;
 
 /** Sets up theme, player and card selection on the home screen. */
 export function setupHomeScreen(homeScreen: HTMLElement): void {
@@ -41,7 +36,7 @@ function handleHomeScreenChange(
   updateThemePreview(event, previewImage, footerInfo);
   updatePlayerInfo(event, footerInfo);
   updateBoardSizeInfo(event, footerInfo);
-  animateFooterWidth(footerInfo.footer, () => updateSeparatorStates(homeScreen, footerInfo));
+  updateSeparatorStates(homeScreen, footerInfo);
   updateStartButtonState(homeScreen, footerInfo.startButton);
 }
 
@@ -74,14 +69,13 @@ function showThemePreview(
   input: HTMLInputElement,
   previewImage: HTMLImageElement,
   footerInfo: FooterInfo,
-  animateLabel = true,
 ): void {
   if (!isGameTheme(input.value)) {
     return;
   }
 
   updateThemePreviewImage(previewImage, input.value);
-  setFooterText(footerInfo.footer, footerInfo.theme, getOptionText(input), animateLabel);
+  setFooterText(footerInfo.theme, getOptionText(input));
 }
 
 /** Updates the source and alt text of the theme preview image. */
@@ -95,7 +89,7 @@ function updatePlayerInfo(event: Event, footerInfo: FooterInfo): void {
   const playerInput = getChangedRadioInput(event, 'player');
 
   if (playerInput) {
-    setFooterText(footerInfo.footer, footerInfo.player, `${getOptionText(playerInput)} Player`);
+    setFooterText(footerInfo.player, `${getOptionText(playerInput)} Player`);
   }
 }
 
@@ -104,7 +98,7 @@ function updateBoardSizeInfo(event: Event, footerInfo: FooterInfo): void {
   const boardSizeInput = getChangedRadioInput(event, 'board-size');
 
   if (boardSizeInput) {
-    setFooterText(footerInfo.footer, footerInfo.boardSize, `Board ${getOptionText(boardSizeInput)}`);
+    setFooterText(footerInfo.boardSize, `Board ${getOptionText(boardSizeInput)}`);
   }
 }
 
@@ -117,14 +111,13 @@ function showSelectedTheme(
   const checkedTheme = homeScreen.querySelector<HTMLInputElement>('input[name="theme"]:checked');
 
   if (checkedTheme) {
-    showThemePreview(checkedTheme, previewImage, footerInfo, false);
+    showThemePreview(checkedTheme, previewImage, footerInfo);
   }
 }
 
 /** Collects all footer elements that are updated together. */
 function getFooterInfo(homeScreen: HTMLElement): FooterInfo {
   return {
-    footer: getHomeElement(homeScreen, '.home-screen__footer'),
     theme: getHomeElement(homeScreen, '#game-theme-info'),
     player: getHomeElement(homeScreen, '#player-info'),
     boardSize: getHomeElement(homeScreen, '#board-size-info'),
@@ -187,108 +180,7 @@ function getOptionText(input: HTMLInputElement): string {
   return input.closest('label')?.textContent?.trim() || '';
 }
 
-/** Sets footer text without animation. */
-function setFooterTextNow(footerLabel: HTMLElement, text: string): void {
+/** Updates a footer label directly. */
+function setFooterText(footerLabel: HTMLElement, text: string): void {
   footerLabel.innerText = text;
-}
-
-/** Sets footer text with width animation when needed. */
-function setFooterText(
-  footer: HTMLElement,
-  footerLabel: HTMLElement,
-  text: string,
-  animate = true,
-): void {
-  if (footerLabel.innerText === text) {
-    return;
-  }
-
-  updateFooterText(footer, footerLabel, text, animate);
-}
-
-/** Decides whether footer text is animated or set directly. */
-function updateFooterText(
-  footer: HTMLElement,
-  footerLabel: HTMLElement,
-  text: string,
-  animate: boolean,
-): void {
-  if (animate) {
-    animateFooterWidth(footer, () => setFooterTextNow(footerLabel, text));
-  } else {
-    setFooterTextNow(footerLabel, text);
-  }
-}
-
-/** Animates the footer width around changed content. */
-function animateFooterWidth(footer: HTMLElement, updateContent: () => void): void {
-  const startWidth = setFixedFooterWidth(footer);
-
-  updateContent();
-  animateToNaturalFooterWidth(footer, startWidth);
-}
-
-/** Fixes the current footer width and returns it. */
-function setFixedFooterWidth(footer: HTMLElement): number {
-  const startWidth = footer.getBoundingClientRect().width;
-
-  footer.style.width = `${startWidth}px`;
-
-  return startWidth;
-}
-
-/** Animates the footer to its natural width. */
-function animateToNaturalFooterWidth(footer: HTMLElement, startWidth: number): void {
-  const endWidth = getFooterNaturalWidth(footer);
-
-  if (hasTinyWidthChange(startWidth, endWidth)) {
-    resetFooterWidth(footer);
-    return;
-  }
-
-  animateFooterToWidth(footer, startWidth, endWidth);
-}
-
-/** Checks whether the width change is too small for a visible animation. */
-function hasTinyWidthChange(startWidth: number, endWidth: number): boolean {
-  return Math.abs(startWidth - endWidth) < MIN_WIDTH_CHANGE;
-}
-
-/** Starts the actual CSS transition for the footer width. */
-function animateFooterToWidth(footer: HTMLElement, startWidth: number, endWidth: number): void {
-  window.clearTimeout(footerResizeTimeout);
-  footer.style.width = `${startWidth}px`;
-  footer.getBoundingClientRect();
-  footer.style.width = `${endWidth}px`;
-  footerResizeTimeout = window.setTimeout(resetFooterWidth, FOOTER_WIDTH_TRANSITION_DURATION, footer);
-}
-
-/** Removes the fixed footer width after the animation. */
-function resetFooterWidth(footer: HTMLElement): void {
-  footer.style.width = '';
-}
-
-/** Measures the natural footer width without an active transition. */
-function getFooterNaturalWidth(footer: HTMLElement): number {
-  const previousTransition = footer.style.transition;
-  const previousWidth = footer.style.width;
-
-  footer.style.transition = 'none';
-  footer.style.width = 'max-content';
-
-  return restoreFooterAfterMeasurement(footer, previousWidth, previousTransition);
-}
-
-/** Restores previous styles and returns the measured width. */
-function restoreFooterAfterMeasurement(
-  footer: HTMLElement,
-  previousWidth: string,
-  previousTransition: string,
-): number {
-  const width = footer.getBoundingClientRect().width;
-
-  footer.style.width = previousWidth;
-  footer.style.transition = previousTransition;
-
-  return width;
 }

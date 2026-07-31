@@ -2,6 +2,12 @@
 @use '../abstract/function' as fct;
 @use '../abstract/mixin' as mixin;
 
+$home-footer-width: 650px;
+$home-footer-theme-width: 175px;
+$home-footer-player-width: 105px;
+$home-footer-board-size-width: 115px;
+$home-footer-button-width: 118px;
+
 .home-screen {
     background-color: variables.$white;
 
@@ -142,25 +148,36 @@
         background-color: variables.$navBarColor;
         height: 88px;
         padding: 14px 20px;
-        gap: 16px;
+        gap: 12px;
         font-family: 'Almarai';
-        width: max-content;
+        width: $home-footer-width;
         overflow: hidden;
         transform-origin: right center;
-        transition: width 250ms ease-in-out, background-color 180ms ease-in-out, height 180ms ease-in-out;
+        transition: background-color 180ms ease-in-out, height 180ms ease-in-out;
     }
 
     &__footer-info {
         flex: 0 0 auto;
         text-align: right;
         white-space: nowrap;
+
+        &:nth-of-type(1) {
+            width: $home-footer-theme-width;
+        }
+
+        &:nth-of-type(2) {
+            width: $home-footer-player-width;
+        }
+
+        &:nth-of-type(3) {
+            width: $home-footer-board-size-width;
+        }
     }
 
     &__footer-separator {
-        width: 27px;
-        height: 56px;
+        width: 37px;
+        height: 60px;
         flex: 0 0 auto;
-        transition: width 180ms ease-in-out, height 180ms ease-in-out;
     }
 
     &__footer-separator-default,
@@ -173,9 +190,6 @@
     }
 
     &__footer-separator--active {
-        width: 37px;
-        height: 60px;
-
         .home-screen__footer-separator-default {
             opacity: 0;
         }
@@ -186,11 +200,12 @@
     }
 
     &__footer-button {
-        @include mixin.flex-center(row, center, flex-start);
-        flex: 0 0 auto;
+        @include mixin.flex-center(row, center, center);
+        flex: 0 0 $home-footer-button-width;
         background-color: variables.$interactiveButtonColor;
         font-size: fct.px-to-rem(20);
         font-family: 'RedRose';
+        width: $home-footer-button-width;
         gap: 8px;
         padding: 14px 20px;
         cursor: default;
