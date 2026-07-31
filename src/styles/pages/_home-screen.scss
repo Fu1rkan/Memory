@@ -155,17 +155,28 @@ $home-footer-button-growth: $home-footer-button-hover-width - $home-footer-butto
         gap: 12px;
         font-family: 'Almarai';
         width: $home-footer-width;
-        overflow: hidden;
-        transform-origin: right center;
-        transition:
-            width 200ms ease-out,
-            transform 200ms ease-out,
-            background-color 180ms ease-in-out,
-            height 180ms ease-in-out;
+        overflow: visible;
+        position: relative;
+        transition: background-color 180ms ease-in-out, height 180ms ease-in-out;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -$home-footer-button-growth;
+            width: $home-footer-button-growth;
+            height: 100%;
+            background-color: variables.$navBarColor;
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 200ms ease-out;
+            z-index: 0;
+        }
 
         &:has(.home-screen__footer-button:not(:disabled):hover) {
-            width: $home-footer-width + $home-footer-button-growth;
-            transform: translateX($home-footer-button-growth);
+            &::after {
+                transform: scaleX(1);
+            }
         }
     }
 
@@ -189,7 +200,11 @@ $home-footer-button-growth: $home-footer-button-hover-width - $home-footer-butto
 
     &__footer-button {
         @include mixin.flex-center(row, center, center);
-        flex: 0 0 $home-footer-button-width;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        z-index: 1;
+        transform: translateY(-50%);
         background-color: variables.$interactiveButtonColor;
         font-size: fct.px-to-rem(20);
         font-family: 'RedRose';
@@ -199,7 +214,6 @@ $home-footer-button-growth: $home-footer-button-hover-width - $home-footer-butto
         padding: 14px 20px;
         cursor: default;
         transition:
-            flex-basis 200ms ease-out,
             width 200ms ease-out,
             height 200ms ease-out,
             background-color 200ms ease-out;
@@ -218,7 +232,6 @@ $home-footer-button-growth: $home-footer-button-hover-width - $home-footer-butto
             cursor: pointer;
 
             &:hover {
-                flex-basis: $home-footer-button-hover-width;
                 width: $home-footer-button-hover-width;
                 height: $home-footer-button-hover-height;
                 gap: 8px;
@@ -231,6 +244,14 @@ $home-footer-button-growth: $home-footer-button-hover-width - $home-footer-butto
                 }
             }
         }
+    }
+
+    &__footer-button-slot {
+        position: relative;
+        z-index: 1;
+        width: $home-footer-button-width;
+        height: $home-footer-button-hover-height;
+        flex: 0 0 $home-footer-button-width;
     }
 
     &__footer-separator {
