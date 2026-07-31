@@ -2,6 +2,11 @@
 @use '../abstract/mixin' as mixin;
 @use '../abstract/function' as fnc;
 
+$start-play-button-width: 248px;
+$start-play-button-height: 96px;
+$start-play-button-hover-width: 270px;
+$start-play-button-hover-height: 102px;
+
 .start-screen {
     background-color: variables.$codeVibeThemeColor;
     font-family: 'RedRose';
@@ -11,6 +16,14 @@
 
     &__container {
         @include mixin.flex-center(column);
+        gap: 0;
+    }
+
+    &__play-button-frame {
+        @include mixin.flex-center(row);
+        width: $start-play-button-hover-width;
+        height: $start-play-button-hover-height;
+        flex: 0 0 $start-play-button-hover-height;
     }
 
     &__play-button {
@@ -20,9 +33,19 @@
         padding: 24px;
         gap: 20px;
         font-weight: 700;
+        width: $start-play-button-width;
+        height: $start-play-button-height;
+        transition:
+            width 200ms ease-out,
+            height 200ms ease-out,
+            padding 200ms ease-out,
+            gap 200ms ease-out;
 
         &__stadia-controller {
-            transition: 50ms ease-in-out;
+            transition:
+                width 200ms ease-out,
+                height 200ms ease-out,
+                rotate 200ms ease-out;
         }
 
         &__text {
@@ -33,7 +56,7 @@
             position: relative;
             width: 35px;
             height: 100%;
-            transition: width 50ms ease-in-out;
+            transition: width 200ms ease-out;
 
             &__main {
                 width: 100%;
@@ -42,7 +65,7 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
                 opacity: 1;
-                transition: 50ms ease-in-out;
+                transition: opacity 200ms ease-out;
             }
 
             &__hover {
@@ -52,13 +75,19 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
                 opacity: 0;
-                transition: 50ms ease-in-out;
+                transition: opacity 200ms ease-out;
             }
         }
 
         &:hover {
+            width: $start-play-button-hover-width;
+            height: $start-play-button-hover-height;
+            padding: 24px;
+            gap: 20px;
+
             .start-screen__play-button__stadia-controller {
-                width: 50px;
+                width: 49.5px;
+                height: 36px;
                 rotate: -25.77deg;
             }
 

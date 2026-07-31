@@ -23,6 +23,14 @@ export function setupHomeScreen(homeScreen: HTMLElement): void {
     handleHomeScreenChange(event, homeScreen, previewImage, footerInfo);
   });
 
+  homeScreen.addEventListener('pointerover', event => {
+    showThemePreviewOnHover(event, previewImage);
+  });
+
+  homeScreen.addEventListener('pointerout', event => {
+    restoreSelectedThemePreview(event, homeScreen, previewImage);
+  });
+
   showInitialFooterState(homeScreen, previewImage, footerInfo);
 }
 
@@ -84,6 +92,43 @@ function updateThemePreviewImage(previewImage: HTMLImageElement, selectedTheme: 
   previewImage.alt = THEME_PREVIEW_ALT_TEXTS[selectedTheme];
 }
 
+/** Temporarily shows the preview of the hovered theme option. */
+function showThemePreviewOnHover(event: Event, previewImage: HTMLImageElement): void {
+  const themeInput = getThemeInputFromTarget(event.target);
+
+  if (themeInput && isGameTheme(themeInput.value)) {
+    updateThemePreviewImage(previewImage, themeInput.value);
+  }
+}
+
+/** Restores the selected preview after leaving a theme option. */
+function restoreSelectedThemePreview(
+  event: PointerEvent,
+  homeScreen: HTMLElement,
+  previewImage: HTMLImageElement,
+): void {
+  if (didLeaveThemeOption(event)) {
+    showSelectedThemeImage(homeScreen, previewImage);
+  }
+}
+
+/** Checks whether the pointer moved out of a theme option. */
+function didLeaveThemeOption(event: PointerEvent): boolean {
+  const leftThemeInput = getThemeInputFromTarget(event.target);
+  const enteredThemeInput = getThemeInputFromTarget(event.relatedTarget);
+
+  return Boolean(leftThemeInput && leftThemeInput !== enteredThemeInput);
+}
+
+/** Shows the image that belongs to the selected theme. */
+function showSelectedThemeImage(homeScreen: HTMLElement, previewImage: HTMLImageElement): void {
+  const checkedTheme = getSelectedThemeInput(homeScreen);
+
+  if (checkedTheme && isGameTheme(checkedTheme.value)) {
+    updateThemePreviewImage(previewImage, checkedTheme.value);
+  }
+}
+
 /** Updates the selected player in the footer. */
 function updatePlayerInfo(event: Event, footerInfo: FooterInfo): void {
   const playerInput = getChangedRadioInput(event, 'player');
@@ -108,11 +153,25 @@ function showSelectedTheme(
   previewImage: HTMLImageElement,
   footerInfo: FooterInfo,
 ): void {
-  const checkedTheme = homeScreen.querySelector<HTMLInputElement>('input[name="theme"]:checked');
+  const checkedTheme = getSelectedThemeInput(homeScreen);
 
   if (checkedTheme) {
     showThemePreview(checkedTheme, previewImage, footerInfo);
   }
+}
+
+/** Returns the currently selected theme input. */
+function getSelectedThemeInput(homeScreen: HTMLElement): HTMLInputElement | null {
+  return homeScreen.querySelector<HTMLInputElement>('input[name="theme"]:checked');
+}
+
+/** Returns the theme input inside the hovered option. */
+function getThemeInputFromTarget(target: EventTarget | null): HTMLInputElement | null {
+  if (!(target instanceof Element)) {
+    return null;
+  }
+
+  return target.closest('label')?.querySelector<HTMLInputElement>('input[name="theme"]') ?? null;
 }
 
 /** Collects all footer elements that are updated together. */

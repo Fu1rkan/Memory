@@ -7,6 +7,10 @@ $home-footer-theme-width: 175px;
 $home-footer-player-width: 105px;
 $home-footer-board-size-width: 115px;
 $home-footer-button-width: 118px;
+$home-footer-button-height: 52px;
+$home-footer-button-hover-width: 140px;
+$home-footer-button-hover-height: 60px;
+$home-footer-button-growth: $home-footer-button-hover-width - $home-footer-button-width;
 
 .home-screen {
     background-color: variables.$white;
@@ -153,7 +157,16 @@ $home-footer-button-width: 118px;
         width: $home-footer-width;
         overflow: hidden;
         transform-origin: right center;
-        transition: background-color 180ms ease-in-out, height 180ms ease-in-out;
+        transition:
+            width 200ms ease-out,
+            transform 200ms ease-out,
+            background-color 180ms ease-in-out,
+            height 180ms ease-in-out;
+
+        &:has(.home-screen__footer-button:not(:disabled):hover) {
+            width: $home-footer-width + $home-footer-button-growth;
+            transform: translateX($home-footer-button-growth);
+        }
     }
 
     &__footer-info {
@@ -171,6 +184,52 @@ $home-footer-button-width: 118px;
 
         &:nth-of-type(3) {
             width: $home-footer-board-size-width;
+        }
+    }
+
+    &__footer-button {
+        @include mixin.flex-center(row, center, center);
+        flex: 0 0 $home-footer-button-width;
+        background-color: variables.$interactiveButtonColor;
+        font-size: fct.px-to-rem(20);
+        font-family: 'RedRose';
+        width: $home-footer-button-width;
+        height: $home-footer-button-height;
+        gap: 8px;
+        padding: 14px 20px;
+        cursor: default;
+        transition:
+            flex-basis 200ms ease-out,
+            width 200ms ease-out,
+            height 200ms ease-out,
+            background-color 200ms ease-out;
+
+        svg {
+            width: 20px;
+            height: 16px;
+            transition:
+                width 200ms ease-out,
+                height 200ms ease-out,
+                transform 200ms ease-out;
+        }
+
+        &:not(:disabled) {
+            background-color: variables.$yellow;
+            cursor: pointer;
+
+            &:hover {
+                flex-basis: $home-footer-button-hover-width;
+                width: $home-footer-button-hover-width;
+                height: $home-footer-button-hover-height;
+                gap: 8px;
+                padding: 14px 20px;
+
+                svg {
+                    width: 30px;
+                    height: 30px;
+                    transform: rotate(-5.33deg);
+                }
+            }
         }
     }
 
@@ -196,40 +255,6 @@ $home-footer-button-width: 118px;
 
         .home-screen__footer-separator-active {
             opacity: 1;
-        }
-    }
-
-    &__footer-button {
-        @include mixin.flex-center(row, center, center);
-        flex: 0 0 $home-footer-button-width;
-        background-color: variables.$interactiveButtonColor;
-        font-size: fct.px-to-rem(20);
-        font-family: 'RedRose';
-        width: $home-footer-button-width;
-        gap: 8px;
-        padding: 14px 20px;
-        cursor: default;
-        transition: padding 180ms ease-in-out, background-color 180ms ease-in-out;
-
-        svg {
-            width: 20px;
-            height: 16px;
-            transition: width 180ms ease-in-out, height 180ms ease-in-out, transform 180ms ease-in-out;
-        }
-
-        &:not(:disabled) {
-            background-color: variables.$yellow;
-            cursor: pointer;
-
-            &:hover {
-                padding: 16px 22px;
-
-                svg {
-                    width: 30px;
-                    height: 30px;
-                    transform: rotate(-5.33deg);
-                }
-            }
         }
     }
 }
