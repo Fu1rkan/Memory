@@ -30,12 +30,12 @@
 
     &__option-group {
         @include mixin.flex-center(column, flex-start, flex-start);
-        gap: 12px;
+        gap: 0;
 
         &:last-child {
             .home-screen__option {
                 &:last-child {
-                    margin-bottom: 0;
+                    margin-bottom: -6px;
                 }
             }
         }
@@ -53,7 +53,7 @@
     &__option {
         @include mixin.flex-center(row, center, center);
         gap: 10px;
-        padding-left: 16px;
+        padding: 6px 0 6px 16px;
         cursor: pointer;
         font-size: fct.px-to-rem(20);
         position: relative;
@@ -64,7 +64,7 @@
         }
 
         &:last-child {
-            margin-bottom: 54px;
+            margin-bottom: 48px;
         }
 
         &:has(input[type="radio"]:checked) {
@@ -98,6 +98,34 @@
             &:focus-visible {
                 outline: 2px solid variables.$yellow;
                 outline-offset: 3px;
+            }
+        }
+    }
+
+    &__option-group:has(&__option:hover) {
+        .home-screen__option:has(input[type="radio"]:checked):not(:hover) {
+            font-weight: 400;
+
+            .home-screen__option-indicator {
+                display: none;
+            }
+
+            input[type="radio"] {
+                border: 3px solid variables.$codeVibeThemeColor;
+                background: transparent;
+            }
+        }
+
+        .home-screen__option:hover {
+            font-weight: 700;
+
+            .home-screen__option-indicator {
+                display: block;
+            }
+
+            input[type="radio"] {
+                border: 2px solid variables.$codeVibeThemeColor;
+                background: radial-gradient(circle, variables.$codeVibeThemeColor 21%, transparent 34%);
             }
         }
     }
